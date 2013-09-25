@@ -26,15 +26,11 @@
 					xfbml  : true  // parse XFBML
 				});
 				
-				alert("loading...asd");
 				FB.login(function(response)
 					{
 					alert(response.status);
 					if (response.authResponse)
 					{
-
-					//Logged in and accepted permissions!
-
 					   document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
 						var counter = 0;
 						FB.api('/me/albums', function(response) 
