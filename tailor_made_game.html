@@ -44,8 +44,9 @@
 						FB.api('/me/albums', function(response) 
 						{
 							var d = response.data;
-							alert('Check the data.. !!' + d + ' length === ' + d.length);
-							for (var i=0, l=d.length; i<l; i++)
+							var l = d.length;
+							alert('Check the data.. !!' + d + ' l = ' + l);
+							for (var i=0; i<l; i++)
 							{
 								alert(i);
 								var image_arr = photos[v]["images"];
