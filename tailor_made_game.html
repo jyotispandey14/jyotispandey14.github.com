@@ -51,6 +51,7 @@
 								var subImages_text1 = "Photo "+(v+1);
 								var subImages_text2 = '<img src="'+image_arr[(image_arr.length-1)]["source"]+'" />';
 								var subImages_text3 = "";
+								alert('For this image -- ' + image_arr.length + 'photos present');
 								for(var j = 0 ;j<image_arr.length;j++) {
 									subImages_text3 += '<a target="_blank" href="'+image_arr[j]["source"]+'">Photo('+image_arr[j]["width"]+"X"+image_arr[j]["height"]+')</a><br/>';
 								}
