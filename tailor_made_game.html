@@ -5,8 +5,7 @@
 <body>
 
 
-<p id="status"> This is the paragraph where your status comes... </p>
-<button type="button" id="albumBtn">Show my album</button> 
+
 	<script src="http://connect.facebook.net/en_US/all.js"></script>
 
 	<script type="text/javascript">
@@ -36,15 +35,17 @@
 				
 				FB.login(function(response)
 					{
-					alert(response.authResponse);
+					alert("I am inside FB.login");
 					if (response.authResponse)
 					{
 					   document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
+					   alert(document.getElementById("status").innerHTML);
 						var counter = 0;
 						FB.api('/me/albums', function(response) 
 						{
-						var d=response.data;
-						  for (var i=0, l=d.length; i<l; i++)
+							var d=response.data;
+							alert("inside getting your album");
+							for (var i=0, l=d.length; i<l; i++)
 							{
 								addOption(response["data"][i].name,response["data"][i].id);
 								counter++;
@@ -69,7 +70,6 @@
 
             function init() 
             {
-				alert("getting the button");
                 var v1 = document.getElementById("albumBtn");
                 v1.onclick = loadAlbums;           
             }
@@ -77,7 +77,9 @@
             //calls init function once all the resources are loaded
             window.addEventListener("load",init,true);
         </script>      
-
+	<h1>Check for the status updates here..</h1>
+	<p id="status"> ... </p>
+	<button type="button" id="albumBtn">Click here!!</button> 
 
 </body>
 
