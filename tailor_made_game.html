@@ -14,7 +14,7 @@
 
             function loginFacebook() 
             {
-                alert("abc");
+                alert("ABC");
             }        
 
             function loadAlbums()
@@ -28,7 +28,7 @@
 				
 				FB.login(function(response)
 					{
-					alert(response.status);
+					alert(response.authResponse);
 					if (response.authResponse)
 					{
 					   document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
