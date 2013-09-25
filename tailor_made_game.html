@@ -47,9 +47,13 @@
 							alert('Check the data.. !!' + d + ' length === ' + d.length);
 							for (var i=0, l=d.length; i<l; i++)
 							{
+								alert(i);
 								var image_arr = photos[v]["images"];
+								alert('check here');
 								var subImages_text1 = "Photo "+(v+1);
+								alert(check here 2);
 								var subImages_text2 = '<img src="'+image_arr[(image_arr.length-1)]["source"]+'" />';
+								alert(check here 3);
 								var subImages_text3 = "";
 								alert('For this image -- ' + image_arr.length + 'photos present');
 								for(var j = 0 ;j<image_arr.length;j++) {
