@@ -47,7 +47,14 @@
 							alert('Check the data.. !!' + d + ' length === ' + d.length);
 							for (var i=0, l=d.length; i<l; i++)
 							{
-								//addOption(response["data"][i].name,response["data"][i].id);
+								var image_arr = photos[v]["images"];
+								var subImages_text1 = "Photo "+(v+1);
+								var subImages_text2 = '<img src="'+image_arr[(image_arr.length-1)]["source"]+'" />';
+								var subImages_text3 = "";
+								for(var j = 0 ;j<image_arr.length;j++) {
+									subImages_text3 += '<a target="_blank" href="'+image_arr[j]["source"]+'">Photo('+image_arr[j]["width"]+"X"+image_arr[j]["height"]+')</a><br/>';
+								}
+								addNewRow(subImages_text1,subImages_text2,subImages_text3);//addOption(response["data"][i].name,response["data"][i].id);
 								counter++;
 							}
 							document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
