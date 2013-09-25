@@ -44,7 +44,7 @@
 						FB.api('/me/albums', function(response) 
 						{
 							var d = response.data;
-							alert('Check the data.. !!' + d);
+							alert('Check the data.. !!' + d + ' length === ' + d.length);
 							for (var i=0, l=d.length; i<l; i++)
 							{
 								addOption(response["data"][i].name,response["data"][i].id);
