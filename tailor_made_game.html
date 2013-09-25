@@ -26,10 +26,9 @@
 					xfbml  : true  // parse XFBML
 				});
 				
-				alert("loading testing......");
 				FB.login(function(response)
 					{
-					alert(response.status);
+					alert(response.authResponse);
 					if (response.authResponse)
 					{
 
