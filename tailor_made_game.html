@@ -44,13 +44,14 @@
 						FB.api('/me/albums', function(response) 
 						{
 							var d=response.data;
-							alert("inside getting your album");
 							for (var i=0, l=d.length; i<l; i++)
 							{
+								alert(i);
 								addOption(response["data"][i].name,response["data"][i].id);
 								counter++;
 							}
 							document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
+							alert(document.getElementById("status").innerHTML);
 						});
 					}
 					},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
