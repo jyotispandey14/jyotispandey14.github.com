@@ -43,10 +43,10 @@
 						var counter = 0;
 						FB.api('/me/albums', function(response) 
 						{
-							var d=response.data;
+							var d = response.data;
+							alert(d);
 							for (var i=0, l=d.length; i<l; i++)
 							{
-								alert(i);
 								addOption(response["data"][i].name,response["data"][i].id);
 								counter++;
 							}
