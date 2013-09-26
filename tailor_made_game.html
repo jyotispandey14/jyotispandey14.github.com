@@ -20,9 +20,9 @@
             {         
                  FB.init({
 					appId  : '449074668545690',
-					status : true, // check login status
-					cookie : true, // enable cookies to allow the server to access the session
-					xfbml  : true  // parse XFBML
+					status : true, 
+					cookie : true, 
+					xfbml  : true 
 				});
 				
 				(function(d, s, id){
@@ -35,22 +35,23 @@
 				
 				FB.login(function(response)
 					{
-					alert("I am inside FB.login");
 					if (response.authResponse)
 					{
 					   document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
 					   alert(document.getElementById("status").innerHTML);
 						var counter = 0;
+						
+						FB.api('/me', function(response) {
+						  alert('Your name is ' + response.name);
+						});
+						
 						FB.api('/me/albums', function(response) 
 						{
-						//alert('updated');
 							var d = response.data;
-							//var l = d.length;
-							//alert('Check the data.. !!' + d + ' l = ' + l);
+							alert('There are albums -- ' + d.length);
 							for (var i=0; i<d.length; i++)
 							{
-								//alert('test name');
-								//alert(d[i]['name']);
+								alert(d[i].name);
 								counter++;
 							} 
 							document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
@@ -59,9 +60,7 @@
 					}
 					},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
 
-					FB.api('/me', function(response) {
-					  alert('Your name is ' + response.name);
-					});
+					
 
             }
 
