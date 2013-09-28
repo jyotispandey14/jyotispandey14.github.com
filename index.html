@@ -1,0 +1,245 @@
+<html>
+  <head>
+    <title>Spree!!! Wrooooooooooommmm</title>
+	
+	<style>
+	  body {
+		margin:2px;
+		padding:0px;
+		text-align:center;
+		background-image:url('images/ferrari.jpg');
+		background-repeat:no-repeat;
+		background-attachment:fixed;
+		background-position:center;
+	  }
+
+	  canvas{
+		outline:2;
+		border:5px solid #FFF;
+		height: 700px;
+		width: 800px;
+		background-image:url('images/race_flag_b.jpg');
+	  }
+	  
+	  button {
+		background: black;
+		color: #FFF;
+		display: block;
+		font: bold 20px arial, sans-serif;
+		height: 44px;
+		width: 250px;
+		margin-right: 6px;
+		padding-right: 18px; /* sliding doors padding */
+		text-decoration: none;
+	}
+		
+	p , h2
+	{
+		font: bold 20px arial, sans-serif;
+		color: #FFF;
+	}
+	
+	
+
+	</style>
+	
+	<script>
+	
+	var context;
+	
+	var back = new Image(); 
+	var oldBack = new Image(); 
+	var ship = new Image();
+	var   car = new Image();
+	
+	var shipX = 0; 
+	var shipY = 0; 
+	var oldShipX = 0;
+	var oldShipY = 0;
+
+	
+	window.addEventListener('keydown', whatKey, true);
+	
+	function makeCar(){
+		
+		car.src = 'images/ferrari.png';
+		car.onload = function(){
+			context.drawImage(car, 30, 30);
+			}
+		ship = context.getImageData(0, 0, 30, 30);
+        context.putImageData(oldBack, 0, 0);
+	}
+	
+	function makeShip() {
+
+        // Draw saucer bottom.
+        context.beginPath();
+        context.moveTo(28.4, 16.9);
+        context.bezierCurveTo(28.4, 19.7, 22.9, 22.0, 16.0, 22.0);
+        context.bezierCurveTo(9.1, 22.0, 3.6, 19.7, 3.6, 16.9);
+        context.bezierCurveTo(3.6, 14.1, 9.1, 11.8, 16.0, 11.8);
+        context.bezierCurveTo(22.9, 11.8, 28.4, 14.1, 28.4, 16.9);
+        context.closePath();
+        context.fillStyle = "rgb(222, 103, 0)";
+        context.fill();
+
+        // Draw saucer top.
+        context.beginPath();
+        context.moveTo(22.3, 12.0);
+        context.bezierCurveTo(22.3, 13.3, 19.4, 14.3, 15.9, 14.3);
+        context.bezierCurveTo(12.4, 14.3, 9.6, 13.3, 9.6, 12.0);
+        context.bezierCurveTo(9.6, 10.8, 12.4, 9.7, 15.9, 9.7);
+        context.bezierCurveTo(19.4, 9.7, 22.3, 10.8, 22.3, 12.0);
+        context.closePath();
+        context.fillStyle = "rgb(51, 190, 0)";
+        context.fill();
+
+        ship = context.getImageData(0, 0, 30, 30);
+        context.putImageData(oldBack, 0, 0);
+      }
+	
+	function createCanvas(){
+
+		var canvasGame = document.createElement("canvas"),
+			element = document.getElementById("div1");
+		element.appendChild(canvasGame);
+		context = canvasGame.getContext("2d");
+		back = context.getImageData(0, 0, 30, 30);
+		oldBack = context.getImageData(0, 0, 30, 30);
+		//makeCar();
+		makeShip();
+		gameLoop = setInterval(doGameLoop, 16);//frame rate
+	}
+	
+	function doGameLoop() {
+        context.putImageData(oldBack, oldShipX, oldShipY);
+        context.putImageData(ship, shipX, shipY);
+    }
+	
+	function whatKey(evt) {
+
+        var flag = 0;
+		var step = 10;
+        oldShipX = shipX;
+        oldShipY = shipY;
+        oldBack  = back;
+        
+		switch (evt.keyCode) {
+
+        case 65:
+          shipX = shipX - step;
+          if (shipX < 0) {
+            shipX = 0;
+            flag = 1;
+          }
+          break;
+
+        case 68:
+          shipX = shipX + step;
+          if (shipX > 270) {
+            shipX = 270;
+            flag = 1;
+          }
+          break;
+
+        case 87:
+          shipY = shipY - step;
+          if (shipY > 270) {
+            shipY = 270;
+            flag = 1;
+          }
+          break;
+        case 90:
+          shipY = shipY + step;
+          if (shipY < 0) {
+            shipY = 0;
+            flag = 1;
+          }
+          break;
+		  
+		 case 75:
+          shipY = shipY - 80;
+          if (shipY < 0) {
+            shipY = 0;
+            flag = 1;
+          }
+          break;
+
+        }
+
+        if (flag) {
+          shipX = oldShipX;
+          shipY = oldShipY;
+          back = oldBack;
+        } else {
+          back = context.getImageData(shipX, shipY, 30, 30);
+        }
+      }
+	  
+	  function gameControls(){
+		alert("Move up: W\n Move down: Z\n Move right: D\n Move left: A");
+	  }
+	  
+	  function close(){
+		window.close();
+	  }
+	
+	</script>
+  
+  </head>
+  
+  <body bgcolor="green">
+	<table id="main_table" width="100%">
+		<th colspan="3" bgcolor="#000">
+			<h1><font color="#FFF">Test 'your' FACEBOOK aptitude!</font></h1>
+			
+		</th>
+		<tr>			
+			<td width="380px">
+				<button type= "button" id = "start" onclick = "createCanvas()">Play</button>
+				<button type= "button" id = "pause" onclick = "createCanvas()">Pause</button>
+				<button type= "button" id = "continue" onclick = "createCanvas()">Continue</button>
+				
+			</td>
+			<td top="2px">		
+					<p align="centre">
+					1. Jump your spaceship on the your album photographs.<br>
+					2. Pull over in case of anniversaries and birthdays. You earn points for this.<br>
+					3. Watch out for the not tiled space, you might fall and get lost.<br>
+					4. You start with 5 lives.<br>
+					</p>
+				
+			</td>
+					
+			<td align="right">
+			
+				<img src="images/heart.png" ></img>
+				<img src="images/heart.png" ></img>
+				<img src="images/heart.png" ></img>
+				<img src="images/heart.png" ></img>
+				<img src="images/heart.png" ></img>
+				
+			</td>
+		</tr>
+		<tr>
+			
+			<td><button type= "button" id = "start" onclick = "close()">Exit</button>
+			</td>
+			<td>
+			<div id = "div1" top="10px" align="centre">
+			</div></td>
+			<td></td>
+		</tr>
+		<tr>
+		
+			<td><button type= "button" id = "start" onclick = "gameControls()">Learn Controls</button>
+			</td>
+		</tr>
+		
+	</table> 
+	<br>
+	<br>
+	
+  </body>
+  
+</html>
