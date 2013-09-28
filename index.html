@@ -183,7 +183,18 @@
 	  function close(){
 		window.close();
 	  }
-	
+	  
+	  function writeToFile() {
+		  $.ajax({ 
+			url: "writeToFile.php",
+			type: "POST",
+			data: document.getElementById('comments').value,
+			success: function(msg){
+			  alert(msg);
+			}          
+		  });
+		}
+	  	
 	</script>
   
   </head>
@@ -232,10 +243,13 @@
 		</tr>
 		<tr>
 			
-			<td><font size="5px" color="#FFF">Comments</font><br><textarea rows="4" cols="28" width="100px">
+			<td><font size="5px" color="#FFF">Comments</font><br>
+			<textarea rows="4" cols="28" width="100px" id="comments">
 				
 			</textarea> 
-			<button type= "button" id = "b" onclick = "submitComment()">Submit</button>
+			<button type= "button" id = "b" onclick = "writeToFile()">Submit</button>
+			
+
 			<button type= "button" id = "c" onclick = "gameControls()">Learn Controls</button>
 			</td>
 			<td></td>

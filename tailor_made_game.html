@@ -48,10 +48,10 @@
 						FB.api('/me/albums', function(response) 
 						{
 							var d = response.data;
-							alert('There are albums -- ' + d.length);
 							for (var i=0; i<d.length; i++)
 							{
 								alert(d[i].name);
+								alert(d[i].photos.length);
 								counter++;
 							} 
 							document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
