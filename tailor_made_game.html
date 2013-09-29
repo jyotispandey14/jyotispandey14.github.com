@@ -51,13 +51,12 @@
 							var d = response.data;
 							for (var i=0; i<d.length; i++)
 							{
-								alert(d[i].id);
 								albumid = d[i].id;
 								//get the photographs 
 								FB.api("/"+albumid+"/photos", function(response){
 									var d_pics = response.data;
 									for(var i = 0; i< d_pics.length;i++ ){
-										alert(d_pics[i].name);									
+										alert(d_pics[i].source);									
 									}
 								});								
 								counter++;
@@ -88,7 +87,7 @@
             //calls init function once all the resources are loaded
             window.addEventListener("load",init,true);
         </script>      
-	<h1>Check for the status updates here..1</h1>
+	<h1>Check for the status updates here..2</h1>
 	<p id="status"> ... </p>
 	<button type="button" id="albumBtn">Click here!!</button> 
 
