@@ -188,6 +188,13 @@
 		alert("Move up: W\n Move down: S\n Move right: D\n Move left: A");
 	  }
 	  
+	  function submitComment(){
+			var comment = document.getElementById('comments').value;
+			document.getElementById('comments').value = "";
+			var p_comments = document.getElementById('comments_previous');
+			var txtNode = document.createTextNode(comment); 
+			p_comments.appendChild(txtNode);
+	  }
   
 	</script>
   
@@ -239,12 +246,7 @@
 		</tr>
 		<tr>
 			
-			<td><font size="5px" color="#FFF">Comments</font><br>
-			<textarea rows="4" cols="28" width="100px" id="comments">
-				
-			</textarea> 
-			<button type= "button" id = "b" onclick = "writeToFile()">Submit</button>
-			
+			<td>	
 
 			<button type= "button" id = "c" onclick = "gameControls()">Learn Controls</button>
 			</td>
@@ -258,7 +260,14 @@
 	
 	
 	<footer>
+			<font size="5px" color="#FFF">Comments</font><br>
+			<textarea rows="4" cols="28" width="100px" id="comments">
+				
+			</textarea>
+			<br>			
+			<button width="100%" onclick = "submitComment()" align = "right">Submit</button>
 			
+			<p id="comments_previous"></p>
 	</footer>
   </body>
   
