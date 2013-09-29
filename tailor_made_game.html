@@ -52,17 +52,31 @@
 							for (var i=0; i<d.length; i++)
 							{
 								albumid = d[i].id;
+								
+								var divElement = document.createElement('div');
+								divElement.id = d[i].name;						
+								
 								//get the photographs 
 								FB.api("/"+albumid+"/photos", function(response){
 									var d_pics = response.data;
-									for(var i = 0; i< d_pics.length;i++ ){
-										alert(d_pics[i].source);									
+									for(var j = 0; j< d_pics.length;j++ ){
+										var pElement = document.createElement('p');										
+										var oImg = document.createElement("img");
+										
+										oImg.setAttribute('src', d_pics[j].source);
+										oImg.setAttribute('alt', d_pics[j].name);
+										oImg.setAttribute('height', '200px');
+										oImg.setAttribute('width', '200px');
+										
+										pElement.appendChild(oImg);
+										divElement.appendChild(pElement);
 									}
 								});								
 								counter++;
+								alert(counter);
+								document.body.appendChild(divElement);		
 							} 
 							document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
-							alert(document.getElementById("status").innerHTML);
 						});
 					}
 					},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
@@ -87,7 +101,7 @@
             //calls init function once all the resources are loaded
             window.addEventListener("load",init,true);
         </script>      
-	<h1>Check for the status updates here..2</h1>
+	<h1>Check for the status updates here.3</h1>
 	<p id="status"> ... </p>
 	<button type="button" id="albumBtn">Click here!!</button> 
 
