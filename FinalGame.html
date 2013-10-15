@@ -31,12 +31,12 @@
 		cameraDepth 	= 1 / Math.tan((fieldOfView/2) * Math.PI/180),
 		drawDistance 	= 100;
 	var lanes         	= 3,
-		segmentLength 	= 20,
-		roadWidth 		= 20,
+		segmentLength 	= 200,
+		roadWidth 		= 50,
 		rumbleLength  	= 3;
 	var segments 		= [],
 		billboards		= [],
-		segmentLength 	= 100,
+		segmentLength 	= 5,
 		trackLength 	= null; 
 	var background 		= null,
 		sprites 		= null,
@@ -256,7 +256,7 @@
 			l1 = laneMarkerWidth(w1, lanes),
 			l2 = laneMarkerWidth(w2, lanes),
 				lanew1, lanew2, lanex1, lanex2, lane;
-	
+		
 		ctx.fillStyle = color.grass;
 		ctx.fillRect(0, y2, width, y1 - y2);
 		polygonT(ctx, x1-w1-r1, y1, x1-w1, y1, x2-w2, y2, x2-w2-r2, y2, color.rumble);
@@ -301,7 +301,13 @@
 			
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
-			
+			/*alert(segment.p1.screen.x + " " + 
+						segment.p1.screen.y  + " " + 
+						segment.p1.screen.w + " " + 
+						segment.p2.screen.x + " " + 
+						segment.p2.screen.y + " " + 
+						segment.p2.screen.w);
+			*/
 			if ((segment.p1.camera.z <= cameraDepth) || segment.p2.screen.y >= horizon)
 					continue;
 			
@@ -348,6 +354,7 @@
 		window.addEventListener('keydown', whatKey, true);
 		
 		loadAlbums();
+		
 	}
 	
 	
