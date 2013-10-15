@@ -1,0 +1,294 @@
+<html>
+<head>
+  <title>FACEBOOK APTI</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <style>
+  .initialRotation
+	{
+		width:1500px;
+		height:700px;
+
+		transform: rotate3d(0,1,0,45deg);
+		-moz-transform: rotate3d(0,1,0,45deg);
+		-ms-transform: rotate3d(0,1,0,45deg);
+		-o-transform: rotate3d(0,1,0,45deg);
+		-webkit-transform: rotate3d(0,1,0,45deg);
+	}
+  </style>
+  <script src="common.js"></script>
+  <script>
+	
+	window.onload = init;
+	var canvas, ctx ; 
+	
+	var fps 			= 60,
+		width 			= 0,
+		height 			= 0,
+		resolution 		= null,
+		fieldOfView 	= 90,
+		position 		= 0,
+		cameraHeight 	= 10,
+		cameraDepth 	= 1 / Math.tan((fieldOfView/2) * Math.PI/180),
+		drawDistance 	= 100;
+	var lanes         	= 3,
+		segmentLength 	= 20,
+		roadWidth 		= 20,
+		rumbleLength  	= 3;
+	var segments 		= [],
+		billboards		= [],
+		segmentLength 	= 100,
+		trackLength 	= null; 
+	var background 		= null,
+		sprites 		= null,
+		billboard		= null;
+	var playerX 		= 0,
+		playerZ 		= null; 
+    var speed 			= 10,
+		dt 				= 0.3;
+	var count 			= 0;
+
+	var COLORS = {
+	  SKY: '#72D7EE',
+	  TREE: '#005108',
+	  FOG: '#005108',
+	  LIGHT: { road: '#6B6B6B', grass: '#10AA10', rumble: '#555555', lane: '#CCCCCC' },
+	  DARK: { road: '#696969', grass: '#009A00', rumble: '#BBBBBB' },
+	  START: { road: 'white', grass: 'white', rumble: 'white' },
+	  FINISH: { road: 'black', grass: 'black', rumble: 'black' }
+	};
+	
+	var BACKGROUND = {
+	  HILLS: { x: 0, y: 0, w: 1280, h: 480 },
+	  SKY: { x: 5, y: 495, w: 1280, h: 480 },
+	  TREES: { x: 5, y: 985, w: 1280, h: 480 }
+	};
+		
+	function increase (start, increment, max) { 
+		var result = start + increment;
+		while (result >= max)
+		  result -= max;
+		while (result < 0)
+		  result += max;
+		return result;
+	}	
+		
+	function update() {
+		position = increase(position, speed * dt, trackLength) ;
+    }
+	
+	function whatKey(evt) {
+		var flag = 0;
+		var step = 0.5;
+		
+        if (evt.keyCode == 65){
+          playerX = playerX - step;
+          if (playerX < -50) {
+            playerX = 0;
+            flag = 1;
+          }
+        }
+
+        if (evt.keyCode == 68){
+          playerX = playerX + step;
+          if (playerX > 270) {
+            playerX = 270;
+            flag = 1;
+          }
+        }		
+       render();
+      }
+	
+	function backgroundRender(ctx, background, width, height, layer) {
+	
+		var imageW = layer.w/2;
+		var imageH = layer.h;
+
+		var sourceX = layer.x + Math.floor(layer.w);
+		var sourceY = layer.y
+		var sourceW = Math.min(imageW, layer.x+layer.w-sourceX);
+		var sourceH = imageH;
+		
+		var destX = 0;
+		var destY = 0;
+		var destW = Math.floor(width * (sourceW/imageW));
+		var destH = height;
+		ctx.drawImage(background, destX, destY);
+		
+		if (sourceW < imageW)
+		  ctx.drawImage(background, layer.x, sourceY, imageW-sourceW, sourceH, destW-1, destY, width-destW, destH);
+	}
+	
+	function findSegment(z) {
+		var t  = segments[Math.floor(z/segmentLength) % segments.length];
+		return t;
+    }
+	
+	function resetRoad() {
+		segments = [];
+		for(var n = 0 ; n < 500 ; n++) {
+			segments.push({
+			   index: n,
+			   p1: { world: { z: n *segmentLength }, camera: {}, screen: {} },
+			   p2: { world: { z: (n+1)*segmentLength }, camera: {}, screen: {} },
+			   color: Math.round(n/rumbleLength)%2 ? COLORS.DARK : COLORS.LIGHT
+			});
+			
+			billboards.push({
+			   index: n,
+			   p1: { world: { x: 100, y : 40, z: 0 }, camera: {}, screen: {} },
+			   p2: { world: { x: 100, y : 10, z: 0}, camera: {}, screen: {} },
+			   //color: Math.round(n/rumbleLength)%2 ? COLORS.DARK : COLORS.LIGHT
+			});
+		}
+
+	  segments[findSegment(playerZ).index + 2].color = COLORS.START;
+	  segments[findSegment(playerZ).index + 3].color = COLORS.FINISH;
+	  for(var n = 0 ; n < rumbleLength ; n++)
+		segments[segments.length-1-n].color = COLORS.START;
+	
+	  trackLength = segments.length * segmentLength;
+    }
+	
+	function polygonT(ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
+		ctx.fillStyle = color;
+		ctx.beginPath();
+		ctx.moveTo(x1, y1);
+		ctx.lineTo(x2, y2);
+		ctx.lineTo(x3, y3);
+		ctx.lineTo(x4, y4);
+		ctx.closePath();
+		ctx.fill();
+	}
+	
+	function worldToScreenSpace(p, cameraX, cameraY, cameraZ, cameraDepth, width, height, roadWidth) {
+		p.camera.x = (p.world.x || 0) - cameraX;
+		p.camera.y = (p.world.y || 0) - cameraY;
+		p.camera.z = (p.world.z || 0) - cameraZ;
+		p.screen.scale = cameraDepth/p.camera.z;
+		p.screen.x = Math.round((width/2) + (p.screen.scale * p.camera.x * width/2));
+		p.screen.y = Math.round((height/2) - (p.screen.scale * p.camera.y * height/2));
+		p.screen.w = Math.round( (p.screen.scale * roadWidth * width/2));
+	}
+	
+	function rumbleWidth(projectedRoadWidth, lanes) { 
+		return projectedRoadWidth/Math.max(6,  2*lanes);
+	}
+	
+	function segmentFunc(ctx, width, lanes, x1, y1, w1, x2, y2, w2, color) {
+		
+		var r1 = rumbleWidth(w1, lanes),
+			r2 = rumbleWidth(w2, lanes),
+			l1 = laneMarkerWidth(w1, lanes),
+			l2 = laneMarkerWidth(w2, lanes),
+				lanew1, lanew2, lanex1, lanex2, lane;
+	
+		ctx.fillStyle = color.grass;
+		ctx.fillRect(0, y2, width, y1 - y2);
+		polygonT(ctx, x1-w1-r1, y1, x1-w1, y1, x2-w2, y2, x2-w2-r2, y2, color.rumble);
+		polygonT(ctx, x1+w1+r1, y1, x1+w1, y1, x2+w2, y2, x2+w2+r2, y2, color.rumble);
+		polygonT(ctx, x1-w1,	y1, x1+w1, y1, x2+w2, y2, x2-w2, 	y2, color.road);
+		
+		if (color.lane) {
+		  lanew1 = w1*2/lanes;
+		  lanew2 = w2*2/lanes;
+		  lanex1 = x1 - w1 + lanew1;
+		  lanex2 = x2 - w2 + lanew2;
+		  for(lane = 1 ; lane < lanes ; lanex1 += lanew1, lanex2 += lanew2, lane++)
+			polygonT(ctx, lanex1 - l1/2, y1, lanex1 + l1/2, y1, lanex2 + l2/2, y2, lanex2 - l2/2, y2, color.lane);
+		}    
+	}
+	
+	function laneMarkerWidth(projectedRoadWidth, lanes) 	{ 
+		return projectedRoadWidth/Math.max(32, 8*lanes); 
+	}
+	
+	function renderBillBoard(ctx, billboard, posX, posY){
+		ctx.drawImage(billboard, posX, posY);
+		alert('asdf');
+	}
+	
+	function render() {
+		ctx.clearRect(0, 0, width, height);
+		var baseSegment = findSegment(position), 
+			horizon = height;
+		backgroundRender(ctx, background, width, height, BACKGROUND.SKY);
+		backgroundRender(ctx, background, width, height, BACKGROUND.HILLS);
+		backgroundRender(ctx, background, width, height, BACKGROUND.TREES);		
+		//count = (count + 1) % 1000;
+		
+		for(var n = 0 ; n < drawDistance ; n++) {
+			
+			segment = segments[(baseSegment.index + n) % segments.length];
+			segment.looped = segment.index < baseSegment.index;
+			
+			ctx.drawImage(billboard, width/lanes/2, 10, 50, 50);
+			ctx.drawImage(billboard, width/lanes * 2, 10, 50, 50);
+			
+			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
+			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
+			
+			if ((segment.p1.camera.z <= cameraDepth) || segment.p2.screen.y >= horizon)
+					continue;
+			
+			segmentFunc(ctx, width, lanes,
+						segment.p1.screen.x,
+						segment.p1.screen.y,
+						segment.p1.screen.w,
+						segment.p2.screen.x,
+						segment.p2.screen.y,
+						segment.p2.screen.w,
+						segment.color);
+			
+			
+			horizon = segment.p2.screen.y;
+			
+		
+		}
+		//draw the player now		
+		ctx.drawImage(sprites, playerX, 50);
+		
+		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position ;
+    }    
+	
+	function init(){
+		
+		background = new Image();
+		sprites = new Image();
+		billboard = new Image();
+		background.src = './images/background.png'; //canvas background
+		sprites.src = './images/back.png'; //canvas background
+		billboard.src = './images/ferrari.jpg'; //canvas background
+		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
+		
+		canvas = document.getElementById('canvas_1'); 
+		ctx = canvas.getContext('2d'); 
+		
+		width = canvas.width;
+		height = canvas.height;
+		playerZ = (cameraHeight * cameraDepth);
+		resolution = height/480;
+		resetRoad();
+		
+		window.setInterval(update, fps);
+		window.addEventListener('keydown', whatKey, true);
+		
+	}
+	
+	
+  
+  </script>
+  
+  <body>
+  
+  
+  <div id="div_1"> 
+	<font color="white"><p id='coord'> </p></font>
+    <canvas id="canvas_1" class="initialRotation">
+      An error message
+    </canvas>
+	
+  </div>
+  
+   
+  </body>
+</head> 

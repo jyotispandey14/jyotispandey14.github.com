@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <script src="http://www.html5canvastutorials.com/libraries/three.min.js"></script>
+  <script>
+	
+	var renderer;
+	var camera;
+	var scene;
+	
+	function init(){
+		renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		document.body.appendChild(renderer.domElement);
+		
+		camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+		camera.position.y = -450;
+		camera.position.z = 400;
+		camera.rotation.x = 45 * (Math.PI / 180);
+		
+		scene = new THREE.Scene();
+	
+	}
+	
+	function animate(){
+	
+		for(var i=1; i<10;i++){
+			var plane = new THREE.Mesh(new THREE.PlaneGeometry(500, 500, 10 , 10 ), new THREE.MeshNormalMaterial());
+			plane.position.set(0,10 * i ,10);
+			
+			scene.add(plane);
+		}
+	
+		renderer.render(scene, camera);
+	}
+	
+	function render(ctx) {
+	var canvas = document.getElementById('b');
+	  var ctx = canvas.getContext('2d');
+		var dx = 0, dy = 0;
+		ctx.save();
+
+		// change projection to isometric view
+		ctx.translate(50, 50);
+		ctx.scale(1, 0.5);
+		ctx.rotate(45 * Math.PI /180);
+		ctx.strokeRect(dx, dy, 40, 40);
+
+		init();
+		animate();
+		
+		ctx.restore(); // back to orthogonal projection
+
+	}
+  </script>
+  <body>
+		<input type = "button" onclick="render()">press </input>
+		<canvas id="b"></canvas>
+  </body>
+</html>

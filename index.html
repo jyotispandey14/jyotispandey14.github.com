@@ -42,7 +42,7 @@
 	
 
 	</style>
-	
+	<script src="common.js"></script>
 	<script>
 	
 	var context;
@@ -96,6 +96,7 @@
 
         ship = context.getImageData(0, 0, 30, 30);
         context.putImageData(oldBack, 0, 0);
+		
       }
 	
 	function createCanvas(){
@@ -114,6 +115,7 @@
 	function doGameLoop() {
         //context.putImageData(oldBack, oldShipX, oldShipY);
         context.putImageData(ship, shipX, shipY);
+		
 		var date = new Date();
 		var hours = date.getHours();
         var minutes = date.getMinutes();
