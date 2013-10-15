@@ -63,6 +63,81 @@
 	  TREES: { x: 5, y: 985, w: 1280, h: 480 }
 	};
 		
+		
+		
+	//*****************************FACEBOOK INTEGRATION********************
+	function loadAlbums()
+	{         
+		 FB.init({
+			appId  : '449074668545690',
+			status : true, 
+			cookie : true, 
+			xfbml  : true 
+		});
+		
+		(function(d, s, id){
+			 var js, fjs = d.getElementsByTagName(s)[0];
+			 if (d.getElementById(id)) {return;}
+			 js = d.createElement(s); js.id = id;
+			 js.src = "//connect.facebook.net/en_US/all.js";
+			 fjs.parentNode.insertBefore(js, fjs);
+		 }(document, 'script', 'facebook-jssdk'));
+		
+		FB.login(function(response)
+			{
+			if (response.authResponse)
+			{
+			   document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
+			   alert(document.getElementById("status").innerHTML);
+				var counter = 0;
+				
+				FB.api('/me', function(response) {
+				  alert('Your name is ' + response.name);
+				});
+				
+				FB.api('/me/albums', function(response) 
+				{
+					var albumid;
+					var d = response.data;
+					for (var i=0; i<d.length; i++)
+					{
+						albumid = d[i].id;
+						
+						var divElement = document.createElement('div');
+						divElement.id = d[i].name;						
+						
+						//get the photographs 
+						FB.api("/"+albumid+"/photos", function(response){
+							var d_pics = response.data;
+							var pElement = document.createElement('p');	
+							for(var j = 0; j< d_pics.length;j++ ){
+																	
+								var oImg = document.createElement("img");
+								
+								oImg.setAttribute('src', d_pics[j].source);
+								oImg.setAttribute('alt', d_pics[j].name);
+								oImg.setAttribute('height', '200px');
+								oImg.setAttribute('width', '200px');
+								
+								pElement.appendChild(oImg);
+								divElement.appendChild(pElement);
+							}
+						});								
+						counter++;
+						document.body.appendChild(divElement);		
+					} 
+					document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
+				});
+			}
+			},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
+
+			
+
+	}
+
+	//*********************************************************************
+		
+		
 	function increase (start, increment, max) { 
 		var result = start + increment;
 		while (result >= max)
@@ -272,6 +347,7 @@
 		window.setInterval(update, fps);
 		window.addEventListener('keydown', whatKey, true);
 		
+		loadAlbums();
 	}
 	
 	
