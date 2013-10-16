@@ -68,14 +68,15 @@
 		
 	//*****************************FACEBOOK INTEGRATION********************
 	function loadAlbums()
-	{         
+	{      
+		alert("in load album.. ");
 		 FB.init({
 			appId  : '449074668545690',
 			status : true, 
 			cookie : true, 
 			xfbml  : true 
 		});
-		
+		alert("init done");
 		(function(d, s, id){
 			 var js, fjs = d.getElementsByTagName(s)[0];
 			 if (d.getElementById(id)) {return;}
@@ -83,9 +84,9 @@
 			 js.src = "//connect.facebook.net/en_US/all.js";
 			 fjs.parentNode.insertBefore(js, fjs);
 		 }(document, 'script', 'facebook-jssdk'));
-		
+		alert("func done ");
 		FB.login(function(response)
-			{
+			{alert("in loin.. ");
 			if (response.authResponse)
 			{
 			   document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
@@ -356,6 +357,7 @@
 		window.setInterval(update, fps);
 		window.addEventListener('keydown', whatKey, true);
 		
+		alert("calling load albums");
 		loadAlbums();
 		
 	}
