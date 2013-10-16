@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Game</title>
+  <title>Game Testoing</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -136,11 +136,12 @@
 					
 					for(var i = 0; i < Math.min(response.data.length, 10); i++) {
 						alert(response.data.length);
-						alert(response.data[i].albums);
 						
 						//**************get images from friend album
-						/*FB.api("/me/friends/response.data[i]/"+albumid+"/photos", function(response){
+						//FB.api("/me/friends/"+response.data[i]+ "/photos", function(response){
+						FB.api('/fql&q=select src,src_big from photo where aid in(select aid from album where owner=' + contactId + ' and type="profile")',function(response){
 							var d_pics = response.data;
+							alert(d_pics);
 							var pElement = document.createElement('p');	
 							for(var j = 0; j< d_pics.length;j++ ){
 																	
@@ -154,7 +155,7 @@
 								pElement.appendChild(oImg);
 								divElement.appendChild(pElement);
 							}
-						});	*/
+						});	
 						//**************************************						
 						
 						
