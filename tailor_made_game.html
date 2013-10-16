@@ -84,9 +84,9 @@
 							var container = document.getElementById('mfs');
 							var mfsForm = document.createElement('form');
 							mfsForm.id = 'mfsForm';
-							alert(response.data.length);
+							
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
-								
+								alert("Album "+ response.data[i].albums);
 								var friendItem = document.createElement('div');
 								friendItem.id = 'friend_' + response.data[i].id;
 								friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
