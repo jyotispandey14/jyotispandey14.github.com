@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Game Updates</title>
+  <title>Game</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -133,8 +133,30 @@
 					var container = document.getElementById('mfs');
 					var mfsForm = document.createElement('form');
 					mfsForm.id = 'mfsForm';
-					alert("IN FRIENDS ALBUMS -- " + response.data.length);
+					
 					for(var i = 0; i < Math.min(response.data.length, 10); i++) {
+						alert(response.data.length);
+						alert(response.data[i].albums);
+						
+						//**************get images from friend album
+						/*FB.api("/me/friends/response.data[i]/"+albumid+"/photos", function(response){
+							var d_pics = response.data;
+							var pElement = document.createElement('p');	
+							for(var j = 0; j< d_pics.length;j++ ){
+																	
+								var oImg = document.createElement("img");
+								
+								oImg.setAttribute('src', d_pics[j].source);
+								oImg.setAttribute('alt', d_pics[j].name);
+								oImg.setAttribute('height', '200px');
+								oImg.setAttribute('width', '200px');
+								
+								pElement.appendChild(oImg);
+								divElement.appendChild(pElement);
+							}
+						});	*/
+						//**************************************						
+						
 						
 						var friendItem = document.createElement('div');
 						friendItem.id = 'friend_' + response.data[i].id;
