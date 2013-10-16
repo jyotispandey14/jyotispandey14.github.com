@@ -50,6 +50,7 @@
 		dt 				= 0.3;
 	var count 			= 0,
 		jumpFlag 		= 0;
+	var facebookImages  = [];
 
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -73,14 +74,14 @@
 	
 	function loadAlbums()
 	{      
-		alert("in load album.. ");
+		
 		 FB.init({
 			appId  : '449074668545690',
 			status : true, 
 			cookie : true, 
 			xfbml  : true 
 		});
-		alert("init done");
+		
 		(function(d, s, id){
 			 var js, fjs = d.getElementsByTagName(s)[0];
 			 if (d.getElementById(id)) {return;}
@@ -88,9 +89,9 @@
 			 js.src = "//connect.facebook.net/en_US/all.js";
 			 fjs.parentNode.insertBefore(js, fjs);
 		 }(document, 'script', 'facebook-jssdk'));
-		alert("func done ");
+		
 		FB.login(function(response){
-			alert("in loin.. ");
+			
 			if (response.authResponse)
 			{
 			    var counter = 0;
@@ -112,7 +113,9 @@
 							var d_pics = response.data;
 							var pElement = document.createElement('p');	
 							for(var j = 0; j< d_pics.length;j++ ){
-																	
+								var pic = new Image();
+								pic.src = d_pics[j].source;
+								facebookImages[j] = pic;
 								var oImg = document.createElement("img");
 								
 								oImg.setAttribute('src', d_pics[j].source);
@@ -198,12 +201,13 @@
 		
 	function update() {
 		position = increase(position, speed * dt, trackLength) ;
+		
     }
 	
 	function whatKey(evt) {
 		var flag = 0;
 		//var step = 0.5;
-		
+		update();
         if (evt.keyCode == 65){
           playerX = playerX - step;
           if (playerX < -50) {
@@ -366,8 +370,8 @@
 			segment = segments[(baseSegment.index + n) % segments.length];
 			segment.looped = segment.index < baseSegment.index;
 			
-			ctx.drawImage(billboard, width/lanes/2, 10, 50, 50);
-			ctx.drawImage(billboard, width/lanes * 2, 10, 50, 50);
+			ctx.drawImage(facebookImages[n], width/lanes/2, 10, 50, 50);
+			ctx.drawImage(facebookImages[n + 1], width/lanes * 2, 10, 50, 50);
 			
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
@@ -423,7 +427,6 @@
 		window.setInterval(update, fps);
 		window.addEventListener('keydown', whatKey, true);
 		
-		alert("calling load albums");
 		loadAlbums();
 		
 	}
