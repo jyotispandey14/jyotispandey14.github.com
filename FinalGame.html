@@ -86,14 +86,11 @@
 			 fjs.parentNode.insertBefore(js, fjs);
 		 }(document, 'script', 'facebook-jssdk'));
 		alert("func done ");
-		FB.login(function(response)
-			{alert("in loin.. ");
+		FB.login(function(response){
+			alert("in loin.. ");
 			if (response.authResponse)
 			{
-			   document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
-			   alert(document.getElementById("status").innerHTML);
-				var counter = 0;
-				
+			    var counter = 0;
 				FB.api('/me', function(response) {
 				  alert('Your name is ' + response.name);
 				});
