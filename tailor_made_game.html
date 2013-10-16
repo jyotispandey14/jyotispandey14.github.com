@@ -11,6 +11,30 @@
 	<script type="text/javascript">
             var loggedIn = false;        
 
+			function renderMFS() {
+			 FB.api('/me/friends', function(response) {
+			   var container = document.getElementById('mfs');
+			   var mfsForm = document.createElement('form');
+			   mfsForm.id = 'mfsForm';
+
+			   for(var i = 0; i < Math.min(response.data.length, 10); i++) {
+				 var friendItem = document.createElement('div');
+				 friendItem.id = 'friend_' + response.data[i].id;
+				 friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
+				   + response.data[i].id
+				   + '" />' + response.data[i].name;
+				   mfsForm.appendChild(friendItem);
+				 }
+				 container.appendChild(mfsForm);
+
+				 var sendButton = document.createElement('input');
+				 sendButton.type = 'button';
+				 sendButton.value = 'Send Request';
+				 sendButton.onclick = sendRequest;
+				 mfsForm.appendChild(sendButton);
+			   });
+			 }
+			
             function loginFacebook() 
             {
                 alert("ABC");
@@ -95,7 +119,8 @@
             function init() 
             {
                 var v1 = document.getElementById("albumBtn");
-                v1.onclick = loadAlbums;           
+                v1.onclick = loadAlbums;     
+				renderMFS();				
             }
 
             //calls init function once all the resources are loaded
