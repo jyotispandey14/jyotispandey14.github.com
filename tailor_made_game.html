@@ -87,6 +87,10 @@
 							
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
 								alert("Album "+ response.data[i].albums);
+								FB.api('/me/friends/'+response.data[i] , function(response2) {
+										alert("am here");
+										alert(response2.data.length);
+								}
 								var friendItem = document.createElement('div');
 								friendItem.id = 'friend_' + response.data[i].id;
 								friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
