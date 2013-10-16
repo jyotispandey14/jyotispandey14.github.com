@@ -44,10 +44,12 @@
 		sprites 		= null,
 		billboard		= null;
 	var playerX 		= 0,
-		playerZ 		= null; 
+		playerZ 		= null,
+		playerY 		= 50; 
     var speed 			= 10,
 		dt 				= 0.3;
-	var count 			= 0;
+	var count 			= 0,
+		jumpFlag 		= 0;
 
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -218,7 +220,26 @@
             flag = 1;
           }
 		  update();
-        }		
+        }	
+
+		if (evt.keyCode == 32){
+		  if(jumpFlag == 0)
+			playerY = playerY - 100 * step;
+		  jumpFlag = 1;
+        }	
+		
+		if(jumpFlag == 1 && playerY < 50 && playerY >= 0 ){
+			playerY = playerY - 100 * step;
+			if(playerY <= 0){
+				jumpFlag = 0;
+			}
+		}			
+		if(jumpFlag == 0 && playerY < 50){
+			playerY = playerY + 100 * step;
+			if(playerY >= 50) {
+				playerY = 50;
+			}
+		}
        render();
       }
 	
@@ -375,7 +396,7 @@
 		
 		}
 		//draw the player now		
-		ctx.drawImage(sprites, playerX, 50);
+		ctx.drawImage(sprites, playerX, playerY);
 		
 		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position ;
     }    
