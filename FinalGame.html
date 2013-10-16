@@ -370,8 +370,8 @@
 			segment = segments[(baseSegment.index + n) % segments.length];
 			segment.looped = segment.index < baseSegment.index;
 			
-			ctx.drawImage(facebookImages[n], width/lanes/2, 10, 50, 50);
-			ctx.drawImage(facebookImages[n + 1], width/lanes * 2, 10, 50, 50);
+			ctx.drawImage(background, width/lanes/2, 10, 50, 50);
+			ctx.drawImage(background, width/lanes * 2, 10, 50, 50);
 			
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
