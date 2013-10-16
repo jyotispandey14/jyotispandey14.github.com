@@ -69,35 +69,6 @@
 		
 	//*****************************FACEBOOK INTEGRATION********************
 	
-	function renderMFS() {
-		alert("friends albums");
-		FB.api('/me/friends', function(response) {
-			var container = document.getElementById('mfs');
-			var mfsForm = document.createElement('form');
-			mfsForm.id = 'mfsForm';
-			alert(response.data.length);
-			for(var i = 0; i < Math.min(response.data.length, 10); i++) {
-				
-				var friendItem = document.createElement('div');
-				friendItem.id = 'friend_' + response.data[i].id;
-				friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
-					+ response.data[i].id
-					+ '" />' + response.data[i].name;
-				alert(response.data[i].name);
-				mfsForm.appendChild(friendItem);
-			}
-			container.appendChild(mfsForm);
-
-			var sendButton = document.createElement('input');
-			sendButton.type = 'button';
-			sendButton.value = 'Send Request';
-			sendButton.onclick = sendRequest;
-			mfsForm.appendChild(sendButton);
-	   });
-	   
-	   alert("friends albums done!!!");
-	}
-	
 	function loadAlbums()
 	{      
 		alert("in load album.. ");
@@ -121,10 +92,8 @@
 			if (response.authResponse)
 			{
 			    var counter = 0;
-				FB.api('/me', function(response) {
-				  alert('Your name is ' + response.name);
-				});
 				
+				//MY ALBUM
 				FB.api('/me/albums', function(response) 
 				{
 					var albumid;
@@ -158,6 +127,31 @@
 					} 
 					document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
 				});
+				
+				//FRIENDS ALBUMS
+				FB.api('/me/friends', function(response) {
+					var container = document.getElementById('mfs');
+					var mfsForm = document.createElement('form');
+					mfsForm.id = 'mfsForm';
+					alert("IN FRIENDS ALBUMS -- " + response.data.length);
+					for(var i = 0; i < Math.min(response.data.length, 10); i++) {
+						
+						var friendItem = document.createElement('div');
+						friendItem.id = 'friend_' + response.data[i].id;
+						friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
+							+ response.data[i].id
+							+ '" />' + response.data[i].name;
+						alert(response.data[i].name);
+						mfsForm.appendChild(friendItem);
+					}
+					container.appendChild(mfsForm);
+
+					var sendButton = document.createElement('input');
+					sendButton.type = 'button';
+					sendButton.value = 'Send Request';
+					sendButton.onclick = sendRequest;
+					mfsForm.appendChild(sendButton);
+			   });
 			}
 			},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
 
@@ -387,7 +381,6 @@
 		
 		alert("calling load albums");
 		loadAlbums();
-		renderMFS();
 		
 	}
 	
