@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Tailor Made Game 2</title>
+	<title>Tailor Made Game 3</title>
 </head>
 <body bgcolor="#FFC0FF">
 
@@ -17,13 +17,14 @@
 				var container = document.getElementById('mfs');
 				var mfsForm = document.createElement('form');
 				mfsForm.id = 'mfsForm';
-
+				alert("form created");
 				for(var i = 0; i < Math.min(response.data.length, 10); i++) {
 					var friendItem = document.createElement('div');
 					friendItem.id = 'friend_' + response.data[i].id;
 					friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
 						+ response.data[i].id
 						+ '" />' + response.data[i].name;
+					alert(response.data[i].name);
 					mfsForm.appendChild(friendItem);
 				}
 				container.appendChild(mfsForm);
