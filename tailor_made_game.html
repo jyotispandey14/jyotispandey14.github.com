@@ -90,7 +90,7 @@
 								FB.api('/me/friends/'+response.data[i] , function(response2) {
 										alert("am here");
 										alert(response2.data.length);
-								}
+								});
 								var friendItem = document.createElement('div');
 								friendItem.id = 'friend_' + response.data[i].id;
 								friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
