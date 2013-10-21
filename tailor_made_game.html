@@ -80,7 +80,7 @@
 							document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
 						});
 						
-						FB.api('/me/friends', function(response) {
+						FB.api('/me/friends/433921/fields=albums', function(response) {
 							var container = document.getElementById('mfs');
 							var mfsForm = document.createElement('form');
 							mfsForm.id = 'mfsForm';
