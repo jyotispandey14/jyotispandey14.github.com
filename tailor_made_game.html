@@ -92,7 +92,7 @@
 								FB.api('/'+response.data[i].id+'/albums' , function(response2) {						
 										
 										//var ppp = document.createElement('p');	
-										alert('fetching pics ...!');
+										alert('fetching pics ...!' + ' ' + response2.data.length);
 										for(var i = 0; i < Math.min(response2.data.length, 2); i++) {
 											//var aaa = document.createElement("img");
 											alert(response2.data[j].name);//+ " " + response2.data[j].count);
