@@ -88,8 +88,21 @@
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
 								alert("Album "+ response.data[i].name);
 								FB.api('/'+response.data[i].id+'/albums' , function(response2) {
+										var divElement = document.createElement('div');
+										divElement.id = response.data[i].id;	
 										alert('object ' + response2.data);
-										alert('Album --- ' + response2.data.length);
+										var pElement = document.createElement('p');	
+										for(var i = 0; i < Math.min(response2.data.length, 2); i++) {
+											var oImg = document.createElement("img");
+											oImg.setAttribute('src', response2.data[j].source);
+											oImg.setAttribute('alt', response2.data[j].name);
+											oImg.setAttribute('height', '200px');
+											oImg.setAttribute('width', '200px');
+											
+											pElement.appendChild(oImg);
+											divElement.appendChild(pElement);
+										}
+										document.body.appendChild(divElement);	
 		
 								});
 								var friendItem = document.createElement('div');
