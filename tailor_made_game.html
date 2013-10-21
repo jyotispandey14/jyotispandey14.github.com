@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Tailor Made Game 1</title>
+	<title>Tailor Made Game</title>
 </head>
 <body bgcolor="#FFC0FF">
 
@@ -88,7 +88,7 @@
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
 								alert("Album "+ response.data[i].name);
 								FB.api('/'+response.data[i].id+'/fields=albums' , function(response2) {
-										alert(response2);
+										alert('Album --- ' + response2.data.length);
 		
 								});
 								var friendItem = document.createElement('div');
@@ -96,7 +96,7 @@
 								friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
 									+ response.data[i].id
 									+ '" />' + response.data[i].name;
-								alert(response.data[i].name);
+								
 								mfsForm.appendChild(friendItem);
 							}
 							container.appendChild(mfsForm);
