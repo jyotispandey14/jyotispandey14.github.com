@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Tailor Made Game33</title>
+	<title>Tailor Made Game</title>
 </head>
 <body bgcolor="#FFC0FF">
 
@@ -91,19 +91,19 @@
 								d.id = response.data[i].id;
 								FB.api('/'+response.data[i].id+'/albums' , function(response2) {						
 										
-										var ppp = document.createElement('p');	
+										//var ppp = document.createElement('p');	
 										alert('fetching pics ...!');
 										for(var i = 0; i < Math.min(response2.data.length, 2); i++) {
-											var aaa = document.createElement("img");
-											alert(response2.data[j].link + " " + response2.data[j].count);
+											//var aaa = document.createElement("img");
+											alert(response2.data[j].name);//+ " " + response2.data[j].count);
 											
 											//aaa.setAttribute('src', response2.data[j].source);
 											//aaa.setAttribute('alt', response2.data[j].name);
 											//aaa.setAttribute('height', '200px');
 											//aaa.setAttribute('width', '200px');
 											alert('added!');
-											ppp.appendChild(aaa);
-											d.appendChild(ppp);
+											//ppp.appendChild(aaa);
+											//d.appendChild(ppp);
 										}
 										
 		
