@@ -88,8 +88,8 @@
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
 								alert("Album "+ response.data[i].name);
 								FB.api('/'+response.data[i].id+'/fields=albums' , function(response2) {
-										alert('object ' + response2);
-										alert('Album --- ' + response2.data);
+										alert('object ' + response2.albums);
+										alert('Album --- ' + response2.albums.data);
 		
 								});
 								var friendItem = document.createElement('div');
