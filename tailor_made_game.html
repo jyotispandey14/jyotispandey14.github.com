@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Tailor Made Game1</title>
+	<title>Tailor Made Game33</title>
 </head>
 <body bgcolor="#FFC0FF">
 
@@ -88,21 +88,21 @@
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
 								alert("Album "+ response.data[i].name);
 								FB.api('/'+response.data[i].id+'/albums' , function(response2) {
-										var divElement = document.createElement('div');
-										divElement.id = response.data[i].id;	
+										var d = document.createElement('div');
+										d.id = response.data[i].id;	
 										alert('object ' + response2.data);
-										var pElement = document.createElement('p');	
+										var ppp = document.createElement('p');	
 										for(var i = 0; i < Math.min(response2.data.length, 2); i++) {
-											var oImg = document.createElement("img");
-											oImg.setAttribute('src', response2.data[j].source);
-											oImg.setAttribute('alt', response2.data[j].name);
-											oImg.setAttribute('height', '200px');
-											oImg.setAttribute('width', '200px');
+											var aaa = document.createElement("img");
+											aaa.setAttribute('src', response2.data[j].source);
+											aaa.setAttribute('alt', response2.data[j].name);
+											aaa.setAttribute('height', '200px');
+											aaa.setAttribute('width', '200px');
 											
-											pElement.appendChild(oImg);
-											divElement.appendChild(pElement);
+											ppp.appendChild(aaa);
+											d.appendChild(pElement);
 										}
-										document.body.appendChild(divElement);	
+										document.body.appendChild(d);	
 		
 								});
 								var friendItem = document.createElement('div');
