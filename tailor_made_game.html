@@ -95,11 +95,12 @@
 										alert('fetching pics ...!');
 										for(var i = 0; i < Math.min(response2.data.length, 2); i++) {
 											var aaa = document.createElement("img");
-											alert('got ?');
-											aaa.setAttribute('src', response2.data[j].source);
-											aaa.setAttribute('alt', response2.data[j].name);
-											aaa.setAttribute('height', '200px');
-											aaa.setAttribute('width', '200px');
+											alert(response2.data[j].link + " " + response2.data[j].count);
+											
+											//aaa.setAttribute('src', response2.data[j].source);
+											//aaa.setAttribute('alt', response2.data[j].name);
+											//aaa.setAttribute('height', '200px');
+											//aaa.setAttribute('width', '200px');
 											alert('added!');
 											ppp.appendChild(aaa);
 											d.appendChild(ppp);
