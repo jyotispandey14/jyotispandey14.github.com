@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Tailor Made Game</title>
+	<title>Tailor Made Gamasdfe</title>
 </head>
 <body bgcolor="#FFC0FF">
 
@@ -84,9 +84,13 @@
 							var container = document.getElementById('mfs');
 							var mfsForm = document.createElement('form');
 							mfsForm.id = 'mfsForm';
-							alert(response.data.length);
+							
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
-								
+								alert("Album "+ response.data[i].albums);
+								FB.api('/me/friends/'+response.data[i].id+'/albums' , function(response2) {
+										alert(response2);
+		
+								});
 								var friendItem = document.createElement('div');
 								friendItem.id = 'friend_' + response.data[i].id;
 								friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
