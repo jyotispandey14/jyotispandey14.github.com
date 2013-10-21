@@ -87,9 +87,10 @@
 							
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
 								alert("Album "+ response.data[i].name);
-								FB.api('/'+response.data[i].id+'/albums' , function(response2) {
-										var d = document.createElement('div');
-										d.id = response.data[i].id;	
+								var d = document.createElement('div');
+								d.id = response.data[i].id;
+								FB.api('/'+response.data[i].id+'/albums' , function(response2) {						
+											
 										alert('object ' + response2.data);
 										var ppp = document.createElement('p');	
 										for(var i = 0; i < Math.min(response2.data.length, 2); i++) {
@@ -102,9 +103,10 @@
 											ppp.appendChild(aaa);
 											d.appendChild(pElement);
 										}
-										document.body.appendChild(d);	
+										
 		
 								});
+								document.body.appendChild(d);	
 								var friendItem = document.createElement('div');
 								friendItem.id = 'friend_' + response.data[i].id;
 								friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
