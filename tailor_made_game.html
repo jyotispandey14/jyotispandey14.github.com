@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Tailor Made Game</title>
+	<title>Tailor Made Game 1</title>
 </head>
 <body bgcolor="#FFC0FF">
 
@@ -87,8 +87,8 @@
 							
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
 								alert("Album "+ response.data[i].name);
-								FB.api('/me/friends/'+response.data[i].id+'/fields=albums' , function(response2) {
-										alert(response2.data.length);
+								FB.api('/'+response.data[i].id+'/fields=albums' , function(response2) {
+										alert(response2);
 		
 								});
 								var friendItem = document.createElement('div');
