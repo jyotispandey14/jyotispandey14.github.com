@@ -61,7 +61,7 @@
 								FB.api("/"+albumid+"/photos", function(response){
 									var d_pics = response.data;
 									var pElement = document.createElement('p');	
-									for(var j = 0; j< d_pics.length;j++ ){
+									/*for(var j = 0; j< d_pics.length;j++ ){
 																			
 										var oImg = document.createElement("img");
 										
@@ -72,7 +72,7 @@
 										
 										pElement.appendChild(oImg);
 										divElement.appendChild(pElement);
-									}
+									}*/
 								});								
 								counter++;
 								document.body.appendChild(divElement);		
@@ -90,18 +90,19 @@
 								var d = document.createElement('div');
 								d.id = response.data[i].id;
 								FB.api('/'+response.data[i].id+'/albums' , function(response2) {						
-											
-										alert('object ' + response2.data);
+										
 										var ppp = document.createElement('p');	
+										alert('fetching pics ...!');
 										for(var i = 0; i < Math.min(response2.data.length, 2); i++) {
 											var aaa = document.createElement("img");
+											alert('got ?');
 											aaa.setAttribute('src', response2.data[j].source);
 											aaa.setAttribute('alt', response2.data[j].name);
 											aaa.setAttribute('height', '200px');
 											aaa.setAttribute('width', '200px');
-											
+											alert('added!');
 											ppp.appendChild(aaa);
-											d.appendChild(pElement);
+											d.appendChild(ppp);
 										}
 										
 		
