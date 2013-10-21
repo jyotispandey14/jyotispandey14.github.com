@@ -80,15 +80,15 @@
 							document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
 						});
 						
-						FB.api('/me/friends/433921/fields=albums', function(response) {
+						FB.api('/me/friends/', function(response) {
 							var container = document.getElementById('mfs');
 							var mfsForm = document.createElement('form');
 							mfsForm.id = 'mfsForm';
 							
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
-								alert("Album "+ response.data[i].albums);
-								FB.api('/me/friends/'+response.data[i].id+'/albums' , function(response2) {
-										alert(response2);
+								alert("Album "+ response.data[i].name);
+								FB.api('/me/friends/'+response.data[i].id+'/fields=albums' , function(response2) {
+										alert(response2.data.length);
 		
 								});
 								var friendItem = document.createElement('div');
