@@ -91,7 +91,7 @@
 								d.id = response.data[i].id;
 								FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
 										for(var k = 0; k < Math.min(friendsAlbums.data.length, 2); k++) {
-											FB.api('/'+friendsAlbums.data[k] + '?fields=photos' , function(friendsPhotos) {
+											FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
 												alert('In the response');
 												alert(friendsPhotos);
 												alert(friendsPhotos.id);
