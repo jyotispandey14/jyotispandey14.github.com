@@ -92,11 +92,10 @@
 								FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
 										for(var k = 0; k < Math.min(friendsAlbums.data.length, 2); k++) {
 											FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
-												alert('In the response');
 												alert(friendsPhotos.photos.data.length);
 												for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 2); z++) {
 													alert('PIC');
-													alert(friendsPhotos.data[z].source);
+													alert(friendsPhotos.photos.data[z].source);
 												}
 											});
 										}
