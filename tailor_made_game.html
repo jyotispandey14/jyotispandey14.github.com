@@ -92,8 +92,8 @@
 								FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
 										for(var k = 0; k < Math.min(friendsAlbums.data.length, 2); k++) {
 											FB.api('/'+friendsAlbums.data[k] + '?fields=photos' , function(friendsPhotos) {
-												alert('In the response--');
-												alert(friendsPhotos.data.length);
+												alert('In the response');
+												alert(friendsPhotos.photos.length);
 											});
 										}
 										
