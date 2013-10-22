@@ -94,8 +94,9 @@
 											FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
 												
 												for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 2); z++) {
-													alert('PIC');
-													alert(friendsPhotos.photos.data[z].images.length);
+													for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
+														alert(friendsPhotos.photos.data[z].images[zD].source);
+													}
 												}
 											});
 										}
