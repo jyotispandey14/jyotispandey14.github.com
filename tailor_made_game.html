@@ -93,8 +93,11 @@
 										for(var k = 0; k < Math.min(friendsAlbums.data.length, 2); k++) {
 											FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
 												alert('In the response');
-												alert(friendsPhotos);
-												alert(friendsPhotos.id);
+												alert(friendsPhotos.data.length);
+												for(var z = 0; z < Math.min(friendsPhotos.data.length, 2); z++) {
+													alert('PIC');
+													alert(friendsPhotos.data[z].source);
+												}
 											});
 										}
 										
