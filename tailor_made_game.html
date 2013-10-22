@@ -89,21 +89,12 @@
 								alert("Album "+ response.data[i].name);
 								var d = document.createElement('div');
 								d.id = response.data[i].id;
-								FB.api('/'+response.data[i].id+'/albums' , function(response2) {						
-										
-										//var ppp = document.createElement('p');
-										for(var i = 0; i < Math.min(response2.data.length, 2); i++) {
-											//var aaa = document.createElement("img");
-											alert('asdfasdf');
-											alert(response2.data[i]);//+ " " + response2.data[j].count);
-											alert(response2.data[i].id);
-											//aaa.setAttribute('src', response2.data[j].source);
-											//aaa.setAttribute('alt', response2.data[j].name);
-											//aaa.setAttribute('height', '200px');
-											//aaa.setAttribute('width', '200px');
-											alert('added!');
-											//ppp.appendChild(aaa);
-											//d.appendChild(ppp);
+								FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
+										for(var k = 0; k < Math.min(friendsAlbums.data.length, 2); k++) {
+											FB.api('/'+friendsAlbums.data[k] + '?fields=photos' , function(friendsPhotos) {
+												alert('In the response--');
+												alert(friendsPhotos.data.length);
+											});
 										}
 										
 		
