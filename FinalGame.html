@@ -51,6 +51,11 @@
 	var count 			= 0,
 		jumpFlag 		= 0;
 	var facebookImages  = [];
+	
+	var friendsImages = [];
+	var myImages = [];
+	var fImagesCount = 0,
+		myImagesCount = 0;
 
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -73,119 +78,128 @@
 	//*****************************FACEBOOK INTEGRATION********************
 	
 	function loadAlbums()
-	{      
-		
-		 FB.init({
-			appId  : '449074668545690',
-			status : true, 
-			cookie : true, 
-			xfbml  : true 
-		});
-		
-		(function(d, s, id){
-			 var js, fjs = d.getElementsByTagName(s)[0];
-			 if (d.getElementById(id)) {return;}
-			 js = d.createElement(s); js.id = id;
-			 js.src = "//connect.facebook.net/en_US/all.js";
-			 fjs.parentNode.insertBefore(js, fjs);
-		 }(document, 'script', 'facebook-jssdk'));
-		
-		FB.login(function(response){
-			
-			if (response.authResponse)
-			{
-			    var counter = 0;
-				
-				//MY ALBUM
-				FB.api('/me/albums', function(response) 
-				{
-					var albumid;
-					var d = response.data;
-					for (var i=0; i<d.length; i++)
-					{
-						albumid = d[i].id;
-						
-						var divElement = document.createElement('div');
-						divElement.id = d[i].name;						
-						
-						//get the photographs 
-						FB.api("/"+albumid+"/photos", function(response){
-							var d_pics = response.data;
-							var pElement = document.createElement('p');	
-							for(var j = 0; j< d_pics.length;j++ ){
-								var pic = new Image();
-								pic.src = d_pics[j].source;
-								facebookImages[j] = pic;
-								var oImg = document.createElement("img");
-								
-								oImg.setAttribute('src', d_pics[j].source);
-								oImg.setAttribute('alt', d_pics[j].name);
-								oImg.setAttribute('height', '200px');
-								oImg.setAttribute('width', '200px');
-								
-								pElement.appendChild(oImg);
-								divElement.appendChild(pElement);
-							}
-						});								
-						counter++;
-						document.body.appendChild(divElement);		
-					} 
-					document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
+            {         
+                 FB.init({
+					appId  : '449074668545690',
+					status : true, 
+					cookie : true, 
+					xfbml  : true 
 				});
 				
-				//FRIENDS ALBUMS
-				FB.api('/me/friends', function(response) {
-					var container = document.getElementById('mfs');
-					var mfsForm = document.createElement('form');
-					mfsForm.id = 'mfsForm';
-					
-					for(var i = 0; i < Math.min(response.data.length, 10); i++) {
-						alert(response.data.length);
+				(function(d, s, id){
+					 var js, fjs = d.getElementsByTagName(s)[0];
+					 if (d.getElementById(id)) {return;}
+					 js = d.createElement(s); js.id = id;
+					 js.src = "//connect.facebook.net/en_US/all.js";
+					 fjs.parentNode.insertBefore(js, fjs);
+				 }(document, 'script', 'facebook-jssdk'));
+				
+				FB.login(function(response)
+					{
+					if (response.authResponse)
+					{
+					   document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
+					   alert(document.getElementById("status").innerHTML);
+						var counter = 0;
 						
-						//**************get images from friend album
-						//FB.api("/me/friends/"+response.data[i]+ "/photos", function(response){
-						FB.api('/fql&q=select src,src_big from photo where aid in(select aid from album where owner=' + contactId + ' and type="profile")',function(response){
-							var d_pics = response.data;
-							alert(d_pics);
-							var pElement = document.createElement('p');	
-							for(var j = 0; j< d_pics.length;j++ ){
-																	
-								var oImg = document.createElement("img");
+						FB.api('/me', function(response) {
+						  alert('Your name is ' + response.name);
+						});
+						
+						FB.api('/me/albums', function(response) 
+						{
+							var albumid;
+							var d = response.data;
+							for (var i=0; i<d.length; i++)
+							{
+								albumid = d[i].id;
 								
-								oImg.setAttribute('src', d_pics[j].source);
-								oImg.setAttribute('alt', d_pics[j].name);
-								oImg.setAttribute('height', '200px');
-								oImg.setAttribute('width', '200px');
+								var divElement = document.createElement('div');
+								divElement.id = d[i].name;						
 								
-								pElement.appendChild(oImg);
-								divElement.appendChild(pElement);
+								//get the photographs 
+								FB.api("/"+albumid+"/photos", function(response){
+									var d_pics = response.data;
+									var pElement = document.createElement('p');	
+									
+									for(var j = 0; j< d_pics.length;j++ ){
+										myImages[myImagesCount] = new Image();
+										myImages[myImagesCount].src = d_pics[j].source;
+										myImagesCount++;	
+										/*
+										var oImg = document.createElement("img");
+										
+										oImg.setAttribute('src', d_pics[j].source);
+										oImg.setAttribute('alt', d_pics[j].name);
+										oImg.setAttribute('height', '200px');
+										oImg.setAttribute('width', '200px');
+										
+										pElement.appendChild(oImg);
+										divElement.appendChild(pElement);*/
+									}
+								});								
+								counter++;
+								document.body.appendChild(divElement);		
+							} 
+							document.getElementById("status").innerHTML = "There are "+ counter +" albums in your Facebook profile";
+						});
+						
+						FB.api('/me/friends/', function(response) {
+							var container = document.getElementById('mfs');
+							var mfsForm = document.createElement('form');
+							mfsForm.id = 'mfsForm';
+							
+							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
+								alert("Album "+ response.data[i].name);
+								var d = document.createElement('div');
+								d.id = response.data[i].id;
+								FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
+										for(var k = 0; k < Math.min(friendsAlbums.data.length, 2); k++) {
+											FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
+												
+												for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 2); z++) {
+													for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
+														friendsImages[fImagesCount] = new Image();
+														friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
+														fImagesCount++;
+														
+														/*var oImg = document.createElement("img");
+														oImg.setAttribute('src', friendsPhotos.photos.data[z].images[zD].source);
+														oImg.setAttribute('alt', 'wer');
+														oImg.setAttribute('height', '200px');
+														oImg.setAttribute('width', '200px');
+														document.body.appendChild(oImg);
+														alert(friendsPhotos.photos.data[z].images[zD].source);*/
+													}
+												}
+											});
+										}
+										
+		
+								});
+								document.body.appendChild(d);	
+								var friendItem = document.createElement('div');
+								friendItem.id = 'friend_' + response.data[i].id;
+								friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
+									+ response.data[i].id
+									+ '" />' + response.data[i].name;
+								
+								mfsForm.appendChild(friendItem);
 							}
-						});	
-						//**************************************						
-						
-						
-						var friendItem = document.createElement('div');
-						friendItem.id = 'friend_' + response.data[i].id;
-						friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
-							+ response.data[i].id
-							+ '" />' + response.data[i].name;
-						alert(response.data[i].name);
-						mfsForm.appendChild(friendItem);
+							container.appendChild(mfsForm);
+
+							var sendButton = document.createElement('input');
+							sendButton.type = 'button';
+							sendButton.value = 'Send Request';
+							sendButton.onclick = sendRequest;
+							mfsForm.appendChild(sendButton);
+					   });
 					}
-					container.appendChild(mfsForm);
+					},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
 
-					var sendButton = document.createElement('input');
-					sendButton.type = 'button';
-					sendButton.value = 'Send Request';
-					sendButton.onclick = sendRequest;
-					mfsForm.appendChild(sendButton);
-			   });
-			}
-			},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
-
-			
-
-	}
+					
+				alert(myImagesCount + ' ' + fImagesCount ) ;
+            }
 
 	//*********************************************************************
 		
@@ -373,25 +387,17 @@
 			segment.looped = segment.index < baseSegment.index;
 
 			//ctx.drawImage(facebookImages[n + 1], width/lanes * 2, 10, 50, 50);
-			ctx.save();
-			ctx.setTransform(1, 0, 0, 1, 1, 5);
+			//ctx.save();
+			//ctx.setTransform(1, 0, 0, 1, 1, 5);
 			//ctx.drawImage(sprites);
-			ctx.restore();
+			//ctx.restore();
 
+			ctx.drawImage(friendsImages[Math.round(Math.rand() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
+			ctx.drawImage(myImages[Math.round(Math.rand() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
 			
-			ctx.drawImage(background, width/lanes/2, 10, 50, 50);
-			ctx.drawImage(background, width/lanes * 2, 10, 50, 50);
-			
-
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
-			/*alert(segment.p1.screen.x + " " + 
-						segment.p1.screen.y  + " " + 
-						segment.p1.screen.w + " " + 
-						segment.p2.screen.x + " " + 
-						segment.p2.screen.y + " " + 
-						segment.p2.screen.w);
-			*/
+			
 			if ((segment.p1.camera.z <= cameraDepth) || segment.p2.screen.y >= horizon)
 					continue;
 			
