@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Tailor Made Game 1q</title>
+	<title>Tailor Made Game</title>
 </head>
 <body bgcolor="#FFC0FF">
 
@@ -10,8 +10,8 @@
 
 	<script type="text/javascript
 	
-			var friendsImages = [];
-			var fImagesCount = 0;
+			//var friendsImages = [];
+			//var fImagesCount = 0;
             var loggedIn = false;        
 
 			
@@ -98,9 +98,7 @@
 												
 												for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 2); z++) {
 													for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
-														//friendsImages[fImagesCount] = new Image();
-														//friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
-														//fImagesCount++;
+														
 														alert(friendsPhotos.photos.data[z].images[zD].source);
 													}
 												}
