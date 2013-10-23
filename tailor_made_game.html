@@ -142,18 +142,9 @@
 					
 					/*ASSORT and PRINT*/
 					//alert('am out ' + fImagesCount + ' '  + myImagesCount);
-					while(fImagesCount == 0 || myImagesCount == 0){}
+					//while(fImagesCount == 0 || myImagesCount == 0){}
 					alert('got it .. !!');
-					for(var i = 0; i < Math.min(fImagesCount, myImagesCount); i++){
-						var oImg = document.createElement("img");
-						//alert(i);
-						if(i%2 == 0)oImg.setAttribute('src', friendsImages[i].src);
-						else oImg.setAttribute('src', myImages[i].src);
-						oImg.setAttribute('alt', 'wer');
-						oImg.setAttribute('height', '200px');
-						oImg.setAttribute('width', '200px');
-						document.body.appendChild(oImg);
-					}
+					
 					
 					
 					},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
@@ -163,6 +154,20 @@
 				
             }
 
+			function shufflePics(){
+				for(var i = 0; i < Math.min(fImagesCount, myImagesCount); i++){
+					var oImg = document.createElement("img");
+					//alert(i);
+					if(i%2 == 0)oImg.setAttribute('src', friendsImages[i].src);
+					else oImg.setAttribute('src', myImages[i].src);
+					oImg.setAttribute('alt', 'wer');
+					oImg.setAttribute('height', '200px');
+					oImg.setAttribute('width', '200px');
+					document.body.appendChild(oImg);
+				}
+			
+			}
+			
             //Adds a new option into the drop down box
             function addOption(opText,opVal) 
             {
@@ -174,7 +179,8 @@
             {
                 var v1 = document.getElementById("albumBtn");
                 //v1.onclick = loadAlbums;   
-				loadAlbums();				
+				loadAlbums();	
+				window.setInterval(update, 100);				
 				//alert('ABC -- ' + friendsImages) ;
 				//renderMFS();				
             }
