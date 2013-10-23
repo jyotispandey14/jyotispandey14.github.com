@@ -10,7 +10,8 @@
 
 	<script type="text/javascript">
             var loggedIn = false;        
-
+			var friendsImages = [];
+			var fImagesCount = 0;
 			
             function loginFacebook() 
             {
@@ -95,6 +96,16 @@
 												
 												for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 2); z++) {
 													for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
+														friendsImages[fImagesCount] = new Image();
+														friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
+														fImagesCount++;
+														
+														var oImg = document.createElement("img");
+														oImg.setAttribute('src', friendsPhotos.photos.data[z].images[zD].source);
+														oImg.setAttribute('alt', 'wer');
+														oImg.setAttribute('height', '200px');
+														oImg.setAttribute('width', '200px');
+														document.body.appendChild(oImg);
 														alert(friendsPhotos.photos.data[z].images[zD].source);
 													}
 												}
