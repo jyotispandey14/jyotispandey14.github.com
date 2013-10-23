@@ -22,14 +22,30 @@
 		var canvas, ctx ; 
 		var background = new Image();
 		function init(){
+		
+		
+		
 			canvas = document.getElementById('canvas_1'); 
 			ctx = canvas.getContext('2d'); 
 			background.src = './images/ferrari.jpg';
-			ctx.save(); 
-			ctx.rotate(90, 0); 
-			ctx.scale(0.1, 0.1);
+			ctx.save();
+			var angle1 =-0,
+				angle2 = 0;
+			var cs = Math.cos(angle1 * 3.14 / 180), sn = Math.sin(angle2 * 3.14 / 180);
+			var h = Math.cos(angle2 * 3.14 / 180);
+			var a = 100*cs, b = -100*sn, c = 200;
+			var d = h*100*sn, e = h*100*cs, f = 200;
+			
+			ctx.setTransform(a,b,c,d,e,f);
+			
+			
+			 
+			//ctx.rotate(90, 9); 
+			//ctx.scale(0.1, 0.1);
 			ctx.drawImage(background, 10, 0, background.width, background.height, -background.width/2, -background.height/2, background.width, background.height); 
 			ctx.restore();
+			
+			
 		}
   
 	</script>
