@@ -469,6 +469,10 @@
 	
 	function init(){
 		loadAlbums();
+		startGame();
+	}
+	
+	function startGame(){
 		background = new Image();
 		sprites = new Image();
 		billboard = new Image();
@@ -484,25 +488,21 @@
 		height = canvas.height;
 		playerZ = (cameraHeight * cameraDepth);
 		resolution = height/480;
-		resetRoad();
+		resetRoad();	
 		
-		var v1 = document.getElementById("PLAY");
-		v1.onclick = startGame;		
-		
-	}
-	
-	function startGame(){
-		window.setInterval(update, 10);
 		window.addEventListener('keydown', whatKey, true);
 	}
   
+	function run(){
+		window.setInterval(update, 10);
+	}
   </script>
   
   <body>
   
   
   <div id="div_1"> 
-  <button id='PLAY' type="button" class='button'>Start</button>
+  <button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
 	
 	<font color="white"><p id='coord'> </p></font>
     <canvas id="canvas_1" class="initialRotation">
