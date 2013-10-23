@@ -1,0 +1,49 @@
+<html>
+<head>
+  <title>Game Testoing</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <style>
+  .initialRotation
+	{
+		width:1500px;
+		height:700px;
+
+		transform: rotate3d(0,1,0,45deg);
+		-moz-transform: rotate3d(0,1,0,45deg);
+		-ms-transform: rotate3d(0,1,0,45deg);
+		-o-transform: rotate3d(0,1,0,45deg);
+		-webkit-transform: rotate3d(0,1,0,45deg);
+	}
+  </style>
+  
+	<script>
+	
+		window.onload = init;
+		var canvas, ctx ; 
+		var background = new Image();
+		function init(){
+			canvas = document.getElementById('canvas_1'); 
+			ctx = canvas.getContext('2d'); 
+			background.src = './images/ferrari.jpg';
+			ctx.save(); 
+			ctx.rotate(90, 0); 
+			ctx.scale(0.1, 0.1);
+			ctx.drawImage(background, 10, 0, background.width, background.height, -background.width/2, -background.height/2, background.width, background.height); 
+			ctx.restore();
+		}
+  
+	</script>
+  
+  <body>
+
+<div id="div_1"> 
+	<font color="white"><p id='coord'> </p></font>
+    <canvas id="canvas_1" class="initialRotation">
+      An error message
+    </canvas>
+	
+  </div>
+  
+   
+  </body>
+</head>
