@@ -17,7 +17,7 @@
 			
             function loginFacebook() 
             {
-                alert("ABC");
+                //alert("ABC");
             }        
 
             function loadAlbums()
@@ -42,12 +42,12 @@
 					if (response.authResponse)
 					{
 					   document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
-					   alert(document.getElementById("status").innerHTML);
+					   //alert(document.getElementById("status").innerHTML);
 						var counter = 0;
 						
-						FB.api('/me', function(response) {
-						  alert('Your name is ' + response.name);
-						});
+						//FB.api('/me', function(response) {
+						  //alert('Your name is ' + response.name);
+						//});
 						
 						FB.api('/me/albums', function(response) 
 						{
@@ -94,7 +94,7 @@
 							mfsForm.id = 'mfsForm';
 							
 							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
-								alert("Album "+ response.data[i].name);
+								//alert("Album "+ response.data[i].name);
 								var d = document.createElement('div');
 								d.id = response.data[i].id;
 								FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
@@ -144,7 +144,7 @@
 					
 					for(var i = 0; i < Math.min(fImagesCount, myImagesCount); i++){
 						var oImg = document.createElement("img");
-						
+						alert(i);
 						if(i%2 == 0)oImg.setAttribute('src', friendsImages[i].src);
 						else oImg.setAttribute('src', myImages[i].src);
 						oImg.setAttribute('alt', 'wer');
@@ -173,7 +173,7 @@
                 var v1 = document.getElementById("albumBtn");
                 //v1.onclick = loadAlbums;   
 				loadAlbums();				
-				alert('ABC -- ' + friendsImages) ;
+				//alert('ABC -- ' + friendsImages) ;
 				//renderMFS();				
             }
 
