@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Tailor Made Game T</title>
+	<title>Tailor Made Game</title>
 </head>
 <body bgcolor="#FFC0FF">
 
@@ -14,6 +14,7 @@
 			var myImages = [];
 			var fImagesCount = 0,
 				myImagesCount = 0;
+			var count = 0;
 			
             function loginFacebook() 
             {
@@ -155,15 +156,18 @@
             }
 
 			function shufflePics(){
-				for(var i = 0; i < Math.min(fImagesCount, myImagesCount); i++){
-					var oImg = document.createElement("img");
-					//alert(i);
-					if(i%2 == 0)oImg.setAttribute('src', friendsImages[i].src);
-					else oImg.setAttribute('src', myImages[i].src);
-					oImg.setAttribute('alt', 'wer');
-					oImg.setAttribute('height', '200px');
-					oImg.setAttribute('width', '200px');
-					document.body.appendChild(oImg);
+				if(count == 0){
+					for(var i = 0; i < Math.min(fImagesCount, myImagesCount) ; i++){
+						var oImg = document.createElement("img");
+						count += 1;
+						//alert(i);
+						if(i%2 == 0)oImg.setAttribute('src', friendsImages[i].src);
+						else oImg.setAttribute('src', myImages[i].src);
+						oImg.setAttribute('alt', 'wer');
+						oImg.setAttribute('height', '200px');
+						oImg.setAttribute('width', '200px');
+						document.body.appendChild(oImg);
+					}
 				}
 			
 			}
@@ -180,7 +184,7 @@
                 var v1 = document.getElementById("albumBtn");
                 //v1.onclick = loadAlbums;   
 				loadAlbums();	
-				window.setInterval(shufflePics, 1000);				
+				window.setInterval(shufflePics, 100000);				
 				//alert('ABC -- ' + friendsImages) ;
 				//renderMFS();				
             }
