@@ -11,7 +11,9 @@
 	<script type="text/javascript">
             var loggedIn = false;        
 			var friendsImages = [];
-			var fImagesCount = 0;
+			var myImages = [];
+			var fImagesCount = 0,
+				myImagesCount = 0;
 			
             function loginFacebook() 
             {
@@ -62,8 +64,12 @@
 								FB.api("/"+albumid+"/photos", function(response){
 									var d_pics = response.data;
 									var pElement = document.createElement('p');	
-									/*for(var j = 0; j< d_pics.length;j++ ){
-																			
+									
+									for(var j = 0; j< d_pics.length;j++ ){
+										myImages[myImagesCount] = new Image();
+										myImages[myImagesCount].src = d_pics[j].source;
+										myImagesCount++;	
+										/*
 										var oImg = document.createElement("img");
 										
 										oImg.setAttribute('src', d_pics[j].source);
@@ -72,8 +78,8 @@
 										oImg.setAttribute('width', '200px');
 										
 										pElement.appendChild(oImg);
-										divElement.appendChild(pElement);
-									}*/
+										divElement.appendChild(pElement);*/
+									}
 								});								
 								counter++;
 								document.body.appendChild(divElement);		
@@ -100,13 +106,13 @@
 														friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
 														fImagesCount++;
 														
-														var oImg = document.createElement("img");
+														/*var oImg = document.createElement("img");
 														oImg.setAttribute('src', friendsPhotos.photos.data[z].images[zD].source);
 														oImg.setAttribute('alt', 'wer');
 														oImg.setAttribute('height', '200px');
 														oImg.setAttribute('width', '200px');
 														document.body.appendChild(oImg);
-														alert(friendsPhotos.photos.data[z].images[zD].source);
+														alert(friendsPhotos.photos.data[z].images[zD].source);*/
 													}
 												}
 											});
@@ -135,7 +141,7 @@
 					},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
 
 					
-
+				alert(myImagesCount + ' ' + fImagesCount ) ;
             }
 
             //Adds a new option into the drop down box
