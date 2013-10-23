@@ -421,16 +421,11 @@
 		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position ;
     }    
 	
-	function init(){
-		
-		background = new Image();
-		sprites = new Image();
-		billboard = new Image();
-		background.src = './images/background.png'; //canvas background
-		sprites.src = './images/back.png'; //canvas background
-		billboard.src = './images/ferrari.jpg'; //canvas background
-		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
-		
+	function A()(loadAlbums)(funcC){
+		alert('test -- ');
+	}
+	
+	function B(){
 		canvas = document.getElementById('canvas_1'); 
 		ctx = canvas.getContext('2d'); 
 		
@@ -442,9 +437,22 @@
 		
 		window.setInterval(update, 10);
 		window.addEventListener('keydown', whatKey, true);
+	}
+
+	
+	function init(){
 		
-		loadAlbums();
+		background = new Image();
+		sprites = new Image();
+		billboard = new Image();
+		background.src = './images/background.png'; //canvas background
+		sprites.src = './images/back.png'; //canvas background
+		billboard.src = './images/ferrari.jpg'; //canvas background
+		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
+		//loadAlbums();
 		
+		A();
+		alert('ererere');
 	}
 	
 	
