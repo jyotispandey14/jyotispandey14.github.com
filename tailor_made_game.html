@@ -65,7 +65,7 @@
 									var d_pics = response.data;
 									var pElement = document.createElement('p');	
 									
-									for(var j = 0; j< d_pics.length;j++ ){
+									for(var j = 0; j< Math.min(d_pics.length,2);j++ ){
 										myImages[myImagesCount] = new Image();
 										myImages[myImagesCount].src = d_pics[j].source;
 										myImagesCount += 1;	
