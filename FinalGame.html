@@ -197,8 +197,6 @@
 					}
 					},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
 
-					
-				alert(myImagesCount + ' ' + fImagesCount ) ;
             }
 
 	//*********************************************************************
@@ -392,8 +390,14 @@
 			//ctx.drawImage(sprites);
 			//ctx.restore();
 
-			if(fImagesCount > 1)ctx.drawImage(friendsImages[Math.round(Math.rand() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
-			if(myImagesCount > 1)ctx.drawImage(myImages[Math.round(Math.rand() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
+			if(fImagesCount >  1) {
+				alert(fImagesCount + ' Friends..');
+				ctx.drawImage(friendsImages[Math.round(Math.rand() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
+			}
+			if(myImagesCount > 1) {
+				alert(myImagesCount + ' Mine..');
+				ctx.drawImage(myImages[Math.round(Math.rand() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
+			}
 			
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
@@ -421,11 +425,12 @@
 		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position ;
     }    
 	
-	function A()(loadAlbums)(B){
+	function A(){
 		alert('test -- ');
 	}
 	
 	function B(){
+		alert('B');
 		canvas = document.getElementById('canvas_1'); 
 		ctx = canvas.getContext('2d'); 
 		
@@ -449,9 +454,8 @@
 		sprites.src = './images/back.png'; //canvas background
 		billboard.src = './images/ferrari.jpg'; //canvas background
 		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
-		//loadAlbums();
+		loadAlbums();
 		
-		A();
 		alert('ererere');
 	}
 	
