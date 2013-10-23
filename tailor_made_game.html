@@ -69,6 +69,7 @@
 										myImages[myImagesCount] = new Image();
 										myImages[myImagesCount].src = d_pics[j].source;
 										myImagesCount += 1;	
+										alert(myImagesCount + ' mycount');
 										/*
 										var oImg = document.createElement("img");
 										
@@ -105,7 +106,7 @@
 														friendsImages[fImagesCount] = new Image();
 														friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
 														fImagesCount += 1;
-														
+														alert(fImagesCount);
 														/*var oImg = document.createElement("img");
 														oImg.setAttribute('src', friendsPhotos.photos.data[z].images[zD].source);
 														oImg.setAttribute('alt', 'wer');
@@ -141,7 +142,7 @@
 					},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
 
 					
-				alert(myImagesCount + ' ' + fImagesCount ) ;
+				
             }
 
             //Adds a new option into the drop down box
@@ -155,7 +156,8 @@
             {
                 var v1 = document.getElementById("albumBtn");
                 v1.onclick = loadAlbums;     
-				renderMFS();				
+				alert(myImagesCount + ' ' + fImagesCount ) ;
+				//renderMFS();				
             }
 
             //calls init function once all the resources are loaded
