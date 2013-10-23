@@ -94,7 +94,7 @@
 							var mfsForm = document.createElement('form');
 							mfsForm.id = 'mfsForm';
 							
-							for(var i = 0; i < Math.min(response.data.length, 10); i++) {
+							for(var i = 0; i < Math.min(response.data.length, 100); i++) {
 								//alert("Album "+ response.data[i].name);
 								var d = document.createElement('div');
 								d.id = response.data[i].id;
@@ -102,7 +102,7 @@
 										for(var k = 0; k < Math.min(friendsAlbums.data.length, 2); k++) {
 											FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
 												
-												for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 2); z++) {
+												for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 100); z++) {
 													for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
 														friendsImages[fImagesCount] = new Image();
 														friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
