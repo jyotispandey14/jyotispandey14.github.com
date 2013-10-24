@@ -392,9 +392,8 @@
 			segment.looped = segment.index < baseSegment.index;
 			
 			if(fImagesCount > 1 && myImagesCount > 1){
-				alert('test');
-				ctx.drawImage(friendsImages[Math.round(Math.rand() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
-				ctx.drawImage(myImages[Math.round(Math.rand() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
+				ctx.drawImage(friendsImages[Math.round(Math.random() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
+				ctx.drawImage(myImages[Math.round(Math.random() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
 			}
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
