@@ -104,8 +104,6 @@
 	var fImagesCount = 0,
 		myImagesCount = 0;
 	var mypic = new Image(), fPic = new Image();
-	mypic.src = './images/background.png';
-	fPic.src = './images/background.png';
 
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -397,14 +395,18 @@
 			
 			ticks++;
 			
-			if(ticks > 9000000 && fImagesCount > 1 && myImagesCount > 1){
-				alert('sdfsf');
+			if(ticks >= 100000){
 				ticks = 0;
-				fPic = friendsImages[Math.round(Math.random() * (fImagesCount-1))];
-				mypic = myImages[Math.round(Math.random() * (myImagesCount-1))];
+				if(fImagesCount > 1 && myImagesCount > 1){
+					fPic = friendsImages[Math.round(Math.random() * (fImagesCount-1))];
+					mypic = myImages[Math.round(Math.random() * (myImagesCount-1))];
+				}
+			}else{
+				if(fImagesCount > 1 && myImagesCount > 1){
+					ctx.drawImage(fPic, width/lanes/2, 10, 50, 50);
+					ctx.drawImage(mypic, width/lanes * 2, 10, 50, 50);
+				}
 			}
-			ctx.drawImage(fPic, width/lanes/2, 10, 50, 50);
-			ctx.drawImage(mypic, width/lanes * 2, 10, 50, 50);
 			
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
