@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Facebook GAME!</title>
+  <title>Facebook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -207,7 +207,7 @@
 	//*********************************************************************
 		
 	function shufflePics(){
-		if(count == 0){
+		if(count == 0 && (fImagesCount > 50 && myImagesCount > 50 )){
 			for(var i = 0; i < Math.min(fImagesCount, myImagesCount) ; i++){
 				var oImg = document.createElement("img");
 				count += 1;
@@ -376,7 +376,6 @@
 	
 	function renderBillBoard(ctx, billboard, posX, posY){
 		ctx.drawImage(billboard, posX, posY);
-		alert('asdf');
 	}
 	
 	function render() {
@@ -392,8 +391,8 @@
 			segment = segments[(baseSegment.index + n) % segments.length];
 			segment.looped = segment.index < baseSegment.index;
 
-			if(fImagesCount > 1)ctx.drawImage(friendsImages[Math.round(Math.rand() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
-			if(fImagesCount > 1)ctx.drawImage(myImages[Math.round(Math.rand() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
+			//if(fImagesCount > 1)ctx.drawImage(friendsImages[Math.round(Math.rand() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
+			//if(fImagesCount > 1)ctx.drawImage(myImages[Math.round(Math.rand() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
 			
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
