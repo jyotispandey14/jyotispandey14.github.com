@@ -395,16 +395,12 @@
 			
 			ticks++;
 			
-			if(ticks >= 100000){
+			if(ticks > 100000){
 				ticks = 0;
-				if(fImagesCount > 1 && myImagesCount > 1){
-					fPic = friendsImages[Math.round(Math.random() * (fImagesCount-1))];
-					mypic = myImages[Math.round(Math.random() * (myImagesCount-1))];
-				}
 			}else{
 				if(fImagesCount > 1 && myImagesCount > 1){
-					ctx.drawImage(fPic, width/lanes/2, 10, 50, 50);
-					ctx.drawImage(mypic, width/lanes * 2, 10, 50, 50);
+					ctx.drawImage(friendsImages[Math.round(Math.random() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
+					ctx.drawImage(myImages[Math.round(Math.random() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
 				}
 			}
 			
