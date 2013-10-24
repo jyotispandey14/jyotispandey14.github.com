@@ -104,6 +104,8 @@
 	var fImagesCount = 0,
 		myImagesCount = 0;
 	var mypic = new Image(), fPic = new Image();
+	mypic.src = './images/background.png';
+	fPic.src = './images/background.png';
 
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -395,7 +397,7 @@
 			
 			ticks++;
 			
-			if(ticks == 9000000 && fImagesCount > 1 && myImagesCount > 1){
+			if(ticks > 9000000 && fImagesCount > 1 && myImagesCount > 1){
 				alert('sdfsf');
 				ticks = 0;
 				fPic = friendsImages[Math.round(Math.random() * (fImagesCount-1))];
