@@ -96,12 +96,14 @@
 		dt 				= 0.08;
 	var count 			= 0,
 		jumpFlag 		= 0;
+	var ticks 			= 0;
 	var facebookImages  = [];
 	
 	var friendsImages = [];
 	var myImages = [];
 	var fImagesCount = 0,
 		myImagesCount = 0;
+	var mypic = new Image(), fPic = new Image();
 
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -391,10 +393,16 @@
 			segment = segments[(baseSegment.index + n) % segments.length];
 			segment.looped = segment.index < baseSegment.index;
 			
-			if(segment.index == 1 && fImagesCount > 1 && myImagesCount > 1){
-				ctx.drawImage(friendsImages[Math.round(Math.random() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
-				ctx.drawImage(myImages[Math.round(Math.random() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
+			ticks++;
+			
+			if(fImagesCount > 1 && myImagesCount > 1 && ticks == 1000){
+				ticks = 0;
+				fPic = friendsImages[Math.round(Math.random() * (fImagesCount-1))];
+				mypic = myImages[Math.round(Math.random() * (myImagesCount-1))];
 			}
+			ctx.drawImage(fPic, width/lanes/2, 10, 50, 50);
+			ctx.drawImage(mypic, width/lanes * 2, 10, 50, 50);
+			
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			
