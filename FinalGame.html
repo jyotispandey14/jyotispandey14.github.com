@@ -390,7 +390,7 @@
 			
 			segment = segments[(baseSegment.index + n) % segments.length];
 			segment.looped = segment.index < baseSegment.index;
-
+			alert(count);
 			if(count == 1){
 				alert('test');
 				ctx.drawImage(friendsImages[Math.round(Math.rand() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
