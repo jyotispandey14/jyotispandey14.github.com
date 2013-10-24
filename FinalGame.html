@@ -395,7 +395,7 @@
 			
 			ticks++;
 			
-			if(fImagesCount > 1 && myImagesCount > 1 && ticks == 100000){
+			if(ticks == 9000000 && fImagesCount > 1 && myImagesCount > 1){
 				ticks = 0;
 				fPic = friendsImages[Math.round(Math.random() * (fImagesCount-1))];
 				mypic = myImages[Math.round(Math.random() * (myImagesCount-1))];
