@@ -449,9 +449,17 @@
 		return a + (b - a) * percent ;
 	}
 	
+	function wait() {
+		if ( myImagesCount > 50 && friendsImages > 20 ) {
+			startGame();
+		} else {
+			setTimeout( wait, 5000 );
+		}
+	}
+	
 	function init(){
-		loadAlbums();
-		startGame();
+		loadAlbums();	
+		wait();
 	}
 	
 	function startGame(){
