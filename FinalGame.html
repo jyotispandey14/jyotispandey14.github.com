@@ -294,7 +294,7 @@
 			   color: Math.round(n/rumbleLength)%2 ? COLORS.DARK : COLORS.LIGHT
 			});
 			if(n % 50==0){
-				addSprite(n, pole, 0.0);
+				//addSprite(n, pole, 0.0);
 				//addSprite(n, background, 0.0);
 				//addSprite(n, pole, 0.0);
 				addSprite(n, myImages[Math.round(Math.random() * (myImagesCount-1))], 0.0);
@@ -432,7 +432,7 @@
 	
 	function wait() {
 		
-		if ( myImagesCount > 50 && fImagesCount > 20 ) {
+		if ( myImagesCount > 10 && fImagesCount > 10 ) {
 			if(timeout != null)
 				clearTimeout(timeout);
 			startGame();
