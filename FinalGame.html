@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Check your facebook aptitude</title>
+  <title>Play</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -390,14 +390,14 @@
 			segment.looped = segment.index < baseSegment.index;
 			segment.clip = horizon;
 			ticks++;
-			if(ticks > 100000){
+			/*if(ticks > 100000){
 				ticks = 0;
 			}else{
 				if(fImagesCount > 1 && myImagesCount > 1){
 					ctx.drawImage(friendsImages[Math.round(Math.random() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
 					ctx.drawImage(myImages[Math.round(Math.random() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
 				}
-			}
+			}*/
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			if ((segment.p1.camera.z <= cameraDepth) || segment.p2.screen.y >= horizon)
@@ -430,8 +430,8 @@
 				ctx.drawImage(pole, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 				ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 
-				ctx.drawImage(myImages[i % myImagesCount], segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
-				ctx.drawImage(myImages[(i + 1) % myImagesCount], segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				ctx.drawImage(myImages[Math.round(Math.random() * (myImagesCount-1))], segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				//ctx.drawImage(myImages[(i + 1) % myImagesCount], segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 				
 			}
 			
