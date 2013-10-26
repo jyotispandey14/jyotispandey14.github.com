@@ -88,17 +88,18 @@
 		trackLength 	= null; 
 	var background 		= null,
 		sprites 		= null,
-		billboard		= null;
+		billboard		= null,
+		pole 			= null;
 	var playerX 		= 0,
 		playerZ 		= null,
 		playerY 		= 50; 
     var speed 			= 10,
-		dt 				= 0.08;
+		dt 				= 0.02;
 	var count 			= 0,
 		jumpFlag 		= 0;
 	var ticks 			= 0;
 	var facebookImages  = [];
-	
+	var playerSegment	= null;
 	var friendsImages = [];
 	var myImages = [];
 	var fImagesCount = 0,
@@ -234,7 +235,8 @@
 	}	
 		
 	function update() {
-		position = increase(position, speed * dt, trackLength);					   
+		position = increase(position, speed * dt, trackLength);	
+		playerSegment = findSegment(position+playerZ);		
 		shufflePics();
 		if(jumpFlag == 1 && playerY < 50 && playerY >= 0 ){
 			playerY = playerY - 100 * step;
@@ -305,21 +307,15 @@
 			   index: n,
 			   p1: { world: { z: n *segmentLength }, camera: {}, screen: {} },
 			   p2: { world: { z: (n+1)*segmentLength }, camera: {}, screen: {} },
+			   billboards: [],
 			   color: Math.round(n/rumbleLength)%2 ? COLORS.DARK : COLORS.LIGHT
 			});
-			
-			billboards.push({
-			   index: n,
-			   p1: { world: { x: 100, y : 40, z: 0 }, camera: {}, screen: {} },
-			   p2: { world: { x: 100, y : 10, z: 0}, camera: {}, screen: {} },
-			});
+			addSprite(n, pole, 0.0);
 		}
-
 		segments[findSegment(playerZ).index + 2].color = COLORS.START;
 		segments[findSegment(playerZ).index + 3].color = COLORS.FINISH;
 		for(var n = 0 ; n < rumbleLength ; n++)
 			segments[segments.length-1-n].color = COLORS.START;
-	
 		trackLength = segments.length * segmentLength;
     }
 	
@@ -389,12 +385,10 @@
 		backgroundRender(ctx, background, width, height, BACKGROUND.TREES);		
 		
 		for(var n = 0 ; n < drawDistance ; n++) {
-			
 			segment = segments[(baseSegment.index + n) % segments.length];
 			segment.looped = segment.index < baseSegment.index;
-			
+			segment.clip = horizon;
 			ticks++;
-			
 			if(ticks > 100000){
 				ticks = 0;
 			}else{
@@ -403,13 +397,10 @@
 					ctx.drawImage(myImages[Math.round(Math.random() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
 				}
 			}
-			
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
-			
 			if ((segment.p1.camera.z <= cameraDepth) || segment.p2.screen.y >= horizon)
 					continue;
-			
 			segmentFunc(ctx, width, lanes,
 						segment.p1.screen.x,
 						segment.p1.screen.y,
@@ -418,17 +409,68 @@
 						segment.p2.screen.y,
 						segment.p2.screen.w,
 						segment.color);
-			
-			
 			horizon = segment.p2.screen.y;
-			
-		
 		}
-		//draw the player now		
-		ctx.drawImage(sprites, playerX, playerY);
 		
+		for(n = (drawDistance-1) ; n > 0 ; n--) {
+			segment = segments[(baseSegment.index + n) % segments.length];
+			
+			if(n % 10 == 0)continue;
+
+			for(i = 0 ; i < segment.billboards.length ; i++) {
+				sprite1 = segment.billboards[i];
+				sprite1.x =    5;
+				sprite1.y =    5;
+				sprite1.w =  215;
+				sprite1.h =  540;
+				spriteScale = segment.p1.screen.scale ;
+				spriteX = segment.p1.screen.x + (spriteScale * sprite1.offset * roadWidth * width/2);
+				spriteY = segment.p1.screen.y;
+				//drawSprite(ctx, width, height, resolution, roadWidth, pole, sprite1, spriteScale, spriteX, spriteY, (sprite1.offset < 0 ? -1 : 0), -1, segment.clip);
+				
+				var offsetX = sprite1.offset < 0 ? -1 : 0;
+				var offsetY = -1;
+				var destW = (sprite1.w * spriteScale * width/2) * (0.3 * roadWidth);
+				var destH = (sprite1.h * spriteScale * width/2) * (0.3 * roadWidth);
+				destX = spriteX + (destW * (offsetX || 0));
+				destY = spriteY + (destH * (offsetY || 0));
+				var clipH = segment.clip ? Math.max(0, spriteY + destH - segment.clip) : 0;
+				//if (clipH < destH)
+					//ctx.drawImage(pole, destX, destY, pole.width, pole.height );
+				spriteScale = spriteScale * 1000;
+				ctx.drawImage(pole, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				
+				ctx.drawImage(billboard, segment.p1.screen.x + segment.p1.screen.w - spriteScale , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				ctx.drawImage(billboard, segment.p1.screen.x - segment.p1.screen.w + spriteScale , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				
+			}
+			
+			if(segment == playerSegment)
+				ctx.drawImage(sprites, playerX, playerY);
+		}
 		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position ;
     }    
+	
+	function addSprite(n, sprite, offset) {
+		segments[n].billboards.push({ source: pole.src, offset: offset });
+    }
+	
+	function drawSprite(ctx, width, height, resolution, roadWidth, pole, sprite1, scale, destX, destY, offsetX, offsetY, clipY) {
+		var destW = (sprite1.w * scale * width/2) * (0.3 * roadWidth);
+		var destH = (sprite1.h * scale * width/2) * (0.3 * roadWidth);
+		destX = destX + (destW * (offsetX || 0));
+		destY = destY + (destH * (offsetY || 0));
+		//var clipH = clipY ? Math.max(0, destY+destH-clipY) : 0;
+		//if (clipH < destH)
+			//ctx.drawImage(pole, destX, destY, pole.width, pole.height );
+		ctx.drawImage(billboard);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX, destY, destW, destH - clipH);
+		alert('sdf');
+	}
+	
+	function interpolate(a,b,percent){ 
+		return a + (b - a) * percent ;
+	}
 	
 	function init(){
 		loadAlbums();
@@ -439,9 +481,11 @@
 		background = new Image();
 		sprites = new Image();
 		billboard = new Image();
+		pole = new Image();
 		background.src = './images/background.png'; //canvas background
 		sprites.src = './images/back.png'; //canvas background
 		billboard.src = './images/ferrari.jpg'; //canvas background
+		pole.src = './images/pole.png';
 		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
 		
 		canvas = document.getElementById('canvas_1'); 
