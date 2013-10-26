@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Play</title>
+  <title>Play it!</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -153,10 +153,7 @@
 					var d = response.data;
 					for (var i=0; i<d.length; i++)
 					{
-						albumid = d[i].id;
-						
-						//get the photographs 
-						FB.api("/"+albumid+"/photos", function(response){
+						FB.api("/"+d[i].id+"/photos", function(response){
 							var d_pics = response.data;
 							for(var j = 0; j< d_pics.length;j++ ){
 								myImages[myImagesCount] = new Image();
@@ -168,18 +165,12 @@
 				});
 				
 				FB.api('/me/friends/', function(response) {
-					var container = document.getElementById('mfs');
-					var mfsForm = document.createElement('form');
-					mfsForm.id = 'mfsForm';
 					
 					for(var i = 0; i < Math.min(response.data.length, 100); i++) {
-						var d = document.createElement('div');
-						d.id = response.data[i].id;
 						
 						FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
-								for(var k = 0; k < Math.min(friendsAlbums.data.length, 2); k++) {
-									FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
-										
+								for(var k = 0; k < Math.min(friendsAlbums.data.length, 10); k++) {
+									FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {										
 										for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 100); z++) {
 											for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
 												friendsImages[fImagesCount] = new Image();
@@ -189,19 +180,9 @@
 										}
 									});
 								}
-								
-
 						});
-						document.body.appendChild(d);	
-						var friendItem = document.createElement('div');
-						friendItem.id = 'friend_' + response.data[i].id;
-						friendItem.innerHTML = '<input type="checkbox" name="friends" value="'
-							+ response.data[i].id
-							+ '" />' + response.data[i].name;
 						
-						mfsForm.appendChild(friendItem);
 					}
-					container.appendChild(mfsForm);
 			   });
 			}
 			},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
@@ -389,15 +370,7 @@
 			segment = segments[(baseSegment.index + n) % segments.length];
 			segment.looped = segment.index < baseSegment.index;
 			segment.clip = horizon;
-			ticks++;
-			/*if(ticks > 100000){
-				ticks = 0;
-			}else{
-				if(fImagesCount > 1 && myImagesCount > 1){
-					ctx.drawImage(friendsImages[Math.round(Math.random() * (fImagesCount-1))], width/lanes/2, 10, 50, 50);
-					ctx.drawImage(myImages[Math.round(Math.random() * (myImagesCount-1))], width/lanes * 2, 10, 50, 50);
-				}
-			}*/
+			
 			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
 			if ((segment.p1.camera.z <= cameraDepth) || segment.p2.screen.y >= horizon)
