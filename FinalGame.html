@@ -310,7 +310,7 @@
 			   billboards: [],
 			   color: Math.round(n/rumbleLength)%2 ? COLORS.DARK : COLORS.LIGHT
 			});
-			addSprite(n, pole, 0.0);
+			if(n % 50==0)addSprite(n, pole, 0.0);
 		}
 		segments[findSegment(playerZ).index + 2].color = COLORS.START;
 		segments[findSegment(playerZ).index + 3].color = COLORS.FINISH;
@@ -415,8 +415,6 @@
 		for(n = (drawDistance-1) ; n > 0 ; n--) {
 			segment = segments[(baseSegment.index + n) % segments.length];
 			
-			if(n % 10 == 0)continue;
-
 			for(i = 0 ; i < segment.billboards.length ; i++) {
 				sprite1 = segment.billboards[i];
 				sprite1.x =    5;
@@ -426,17 +424,7 @@
 				spriteScale = segment.p1.screen.scale ;
 				spriteX = segment.p1.screen.x + (spriteScale * sprite1.offset * roadWidth * width/2);
 				spriteY = segment.p1.screen.y;
-				//drawSprite(ctx, width, height, resolution, roadWidth, pole, sprite1, spriteScale, spriteX, spriteY, (sprite1.offset < 0 ? -1 : 0), -1, segment.clip);
 				
-				var offsetX = sprite1.offset < 0 ? -1 : 0;
-				var offsetY = -1;
-				var destW = (sprite1.w * spriteScale * width/2) * (0.3 * roadWidth);
-				var destH = (sprite1.h * spriteScale * width/2) * (0.3 * roadWidth);
-				destX = spriteX + (destW * (offsetX || 0));
-				destY = spriteY + (destH * (offsetY || 0));
-				var clipH = segment.clip ? Math.max(0, spriteY + destH - segment.clip) : 0;
-				//if (clipH < destH)
-					//ctx.drawImage(pole, destX, destY, pole.width, pole.height );
 				spriteScale = spriteScale * 1000;
 				ctx.drawImage(pole, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 				ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
