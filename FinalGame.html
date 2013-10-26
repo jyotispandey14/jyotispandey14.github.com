@@ -292,7 +292,14 @@
 			   billboards: [],
 			   color: Math.round(n/rumbleLength)%2 ? COLORS.DARK : COLORS.LIGHT
 			});
-			if(n % 50==0)addSprite(n, pole, 0.0);
+			if(n % 50==0){
+				addSprite(n, pole, 0.0);
+				//addSprite(n, background, 0.0);
+				//addSprite(n, pole, 0.0);
+				addSprite(n, myImages[Math.round(Math.random() * (myImagesCount-1))], 0.0);
+				addSprite(n, friendsImages[Math.round(Math.random() * (fImagesCount-1))], 0.0);
+				}
+			
 		}
 		segments[findSegment(playerZ).index + 2].color = COLORS.START;
 		segments[findSegment(playerZ).index + 3].color = COLORS.FINISH;
@@ -403,8 +410,8 @@
 				ctx.drawImage(pole, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 				ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 
-				ctx.drawImage(myImages[Math.round(Math.random() * (myImagesCount-1))], segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
-				//ctx.drawImage(myImages[(i + 1) % myImagesCount], segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				if(i % 2 == 0)ctx.drawImage(sprite1.source, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				else ctx.drawImage(sprite1.source, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 				
 			}
 			
@@ -415,7 +422,7 @@
     }    
 	
 	function addSprite(n, sprite, offset) {
-		segments[n].billboards.push({ source: pole.src, offset: offset });
+		segments[n].billboards.push({ source: sprite, offset: offset });
     }
 	
 	function interpolate(a,b,percent){ 
