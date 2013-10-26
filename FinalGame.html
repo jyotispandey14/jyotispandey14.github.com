@@ -105,6 +105,7 @@
 	var fImagesCount = 0,
 		myImagesCount = 0;
 	var mypic = new Image(), fPic = new Image();
+	var timeout = null;
 
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -218,7 +219,7 @@
 	function update() {
 		position = increase(position, speed * dt, trackLength);	
 		playerSegment = findSegment(position+playerZ);		
-		shufflePics();
+		//shufflePics();
 		if(jumpFlag == 1 && playerY < 50 && playerY >= 0 ){
 			playerY = playerY - 100 * step;
 			if(playerY <= 0) jumpFlag = 0;
@@ -430,10 +431,13 @@
 	}
 	
 	function wait() {
+		
 		if ( myImagesCount > 50 && fImagesCount > 20 ) {
+			if(timeout != null)
+				clearTimeout(timeout);
 			startGame();
 		} else {
-			setTimeout( wait, 5000 );
+			timeout = setTimeout( wait, 5000 );
 		}
 	}
 	
