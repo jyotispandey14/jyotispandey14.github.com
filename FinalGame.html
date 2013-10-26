@@ -5,8 +5,8 @@
   <style>
   .initialRotation
 	{
-		width:1500px;
-		height:700px;
+		width:1000px;
+		height:500px;
 
 		transform: rotate3d(0,1,0,45deg);
 		-moz-transform: rotate3d(0,1,0,45deg);
@@ -94,7 +94,7 @@
 		playerZ 		= null,
 		playerY 		= 50; 
     var speed 			= 10,
-		dt 				= 0.02;
+		dt 				= 0.08;
 	var count 			= 0,
 		jumpFlag 		= 0;
 	var ticks 			= 0;
@@ -240,7 +240,7 @@
 		shufflePics();
 		if(jumpFlag == 1 && playerY < 50 && playerY >= 0 ){
 			playerY = playerY - 100 * step;
-			if(playerY < 10) jumpFlag = 0;
+			if(playerY <= 0) jumpFlag = 0;
 		}			
 		if(jumpFlag == 0 && playerY < 50){
 			playerY = playerY + 100 * step;
@@ -268,9 +268,10 @@
         }	
 
 		if (evt.keyCode == 32){
-		  if(jumpFlag == 0)
-			playerY = playerY - 100 * step;
-			jumpFlag = 1;
+			if(jumpFlag == 0){
+				playerY = playerY - 100 * step;
+				jumpFlag = 1;
+			}
         }	
        render();
       }
@@ -425,12 +426,12 @@
 				spriteX = segment.p1.screen.x + (spriteScale * sprite1.offset * roadWidth * width/2);
 				spriteY = segment.p1.screen.y;
 				
-				spriteScale = spriteScale * 1000;
+				spriteScale = spriteScale * 2000;
 				ctx.drawImage(pole, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 				ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
-				
-				ctx.drawImage(billboard, segment.p1.screen.x + segment.p1.screen.w - spriteScale , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
-				ctx.drawImage(billboard, segment.p1.screen.x - segment.p1.screen.w + spriteScale , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+
+				ctx.drawImage(myImages[i % myImagesCount], segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				ctx.drawImage(myImages[(i + 1) % myImagesCount], segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 				
 			}
 			
@@ -443,18 +444,6 @@
 	function addSprite(n, sprite, offset) {
 		segments[n].billboards.push({ source: pole.src, offset: offset });
     }
-	
-	function drawSprite(ctx, width, height, resolution, roadWidth, pole, sprite1, scale, destX, destY, offsetX, offsetY, clipY) {
-		var destW = (sprite1.w * scale * width/2) * (0.3 * roadWidth);
-		var destH = (sprite1.h * scale * width/2) * (0.3 * roadWidth);
-		destX = destX + (destW * (offsetX || 0));
-		destY = destY + (destH * (offsetY || 0));
-		//var clipH = clipY ? Math.max(0, destY+destH-clipY) : 0;
-		//if (clipH < destH)
-			//ctx.drawImage(pole, destX, destY, pole.width, pole.height );
-		ctx.drawImage(billboard);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX, destY, destW, destH - clipH);
-		alert('sdf');
-	}
 	
 	function interpolate(a,b,percent){ 
 		return a + (b - a) * percent ;
