@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Play Changed</title>
+  <title>Facebook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -298,7 +298,8 @@
 				
 				//addSprite(n, background, 0.0);
 				//addSprite(n, billboard, 0.0);
-				if(shufflePics % 5 == 0){
+				shufflePics = (shufflePics + 1) % 4;
+				if(shufflePics % 2 == 0){
 					addSprite(n, myImages[Math.floor(Math.random() * (myImagesCount-1))], 0.0);
 					addSprite(n, friendsImages[Math.floor(Math.random() * (fImagesCount-1))], 0.0);
 				}else{
