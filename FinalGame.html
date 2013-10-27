@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Play</title>
+  <title>Play Changed</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -106,6 +106,7 @@
 		myImagesCount = 0;
 	var mypic = new Image(), fPic = new Image();
 	var timeout = null;
+	var SCORE = 100;
 
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -294,9 +295,9 @@
 			   color: Math.round(n/rumbleLength)%2 ? COLORS.DARK : COLORS.LIGHT
 			});
 			if(n % 50==0){
-				//addSprite(n, pole, 0.0);
+				
 				//addSprite(n, background, 0.0);
-				//addSprite(n, pole, 0.0);
+				//addSprite(n, billboard, 0.0);
 				addSprite(n, myImages[Math.round(Math.random() * (myImagesCount-1))], 0.0);
 				addSprite(n, friendsImages[Math.round(Math.random() * (fImagesCount-1))], 0.0);
 				}
@@ -410,15 +411,19 @@
 				spriteScale = spriteScale * 2000;
 				ctx.drawImage(pole, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 				ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
-
-				//spriteScale = spriteScale * 2500;
-				if(i % 2 == 0)ctx.drawImage(sprite1.source, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale , spriteScale );//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
-				else ctx.drawImage(sprite1.source, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - 2 * spriteScale, spriteScale , spriteScale );//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
 				
+				if(i % 2 == 0)ctx.drawImage(sprite1.source, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - 10 * spriteScale, spriteScale * 10 , spriteScale * 10 );//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				else ctx.drawImage(sprite1.source, segment.p1.screen.x - segment.p1.screen.w - 9.5 * spriteScale, segment.p1.screen.y - 10 * spriteScale, spriteScale * 10 , spriteScale * 10 );//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
+				
+				if(segment == playerSegment && i%2 == 0 && playerX <= 0.5){
+					SCORE = SCORE - 1;
+					alert(SCORE);
+				}
 			}
 			
-			if(segment == playerSegment)
+			if(segment == playerSegment){
 				ctx.drawImage(sprites, playerX, playerY);
+			}
 		}
 		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position ;
     }    
@@ -445,7 +450,7 @@
 	function init(){
 		loadAlbums();	
 		wait();
-		startGame();
+		//startGame();
 	}
 	
 	function startGame(){
