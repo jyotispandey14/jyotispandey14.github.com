@@ -480,10 +480,29 @@
 		resetRoad();	
 		
 		window.addEventListener('keydown', whatKey, true);
+		window.addEventListener('mousedown', whatKey, true);
 	}
   
 	function run(){
 		window.setInterval(update, 10);
+	}
+	
+	function leftMove(){
+		playerX = playerX - step;
+          if (playerX < -50) {
+            playerX = 0;
+            flag = 1;
+          }
+		
+	}
+	
+	function rightMove(){
+	
+		playerX = playerX + step;
+          if (playerX > 270) {
+            playerX = 270;
+            flag = 1;
+        }	
 	}
   </script>
   
@@ -498,6 +517,8 @@
       An error message
     </canvas>
 	
+	<button id='s' onclick='leftMove()'>Left</button>
+	<button id='ss' onclick='rightMove()'>Right</button>
   </div>
   
   <div id="mfs"></div>
