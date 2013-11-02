@@ -381,7 +381,7 @@
 		//alert(i);
         var canvas = document.createElement('canvas');
 		var width, height;
-        if(i > 30){
+        if(i > 40){
 			width = Math.round(img.width / drawDistance);
 			height = Math.round(img.height / drawDistance);
 		}else{
@@ -469,7 +469,7 @@
 				clearTimeout(timeout);
 			startGame();
 		} else {
-			timeout = setTimeout( wait, 5000 );
+			timeout = setTimeout( wait, 10000 );
 		}
 	}
 	
