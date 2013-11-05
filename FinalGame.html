@@ -220,7 +220,7 @@
 	function update() {
 		position = increase(position, speed * dt, trackLength);	
 		playerSegment = findSegment(position+playerZ);		
-		//shufflePics();
+		
 		if(jumpFlag == 1 && playerY < 50 && playerY >= 0 ){
 			playerY = playerY - 100 * step;
 			if(playerY <= 0) jumpFlag = 0;
@@ -382,11 +382,11 @@
         var canvas = document.createElement('canvas');
 		var width, height;
         if(i > 40){
-			width = Math.round(img.width / drawDistance);
+			width = Math.round(img.width / drawDistance / (i * 10));
 			height = Math.round(img.height / drawDistance);
 		}else{
-			width = Math.round(img.width );//* i / drawDistance);
-			height = Math.round(img.height );//* i/ drawDistance);
+		//	width = Math.round(img.width );//* i / drawDistance);
+		//	height = Math.round(img.height );//* i/ drawDistance);
 		}
         canvas.width = width;
         canvas.height = height;
@@ -469,7 +469,7 @@
 				clearTimeout(timeout);
 			startGame();
 		} else {
-			timeout = setTimeout( wait, 100000 );
+			timeout = setTimeout( wait, 50000 );
 		}
 	}
 	
