@@ -492,7 +492,15 @@
 	}
 	
 	function init(){
-		loadAlbums();	
+		var loadingScreen = new Image();
+		loadingScreen.src = './images/racing.png'; 
+		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
+		canvas = document.getElementById('canvas_1'); 
+		ctx = canvas.getContext('2d'); 
+		
+		ctx.drawImage();
+		
+		loadAlbums(loadingScreen);	
 		wait();
 		//startGame();
 	}
@@ -506,11 +514,7 @@
 		sprites.src = './images/back.png'; //canvas background
 		billboard.src = './images/ferrari.jpg'; //canvas background
 		pole.src = './images/pole.png';
-		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
-		
-		canvas = document.getElementById('canvas_1'); 
-		ctx = canvas.getContext('2d'); 
-		
+				
 		width = canvas.width;
 		height = canvas.height;
 		playerZ = (cameraHeight * cameraDepth);
@@ -535,6 +539,7 @@
   <button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
 	
 	<font color="white"><p id='coord'> </p></font>
+	
     <canvas id="canvas_1" class="initialRotation">
       An error message
     </canvas>
