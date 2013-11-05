@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FBj</title>
+  <title>FBjjj</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -378,12 +378,14 @@
 	}
 	
 	function resizeMe(img, isPlayer, i) {
-		//alert(i);
+		
         var canvas = document.createElement('canvas');
 		var width, height;
        // if(i > 40){
+	   alert(i);
 			width = Math.round(img.width / (drawDistance * i * 10));
 			height = Math.round(img.height / drawDistance);
+			alert("d");
 		//}else{
 		//	width = Math.round(img.width );//* i / drawDistance);
 		//	height = Math.round(img.height );//* i/ drawDistance);
@@ -441,6 +443,7 @@
 				spriteScale = spriteScale * 2000;
 				//ctx.drawImage(pole, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);
 				//ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);
+				alert("tee");
 				if(i % 2 == 0){
 				ctx.drawImage(resizeMe(sprite1.source, isPlayerSegment, n), 
 					segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2, 
