@@ -133,6 +133,7 @@
 	var mypic = new Image(), fPic = new Image();
 	var timeout = null;
 	var SCORE = 100;
+	var limitPics = 20;
 
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -187,7 +188,7 @@
 								//myImages[myImagesCount] = new Image();
 								myImages[myImagesCount].src = d_pics[j].source;
 								myImagesCount += 1;	
-								if(myImagesCount > 10)break;
+								if(myImagesCount > limitPics)break;
 							}
 						});								
 					} 
@@ -199,13 +200,15 @@
 						
 						FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
 								for(var k = 0; k < Math.min(friendsAlbums.data.length, 10); k++) {
-									FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {										
-										for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 100); z++) {
-											for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
-												//friendsImages[fImagesCount] = new Image();
-												friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
-												fImagesCount += 1;
-												if(fImagesCount > 10) break;
+									FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
+										if(!(friendsPhotos.photos.data === undefined ||.photos.data === null)){
+											for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 100); z++) {
+												for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
+													//friendsImages[fImagesCount] = new Image();
+													friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
+													fImagesCount += 1;
+													if(fImagesCount > limitPics) break;
+												}
 											}
 										}
 									});
@@ -514,7 +517,7 @@
 		canvas = document.getElementById('canvas_1'); 
 		ctx = canvas.getContext('2d'); 
 
-		for (var i = 0 ; i < 10; i++){
+		for (var i = 0 ; i < limitPics; i++){
 			friendsImages[i] = new Image();
 			myImages[i] = new Image();
 		
