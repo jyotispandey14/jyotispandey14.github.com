@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>sdfh</title>
+  <title>S</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -523,6 +523,9 @@
 		billboard.src = './images/ferrari.jpg'; //canvas background
 		pole.src = './images/pole.png';
 				
+		isLeftButtonClicked = false;
+		isRightButtonClicked = false;
+				
 		width = canvas.width;
 		height = canvas.height;
 		playerZ = (cameraHeight * cameraDepth);
@@ -540,7 +543,7 @@
 	function moveLeft(){
 		
 		isLeftButtonClicked = !isLeftButtonClicked;
-		while(isLeftButtonClicked)
+		while(isLeftButtonClicked){
 			playerX = playerX - step;
 			if (playerX < -50) {
 				playerX = 0;
