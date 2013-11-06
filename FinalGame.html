@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>S</title>
+  <title>gfd</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -67,8 +67,8 @@
 	
 	window.onload = init;
 	var canvas, ctx ; 
-	var isLeftButtonClicked = false;
-	var isRightButtonClicked = false;
+	var isLeftButtonClicked = 0;
+	var isRightButtonClicked = 0;
 	
 	var shufflePics 	= 0;
 	var fps 			= 60,
@@ -446,10 +446,8 @@
 				//ctx.drawImage(pole, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);
 				//ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);
 				if(i % 2 == 0){
-					//ctx.imageSmoothingEnabled=true;
-					ctx.drawImage(pole,
-						//resizeMe(sprite1.source, isPlayerSegment, 
-						(segment.p1.screen.y - 5 * spriteScale)), 
+					ctx.drawImage(
+						resizeMe(sprite1.source, isPlayerSegment, (segment.p1.screen.y - 5 * spriteScale)), 
 						segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2, 
 						segment.p1.screen.y - 5 * spriteScale, 
 						spriteScale * 5 , spriteScale * 5 );
@@ -459,10 +457,8 @@
 					//}
 				}	
 				else {
-					//ctx.imageSmoothingEnabled=true;
-					ctx.drawImage(pole,
-						//resizeMe(sprite1.source, isPlayerSegment, 
-						(segment.p1.screen.y - 5 * spriteScale)), 
+					ctx.drawImage(
+						resizeMe(sprite1.source, isPlayerSegment, (segment.p1.screen.y - 5 * spriteScale)), 
 						segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale, 
 						segment.p1.screen.y - 5 * spriteScale, 
 						spriteScale * 5 , spriteScale * 5 );
@@ -472,7 +468,7 @@
 					//}
 				}
 				
-				document.getElementById('reso').innerHTML = 'IMAGE --- ' + (segment.p1.screen.y - 5 * spriteScale);
+//				document.getElementById('reso').innerHTML = 'IMAGE --- ' + (segment.p1.screen.y - 5 * spriteScale) + " SOURCE -- " + sprite1.source;
 			}
 			
 			if(segment == playerSegment){
@@ -505,16 +501,12 @@
 		var loadingScreen = new Image();
 		loadingScreen.src = './images/racing.png'; 
 		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
+		
 		canvas = document.getElementById('canvas_1'); 
 		ctx = canvas.getContext('2d'); 
-		//ctx.webkitImageSmoothingEnabled =
-		//ctx.imageSmoothingEnabled = true;
-		//ctx.mozImageSmoothingEnabled = ctx.oImageSmoothingEnabled = true;
-		
-		ctx.drawImage(loadingScreen, 0, 0);
+
 		loadAlbums();	
 		wait();
-		//startGame();
 	}
 	
 	function startGame(){
@@ -527,6 +519,7 @@
 		billboard.src = './images/ferrari.jpg'; //canvas background
 		pole.src = './images/pole.png';
 				
+		alert("button added");
 		isLeftButtonClicked = false;
 		isRightButtonClicked = false;
 				
@@ -535,7 +528,7 @@
 		playerZ = (cameraHeight * cameraDepth);
 		resolution = height/480;
 		resetRoad();	
-		
+		alert("reset road");
 		window.addEventListener('keydown', whatKey, true);
 		window.addEventListener('mousedown', whatKey, true);
 	}
@@ -544,10 +537,12 @@
 		window.setInterval(update, 10);
 	}
 	
-	function moveLeft(){
-		
-		isLeftButtonClicked = !isLeftButtonClicked;
-		while(isLeftButtonClicked){
+	/*function moveLeft(){
+		if(isLeftButtonClicked == 1) 
+			isLeftButtonClicked = 0;
+		else
+			isLeftButtonClicked  = 1;
+		while(isLeftButtonClicked == 1){
 			playerX = playerX - step;
 			if (playerX < -50) {
 				playerX = 0;
@@ -556,15 +551,35 @@
 		}
 	}
 	function moveRight(){
-		isRightButtonClicked = !isRightButtonClicked;
-			while(isRightButtonClicked){
-				playerX = playerX + step;
-				if (playerX > 270) {
+		if(isRightButtonClicked == 1) 
+			isRightButtonClicked = 0;
+		else
+			isRightButtonClicked  = 1;
+		while(isRightButtonClicked == 1){
+			playerX = playerX + step;
+			if (playerX > 270) {
 				playerX = 270;
 				flag = 1;
 			}
 		}
 	}
+	
+	<table id = "button">
+	
+		<tr>
+			<td>
+			<button id='Left' type="button" class='button' onclick='run()'>Left</button>	
+			</td>
+			<td width = "50%">
+			</td>
+			<td>
+			<button id='Right' type="button" class='button' onclick='run()' >Right</button>	
+			</td>
+		</tr>
+		
+	
+	</table>
+	*/
 	
   </script>
   
@@ -572,7 +587,7 @@
   
   
   <div id="div_1"> 
-  <button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
+  
 	
 	<font color="white"><p id='coord'> </p></font>
 	<font color="white"><p id='reso'> </p></font>
@@ -580,21 +595,7 @@
       An error message
     </canvas>
 	
-	
-	<table id = "button">
-	
-		<tr>
-			<td>
-			<button id='Left' type="button" class='button' onclick='moveLeft()'>Left</button>	
-			</td>
-			<td width = "50%">Test
-			</td>
-			<td>
-			<button id='Right' type="button" class='button' onclick='moveRight()' >Right</button>	
-			</td>
-		</tr>
-		
-	</table>
+	<button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
 	
   </div>
   
