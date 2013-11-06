@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Facebook Game Take 2</title>
+  <title>Facebook Game Take 10</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -63,6 +63,29 @@
   </style>
   <script src="http://connect.facebook.net/en_US/all.js"></script>
   <script src="common.js"></script>
+  
+  
+  <body>
+  
+  
+  <div id="div_1"> 
+  
+	
+	<font color="white"><p id='coord'> </p></font>
+	<font color="white"><p id='reso'> </p></font>
+    <canvas id="canvas_1" class = "initialRotation">
+      An error message
+    </canvas>
+	
+	<button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
+	
+  </div>
+  
+  <div id="mfs"></div>
+  
+   
+  </body>
+  
   <script>
 	
 	window.onload = init;
@@ -161,9 +184,10 @@
 						FB.api("/"+d[i].id+"/photos", function(response){
 							var d_pics = response.data;
 							for(var j = 0; j< d_pics.length;j++ ){
-								myImages[myImagesCount] = new Image();
+								//myImages[myImagesCount] = new Image();
 								myImages[myImagesCount].src = d_pics[j].source;
 								myImagesCount += 1;	
+								if(myImagesCount > 10)break;
 							}
 						});								
 					} 
@@ -178,9 +202,10 @@
 									FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {										
 										for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 100); z++) {
 											for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
-												friendsImages[fImagesCount] = new Image();
+												//friendsImages[fImagesCount] = new Image();
 												friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
 												fImagesCount += 1;
+												if(fImagesCount > 10) break;
 											}
 										}
 									});
@@ -299,8 +324,6 @@
 			});
 			if(n % 40==0){
 				
-				//addSprite(n, background, 0.0);
-				//addSprite(n, billboard, 0.0);
 				shufflePics = (shufflePics + 1) % 4;
 				if(myImagesCount == 0 || fImagesCount == 0)continue;
 				if(shufflePics % 3 == 0){
@@ -384,20 +407,15 @@
 		
         var canvas = document.createElement('canvas');
 		var width, height;
-       // if(i > 40){
 		
-			width = Math.round(img.width / drawDistance  );
-			height = Math.round(img.height / drawDistance  );
-		//}else{
-		//	width = Math.round(img.width );//* i / drawDistance);
-		//	height = Math.round(img.height );//* i/ drawDistance);
-		//}
+		width = Math.round(img.width / i  );
+		height = Math.round(img.height / i  );
         canvas.width = width;
         canvas.height = height;
         var ctx1 = canvas.getContext("2d");
         ctx1.drawImage(img, 0, 0, width, height);
 		
-        return canvas;//.toDataURL("image/jpeg", 0.8);
+        return canvas;
 		
     }
 	
@@ -443,8 +461,6 @@
 				spriteY = segment.p1.screen.y;
 				var isPlayerSegment = segment == playerSegment;
 				spriteScale = spriteScale * 2000;
-				//ctx.drawImage(pole, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);
-				//ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);
 				if(i % 2 == 0){
 					ctx.drawImage(
 						resizeMe(sprite1.source, isPlayerSegment, (segment.p1.screen.y - 5 * spriteScale)), 
@@ -452,9 +468,6 @@
 						segment.p1.screen.y - 5 * spriteScale, 
 						spriteScale * 5 , spriteScale * 5 );
 						
-					//if(!sprite1.isUser && Math.abs(playerX - (segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2)) > 0.2){
-					//	SCORE = SCORE - 1;
-					//}
 				}	
 				else {
 					ctx.drawImage(
@@ -463,12 +476,8 @@
 						segment.p1.screen.y - 5 * spriteScale, 
 						spriteScale * 5 , spriteScale * 5 );
 					
-					//if(!sprite1.isUser && Math.abs(playerX - (segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale)) > 0.2){
-					//	SCORE = SCORE - 1;
-					//}
 				}
 				
-				//document.getElementById('reso').innerHTML = 'IMAGE --- ' + (segment.p1.screen.y - 5 * spriteScale) + " SOURCE -- " + sprite1.source;
 			}
 			
 			if(segment == playerSegment){
@@ -488,7 +497,7 @@
 	
 	function wait() {
 		
-		if ( myImagesCount > 10 && fImagesCount > 10 ) {
+		if ( myImagesCount >= 10 && fImagesCount >= 10 ) {
 			if(timeout != null)
 				clearTimeout(timeout);
 			startGame();
@@ -505,6 +514,13 @@
 		canvas = document.getElementById('canvas_1'); 
 		ctx = canvas.getContext('2d'); 
 
+		for (var i = 0 ; i < 10; i++){
+			friendsImages[i] = new Image();
+			myImages[i] = new Image();
+		
+		}
+		
+		
 		loadAlbums();	
 		wait();
 	}
@@ -538,70 +554,5 @@
 		window.setInterval(update, 10);
 	}
 	
-	/*function moveLeft(){
-		if(isLeftButtonClicked == 1) 
-			isLeftButtonClicked = 0;
-		else
-			isLeftButtonClicked  = 1;
-		while(isLeftButtonClicked == 1){
-			playerX = playerX - step;
-			if (playerX < -50) {
-				playerX = 0;
-				flag = 1;
-			}
-		}
-	}
-	function moveRight(){
-		if(isRightButtonClicked == 1) 
-			isRightButtonClicked = 0;
-		else
-			isRightButtonClicked  = 1;
-		while(isRightButtonClicked == 1){
-			playerX = playerX + step;
-			if (playerX > 270) {
-				playerX = 270;
-				flag = 1;
-			}
-		}
-	}
-	
-	<table id = "button">
-	
-		<tr>
-			<td>
-			<button id='Left' type="button" class='button' onclick='run()'>Left</button>	
-			</td>
-			<td width = "50%">
-			</td>
-			<td>
-			<button id='Right' type="button" class='button' onclick='run()' >Right</button>	
-			</td>
-		</tr>
-		
-	
-	</table>
-	*/
-	
   </script>
-  
-  <body>
-  
-  
-  <div id="div_1"> 
-  
-	
-	<font color="white"><p id='coord'> </p></font>
-	<font color="white"><p id='reso'> </p></font>
-    <canvas id="canvas_1" class = "initialRotation">
-      An error message
-    </canvas>
-	
-	<button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
-	
-  </div>
-  
-  <div id="mfs"></div>
-  
-   
-  </body>
 </head> 
