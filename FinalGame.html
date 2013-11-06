@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Facebook Game Take 20</title>
+  <title>Facebook Game Take 10</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -201,16 +201,15 @@
 						FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
 								for(var k = 0; k < Math.min(friendsAlbums.data.length, 10); k++) {
 									FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
-										if(!(friendsPhotos.photos.data === undefined ||.photos.data === null)){
-											for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 100); z++) {
-												for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
-													//friendsImages[fImagesCount] = new Image();
-													friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
-													fImagesCount += 1;
-													if(fImagesCount > limitPics) break;
-												}
+										for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 100); z++) {
+											for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
+												//friendsImages[fImagesCount] = new Image();
+												friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
+												fImagesCount += 1;
+												if(fImagesCount > limitPics) break;
 											}
 										}
+
 									});
 								}
 						});
@@ -411,8 +410,8 @@
         var canvas = document.createElement('canvas');
 		var width, height;
 		
-		width = Math.round(img.width   );
-		height = Math.round(img.height  );
+		width = Math.round(img.width / i  );
+		height = Math.round(img.height / i  );
         canvas.width = width;
         canvas.height = height;
         var ctx1 = canvas.getContext("2d");
