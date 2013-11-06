@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>h</title>
+  <title>sdfh</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -67,6 +67,9 @@
 	
 	window.onload = init;
 	var canvas, ctx ; 
+	var isLeftButtonClicked = false;
+	var isRightButtonClicked = false;
+	
 	var shufflePics 	= 0;
 	var fps 			= 60,
 		step 			= 1/fps,
@@ -382,8 +385,9 @@
         var canvas = document.createElement('canvas');
 		var width, height;
        // if(i > 40){
-			width = Math.round(img.width / i );
-			height = Math.round(img.height / i  );
+		
+			width = Math.round(img.width / drawDistance  );
+			height = Math.round(img.height / drawDistance  );
 		//}else{
 		//	width = Math.round(img.width );//* i / drawDistance);
 		//	height = Math.round(img.height );//* i/ drawDistance);
@@ -471,7 +475,7 @@
 				ctx.drawImage(sprites, playerX, playerY);
 			}
 		}
-		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position + 'SCORE: ' + SCORE;
+		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position + 'SCORE : ' + i;
     }    
 	
 	function addSprite(n, sprite, offset, isUserFlag) {
@@ -533,6 +537,27 @@
 		window.setInterval(update, 10);
 	}
 	
+	function moveLeft(){
+		
+		isLeftButtonClicked = !isLeftButtonClicked;
+		while(isLeftButtonClicked)
+			playerX = playerX - step;
+			if (playerX < -50) {
+				playerX = 0;
+				flag = 1;
+			}
+		}
+	}
+	function moveRight(){
+		isRightButtonClicked = !isRightButtonClicked;
+			while(isRightButtonClicked){
+				playerX = playerX + step;
+				if (playerX > 270) {
+				playerX = 270;
+				flag = 1;
+			}
+		}
+	}
 	
   </script>
   
@@ -548,6 +573,8 @@
       An error message
     </canvas>
 	
+	<button id='Left' type="button" class='button' onclick='run()'>Left</button>
+	<button id='Right' type="button" class='button' onclick='run()' style:'float=right'>Right</button>
 	
   </div>
   
