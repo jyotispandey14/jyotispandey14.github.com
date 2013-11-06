@@ -452,9 +452,9 @@
 						segment.p1.screen.y - 5 * spriteScale, 
 						spriteScale * 5 , spriteScale * 5 );
 						
-					if(!sprite1.isUser && Math.abs(playerX - (segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2)) > 0.2){
-						SCORE = SCORE - 1;
-					}
+					//if(!sprite1.isUser && Math.abs(playerX - (segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2)) > 0.2){
+					//	SCORE = SCORE - 1;
+					//}
 				}	
 				else {
 					ctx.drawImage(
@@ -463,12 +463,12 @@
 						segment.p1.screen.y - 5 * spriteScale, 
 						spriteScale * 5 , spriteScale * 5 );
 					
-					if(!sprite1.isUser && Math.abs(playerX - (segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale)) > 0.2){
-						SCORE = SCORE - 1;
-					}
+					//if(!sprite1.isUser && Math.abs(playerX - (segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale)) > 0.2){
+					//	SCORE = SCORE - 1;
+					//}
 				}
 				
-				document.getElementById('reso').innerHTML = 'IMAGE --- ' + (segment.p1.screen.y - 5 * spriteScale) + " SOURCE -- " + sprite1.source;
+				//document.getElementById('reso').innerHTML = 'IMAGE --- ' + (segment.p1.screen.y - 5 * spriteScale) + " SOURCE -- " + sprite1.source;
 			}
 			
 			if(segment == playerSegment){
