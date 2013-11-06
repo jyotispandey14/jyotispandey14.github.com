@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Facebook Game Take 1</title>
+  <title>Facebook Game Take 2</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -452,9 +452,9 @@
 						segment.p1.screen.y - 5 * spriteScale, 
 						spriteScale * 5 , spriteScale * 5 );
 						
-					//if(!sprite1.isUser && Math.abs(playerX - (segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2)) > 0.2){
-						//SCORE = SCORE - 1;
-					//}
+					if(!sprite1.isUser && Math.abs(playerX - (segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2)) > 0.2){
+						SCORE = SCORE - 1;
+					}
 				}	
 				else {
 					ctx.drawImage(
@@ -463,12 +463,12 @@
 						segment.p1.screen.y - 5 * spriteScale, 
 						spriteScale * 5 , spriteScale * 5 );
 					
-					//if(!sprite1.isUser && Math.abs(playerX - (segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale)) > 0.2){
-						//SCORE = SCORE - 1;
-					//}
+					if(!sprite1.isUser && Math.abs(playerX - (segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale)) > 0.2){
+						SCORE = SCORE - 1;
+					}
 				}
 				
-//				document.getElementById('reso').innerHTML = 'IMAGE --- ' + (segment.p1.screen.y - 5 * spriteScale) + " SOURCE -- " + sprite1.source;
+				document.getElementById('reso').innerHTML = 'IMAGE --- ' + (segment.p1.screen.y - 5 * spriteScale) + " SOURCE -- " + sprite1.source;
 			}
 			
 			if(segment == playerSegment){
@@ -534,6 +534,7 @@
 	}
   
 	function run(){
+		alert("in run");
 		window.setInterval(update, 10);
 	}
 	
@@ -591,7 +592,7 @@
 	
 	<font color="white"><p id='coord'> </p></font>
 	<font color="white"><p id='reso'> </p></font>
-    <canvas id="canvas_1">
+    <canvas id="canvas_1" class = "initialRotation">
       An error message
     </canvas>
 	
