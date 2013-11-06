@@ -447,7 +447,9 @@
 				//ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);
 				if(i % 2 == 0){
 					//ctx.imageSmoothingEnabled=true;
-					ctx.drawImage(resizeMe(sprite1.source, isPlayerSegment, (segment.p1.screen.y - 5 * spriteScale)), 
+					ctx.drawImage(pole,
+						//resizeMe(sprite1.source, isPlayerSegment, 
+						(segment.p1.screen.y - 5 * spriteScale)), 
 						segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2, 
 						segment.p1.screen.y - 5 * spriteScale, 
 						spriteScale * 5 , spriteScale * 5 );
@@ -458,7 +460,9 @@
 				}	
 				else {
 					//ctx.imageSmoothingEnabled=true;
-					ctx.drawImage(resizeMe(sprite1.source, isPlayerSegment, (segment.p1.screen.y - 5 * spriteScale)), 
+					ctx.drawImage(pole,
+						//resizeMe(sprite1.source, isPlayerSegment, 
+						(segment.p1.screen.y - 5 * spriteScale)), 
 						segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale, 
 						segment.p1.screen.y - 5 * spriteScale, 
 						spriteScale * 5 , spriteScale * 5 );
@@ -580,10 +584,17 @@
 	<table id = "button">
 	
 		<tr>
+			<td>
 			<button id='Left' type="button" class='button' onclick='moveLeft()'>Left</button>	
+			</td>
+			<td width = "50%">
+			</td>
+			<td>
+			<button id='Right' type="button" class='button' onclick='moveRight()' >Right</button>	
+			</td>
 		</tr>
 		<tr>
-			<button id='Right' type="button" class='button' onclick='moveRight()' >Right</button>	
+			
 		</tr>
 	
 	</table>
