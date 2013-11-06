@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>fsdf</title>
+  <title>f</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -499,7 +499,9 @@
 		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
 		canvas = document.getElementById('canvas_1'); 
 		ctx = canvas.getContext('2d'); 
-		ctx.webkitImageSmoothingEnabled = ctx.imageSmoothingEnabled = ctx.mozImageSmoothingEnabled = ctx.oImageSmoothingEnabled = true;
+		//ctx.webkitImageSmoothingEnabled =
+		ctx.imageSmoothingEnabled = true;
+		//ctx.mozImageSmoothingEnabled = ctx.oImageSmoothingEnabled = true;
 		
 		ctx.drawImage(loadingScreen, 0, 0);
 		loadAlbums();	
