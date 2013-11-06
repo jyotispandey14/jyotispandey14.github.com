@@ -468,14 +468,14 @@
 					//}
 				}
 				
-				
+				document.getElementById('reso').innerHTML = 'IMAGE --- ' + (segment.p1.screen.y - 5 * spriteScale);
 			}
 			
 			if(segment == playerSegment){
 				ctx.drawImage(sprites, playerX, playerY);
 			}
 		}
-		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position + 'SCORE : ' + i;
+		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position + 'SCORE : ' + SCORE;
     }    
 	
 	function addSprite(n, sprite, offset, isUserFlag) {
@@ -571,13 +571,22 @@
   <button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
 	
 	<font color="white"><p id='coord'> </p></font>
-	
+	<font color="white"><p id='reso'> </p></font>
     <canvas id="canvas_1">
       An error message
     </canvas>
 	
-	<button id='Left' type="button" class='button' onclick='moveLeft()'>Left</button>
-	<button id='Right' type="button" class='button' onclick='moveRight()' style='float:right'>Right</button>
+	
+	<table id = "button">
+	
+		<tr>
+			<button id='Left' type="button" class='button' onclick='moveLeft()'>Left</button>	
+		</tr>
+		<tr>
+			<button id='Right' type="button" class='button' onclick='moveRight()' >Right</button>	
+		</tr>
+	
+	</table>
 	
   </div>
   
