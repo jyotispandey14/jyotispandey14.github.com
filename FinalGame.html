@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Facebook Game 1</title>
+  <title>Facebook Game 2</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -478,8 +478,8 @@
         var canvas = document.createElement('canvas');
 		var width, height;
 		
-		width = Math.round(img.width * i / drawDistance);
-		height = Math.round(img.height * i / drawDistance);
+		width = Math.round(img.width / (2 * i));
+		height = Math.round(img.height / (2 * i));
         canvas.width = width;
         canvas.height = height;
         var ctx1 = canvas.getContext("2d");
