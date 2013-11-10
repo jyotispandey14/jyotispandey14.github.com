@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Facebook Game 8</title>
+  <title>Facebook Game</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -480,8 +480,9 @@
 		//document.getElementById('reso').innerHTML += Math.round(i) + " ";
 		var divBY = 2;
 		if(i > 40) divBY = Math.pow(2,5);
-		else if(i > 20) divBY = Math.pow(2,4);
-		else divBY = Math.pow(2,3);
+		else if(i > 30) divBY = Math.pow(2,4);
+		else if(i > 20) divBY = Math.pow(2,2);
+		else divBY = Math.pow(2,1);
 		
 		width = Math.round(img.width/divBY );
 		height = Math.round(img.height/divBY );
