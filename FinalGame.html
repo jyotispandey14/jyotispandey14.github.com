@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Facebook Game 1</title>
+  <title>Facebook Game button</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -580,7 +580,8 @@
 		var loadingScreen = new Image();
 		loadingScreen.src = './images/racing.png'; 
 		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
-		
+		document.getElementById('PLAY').style.visibility='hidden'; // hide  
+
 		canvas = document.getElementById('canvas_1'); 
 		ctx = canvas.getContext('2d'); 
 
@@ -605,7 +606,6 @@
 		billboard.src = './images/ferrari.jpg'; //canvas background
 		pole.src = './images/pole.png';
 				
-		alert("button added");
 		isLeftButtonClicked = false;
 		isRightButtonClicked = false;
 				
@@ -614,13 +614,13 @@
 		playerZ = (cameraHeight * cameraDepth);
 		resolution = height/480;
 		resetRoad();	
-		alert("reset road");
+		document.getElementById('PLAY').style.visibility='visible'; 
 		window.addEventListener('keydown', whatKey, true);
 		window.addEventListener('mousedown', whatKey, true);
+		
 	}
   
 	function run(){
-		alert("in run");
 		window.setInterval(update, 10);
 	}
 	
