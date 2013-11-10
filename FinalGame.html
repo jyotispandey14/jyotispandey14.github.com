@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Facebook Game 4</title>
+  <title>Facebook Game 1</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -478,9 +478,10 @@
         var canvas = document.createElement('canvas');
 		var width, height;
 		document.getElementById('reso').innerHTML += Math.round(i) + " ";
-		
-		width = Math.round(img.width/2 );/// Math.pow(2,Math.round(i)));
-		height = Math.round(img.height/2 );/// Math.pow(2,Math.round(i)));
+		var divBY = 2;
+		if(
+		width = Math.round(img.width/divBY );
+		height = Math.round(img.height/divBY );
         canvas.width = width;
         canvas.height = height;
         var ctx1 = canvas.getContext("2d");
@@ -538,14 +539,14 @@
 				if(i % 2 == 0){
 					x_pos = segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2;					
 					ctx.drawImage(
-						resizeMe(sprite1.source, isPlayerSegment, y_pos), 
+						resizeMe(sprite1.source, isPlayerSegment, x_pos), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
 						
 				}	
 				else {
 					x_pos = segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale;
 					ctx.drawImage(
-						resizeMe(sprite1.source, isPlayerSegment, y_pos), 
+						resizeMe(sprite1.source, isPlayerSegment, x_pos), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
 					
 				}
