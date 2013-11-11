@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>2</title>
+  <title>3</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -493,7 +493,7 @@
         var ctx1 = canvas.getContext("2d");
 		ctx1.drawImage(img, 0, 0, width, height);
 		
-		ctx1.beginPath();
+		/*ctx1.beginPath();
 		ctx1.moveTo(0, 0);
 		ctx1.lineTo(0, width);
 		ctx1.lineWidth = 3;
@@ -515,7 +515,7 @@
 		ctx1.moveTo(height, 0);
 		ctx1.lineTo(0, 0);
 		ctx1.lineWidth = 3;
-		ctx1.stroke();        
+		ctx1.stroke();     */   
 		
         return canvas;
 		
@@ -548,7 +548,7 @@
 						segment.color);
 			horizon = segment.p2.screen.y;
 		}
-		
+		var scoreDone = false;
 		for(n = (drawDistance-1) ; n > 0 ; n--) {
 			segment = segments[(baseSegment.index + n) % segments.length];
 			var prior_segment = segments[(baseSegment.index + n - 1) % segments.length];
@@ -573,19 +573,20 @@
 					ctx.drawImage(
 						resizeMe(sprite1.source, isPlayerSegment, n), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
-					if(isPlayerSegment_prior){
-						//alert(x_pos + " "  + playerX);
-					}	
+					if(isPlayerSegment && sprite1.isUser && playerX < 0 && !scoreDone) {
+						SCORE = SCORE + 1;
+						scoreDone = true;
+					}
 				}	
 				else {
 					x_pos = segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale;
 					ctx.drawImage(
 						resizeMe(sprite1.source, isPlayerSegment, n), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
-					if(isPlayerSegment_prior){
-						//alert(x_pos + " "  + playerX);
+					if(isPlayerSegment && sprite1.isUser && playerX > 0 && !scoreDone) {
+						SCORE = SCORE + 1;
+						scoreDone = true;
 					}
-					
 				}
 				
 			}
