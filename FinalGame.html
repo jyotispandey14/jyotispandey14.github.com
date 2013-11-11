@@ -481,9 +481,8 @@
 		var divBY = 2;
 		if(i > 60) divBY = Math.pow(2,6);
 		else if(i > 50) divBY = Math.pow(2,5);
-		else if(i > 40) divBY = Math.pow(2,4);
-		else if(i > 30) divBY = Math.pow(2,3);
-		else if(i > 20) divBY = Math.pow(1.5,3);
+		else if(i > 30) divBY = Math.pow(2,4);
+		else if(i > 20) divBY = Math.pow(2,3);
 		else if(i > 10) divBY = Math.pow(2,2);
 		else divBY = Math.pow(1.5,2);
 		
@@ -492,6 +491,14 @@
         canvas.width = width;
         canvas.height = height;
         var ctx1 = canvas.getContext("2d");
+		ctx1.beginPath();
+		  ctx1.rect(0, 0, width, height);
+		  ctx1.fillStyle = 'yellow';
+		  ctx1.fill();
+		  ctx1.lineWidth = 7;
+		  ctx1.strokeStyle = 'black';
+		ctx1.stroke();
+		
         ctx1.drawImage(img, 0, 0, width, height);
 		
         return canvas;
