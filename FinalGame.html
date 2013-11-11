@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>7</title>
+  <title>1</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -492,12 +492,29 @@
         canvas.height = height;
         var ctx1 = canvas.getContext("2d");
 		ctx1.drawImage(img, 0, 0, width, height);
+		
 		ctx1.beginPath();
-		ctx1.rect(0, 0, width, height);
-		ctx1.fillStyle = img;
-		ctx1.fill();
-		ctx1.lineWidth = 1;
-		ctx1.strokeStyle = 'black';
+		ctx1.moveTo(0, 0);
+		ctx1.lineTo(0, width);
+		ctx1.lineWidth = 3;
+		ctx1.stroke();
+		
+		ctx1.beginPath();
+		ctx1.moveTo(0, width);
+		ctx1.lineTo(height, width);
+		ctx1.lineWidth = 3;
+		ctx1.stroke();
+		
+		ctx1.beginPath();
+		ctx1.moveTo(height, width);
+		ctx1.lineTo(height, 0);
+		ctx1.lineWidth = 3;
+		ctx1.stroke();
+		
+		ctx1.beginPath();
+		ctx1.moveTo(height, 0);
+		ctx1.lineTo(0, 0);
+		ctx1.lineWidth = 3;
 		ctx1.stroke();        
 		
         return canvas;
