@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>3</title>
+  <title>4</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -132,7 +132,7 @@
 		myImagesCount = 0;
 	var mypic = new Image(), fPic = new Image();
 	var timeout = null;
-	var SCORE = 100;
+	var SCORE = 0;
 	var limitPics = 20;
 
 	var COLORS = {
@@ -482,8 +482,8 @@
 		if(i > 60) divBY = Math.pow(2,6);
 		else if(i > 50) divBY = Math.pow(2,5);
 		else if(i > 30) divBY = Math.pow(2,4);
-		else if(i > 20) divBY = Math.pow(2,4);
-		else if(i > 10) divBY = Math.pow(2,3);
+		else if(i > 20) divBY = Math.pow(2,3);
+		else if(i > 10) divBY = Math.pow(2,2);
 		else divBY = Math.pow(2,2);
 		
 		width = Math.round(img.width/divBY );
