@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>4</title>
+  <title>5</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -482,24 +482,23 @@
 		if(i > 60) divBY = Math.pow(2,6);
 		else if(i > 50) divBY = Math.pow(2,5);
 		else if(i > 30) divBY = Math.pow(2,4);
-		else if(i > 20) divBY = Math.pow(2,3);
-		else if(i > 10) divBY = Math.pow(2,2);
-		else divBY = Math.pow(1.5,2);
+		else if(i > 20) divBY = Math.pow(2,4);
+		else if(i > 10) divBY = Math.pow(2,3);
+		else divBY = Math.pow(2,2);
 		
 		width = Math.round(img.width/divBY );
 		height = Math.round(img.height/divBY );
         canvas.width = width;
         canvas.height = height;
         var ctx1 = canvas.getContext("2d");
+		ctx1.drawImage(img, 0, 0, width, height);
 		ctx1.beginPath();
 		  ctx1.rect(0, 0, width, height);
-		  ctx1.fillStyle = 'yellow';
+		  //ctx1.fillStyle = 'yellow';
 		  ctx1.fill();
 		  ctx1.lineWidth = 7;
 		  ctx1.strokeStyle = 'black';
-		ctx1.stroke();
-		
-        ctx1.drawImage(img, 0, 0, width, height);
+		ctx1.stroke();        
 		
         return canvas;
 		
@@ -551,7 +550,6 @@
 				var isPlayerSegment = segment == playerSegment;
 				spriteScale = spriteScale * 2000;
 				y_pos = segment.p1.screen.y - 5 * spriteScale;
-				ctx.drawImage(sprite1.source, playerX, playerY);
 				if(i % 2 == 0){
 					x_pos = segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2;	
 					ctx.drawImage(
