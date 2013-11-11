@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>1</title>
+  <title>2</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -553,6 +553,7 @@
 			segment = segments[(baseSegment.index + n) % segments.length];
 			var prior_segment = segments[(baseSegment.index + n - 1) % segments.length];
 			var isPlayerSegment_prior = prior_segment == playerSegment;
+			var isPlayerSegment = segment == playerSegment;
 			for(i = 0 ; i < segment.billboards.length ; i++) {
 				x_pos = 0;
 				y_pos = 0;
@@ -564,7 +565,7 @@
 				spriteScale = segment.p1.screen.scale ;
 				spriteX = segment.p1.screen.x + (spriteScale * sprite1.offset * roadWidth * width/2);
 				spriteY = segment.p1.screen.y;
-				var isPlayerSegment = segment == playerSegment;
+				
 				spriteScale = spriteScale * 2000;
 				y_pos = segment.p1.screen.y - 5 * spriteScale;
 				if(i % 2 == 0){
@@ -661,7 +662,7 @@
 	}
   
 	function run(){
-		window.setInterval(update, 10);
+		window.setInterval(update, 15);
 	}
 	
   </script>
