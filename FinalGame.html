@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>1</title>
+  <title>2</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -479,10 +479,12 @@
 		var width, height;
 		//document.getElementById('reso').innerHTML += Math.round(i) + " ";
 		var divBY = 2;
-		if(i > 40) divBY = Math.pow(2,5);
-		else if(i > 30) divBY = Math.pow(2,4);
+		if(i > 60) divBY = Math.pow(2,6);
+		else if(i > 50) divBY = Math.pow(2,5);
+		else if(i > 40) divBY = Math.pow(2,4);
+		else if(i > 30) divBY = Math.pow(2,3);
 		else if(i > 20) divBY = Math.pow(2,2);
-		else divBY = Math.pow(2,1);
+		else divBY = Math.pow(2,2);
 		
 		width = Math.round(img.width/divBY );
 		height = Math.round(img.height/divBY );
@@ -525,7 +527,8 @@
 		
 		for(n = (drawDistance-1) ; n > 0 ; n--) {
 			segment = segments[(baseSegment.index + n) % segments.length];
-			var isPlayerSegment = segment == playerSegment;
+			var prior_segment = segments[(baseSegment.index + n - 1) % segments.length];
+			var isPlayerSegment_prior = prior_segment == playerSegment;
 			for(i = 0 ; i < segment.billboards.length ; i++) {
 				x_pos = 0;
 				y_pos = 0;
@@ -537,7 +540,7 @@
 				spriteScale = segment.p1.screen.scale ;
 				spriteX = segment.p1.screen.x + (spriteScale * sprite1.offset * roadWidth * width/2);
 				spriteY = segment.p1.screen.y;
-				//var isPlayerSegment = segment == playerSegment;
+				var isPlayerSegment = segment == playerSegment;
 				spriteScale = spriteScale * 2000;
 				y_pos = segment.p1.screen.y - 5 * spriteScale;
 				if(i % 2 == 0){
@@ -545,7 +548,7 @@
 					ctx.drawImage(
 						resizeMe(sprite1.source, isPlayerSegment, n), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
-					if(isPlayerSegment){
+					if(isPlayerSegment_prior){
 						alert(x_pos + " "  + playerX);
 					}	
 				}	
@@ -554,7 +557,7 @@
 					ctx.drawImage(
 						resizeMe(sprite1.source, isPlayerSegment, n), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
-					if(isPlayerSegment){
+					if(isPlayerSegment_prior){
 						alert(x_pos + " "  + playerX);
 					}
 					
