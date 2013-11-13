@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook Take 10</title>
+  <title>Ride in Facebrook Take 12</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -723,8 +723,10 @@
 	}
 	
 	function moveLeft(){
-		isMovingLeft = !isMovingLeft;
-		while(isMovingLeft){
+		//isMovingLeft = !isMovingLeft;
+		int i = 0;
+		while(i < 100){
+		//while(isMovingLeft){
 			isMoving = true;
 			flag = 1;
 			playerX = playerX - step;
@@ -740,8 +742,9 @@
 	}
 	
 	function moveRight(){
-		isMovingRight = !isMovingRight;
-		while(isMovingRight){
+		//isMovingRight = !isMovingRight;
+		int i = 0;
+		while(i < 100){
 			isMoving = true;
 			flag = 1;
 			playerX = playerX + step;
@@ -753,19 +756,26 @@
 			if (playerX > 270) {
 				playerX = 270;
 			}
+			i++;
 		}
 	}
 	
 	function accelerate(){
-		isAcc = !isAcc;
-		while(isAcc){
+		int i = 0;
+		//isAcc = !isAcc;
+		while(i < 1000){
 			flag = 1;
 			if(acceleration < 100)
 				acceleration = acceleration + 0.08;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
+			
+			//timeout = setTimeout( accelerate, 10 );
+			i++;
 		}
+		
+		//clearTimeout(timeout);
 	}
 	
 	function addStar(){	
