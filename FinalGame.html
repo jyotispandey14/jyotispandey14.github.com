@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game 8</title>
+  <title>FB Game 9</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -322,13 +322,14 @@
 	function update() {
 		//position = increase(position, speed * dt, trackLength);	
 		//playerSegment = findSegment(position+playerZ);		
-		if(acceleration > 0){
-			acceleration = acceleration - 0.05;
-			speed = acceleration * dt;
-			position = position + speed * dt;
-		}else if(acceleration < 0)
-			acceleration = 0;
-			
+		if(flag == 0){
+			if(acceleration > 0){
+				acceleration = acceleration - 0.05;
+				speed = acceleration * dt;
+				position = position + speed * dt;
+			}else if(acceleration < 0)
+				acceleration = 0;
+		}
 		if(jumpFlag == 1 && playerY < 50 && playerY >= 0 ){
 			playerY = playerY - 100 * step;
 			if(playerY <= 0) jumpFlag = 0;
@@ -338,6 +339,7 @@
 			if(playerY >= 50) playerY = 50;
 		}
 		render();
+		flag = 0;
     }
 	
 	function whatKey(evt) {
@@ -351,6 +353,7 @@
         }
 		
 		if (evt.keyCode == 87){
+			flag = 1;
 			if(acceleration < 100)
 				acceleration = acceleration + 0.05;
 			speed = acceleration * dt;
