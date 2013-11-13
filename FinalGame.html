@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game </title>
+  <title>FB Game 1</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -67,7 +67,8 @@
   <body> 
 	<div id="div_1"> 	
 		<font color="white"><p id='coord'> </p></font>
-		<font color="white"><p id='reso'> </p></font>
+		<font color="white" size = "20px">SCORE: <p id='reso'> </p></font>
+		
 		<canvas id="canvas_1" class = "initialRotation">
 		  An error message
 		</canvas>
@@ -342,7 +343,7 @@
 			isMoving = true;
 			flag = 1;
 			playerX = playerX - step;
-			if(acceleration < 100)
+			if(acceleration < 50)
 				acceleration = acceleration + 0.08;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
@@ -507,7 +508,10 @@
 		var divBY = 2;
 		if(i > 60) divBY = Math.pow(2,6);
 		else if(i > 50) divBY = Math.pow(2,5);
-		else if(i > 30) divBY = Math.pow(2,4);
+		else if(i > 35) divBY = Math.pow(2,4);
+		else if(i > 28) divBY = Math.pow(2,4) * 1.2;
+		else if(i > 25) divBY = Math.pow(2,4) * 1.5;
+		else if(i > 22) divBY = Math.pow(2,4) * 1.8;
 		else if(i > 20) divBY = Math.pow(2,3);
 		else if(i > 10) divBY = Math.pow(2,2);
 		else divBY = Math.pow(2,2);
@@ -629,7 +633,8 @@
 				
 			}
 		}
-		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position + 'SCORE : ' + SCORE;
+		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position
+		document.getElementById('reso').innerHTML = SCORE;
     }    
 	
 	function addSprite(n, sprite, offset, isUserFlag) {
