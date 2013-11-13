@@ -589,7 +589,7 @@
 	
 	function render() {
 	
-		if(SCORE > 0 && SCORE % 100 == 0 ) addStar();
+		
 		if(position == trackLength){
 			resertRoad();
 			alert('am here');
@@ -649,6 +649,7 @@
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
 					if(isPlayerSegment && sprite1.isUser && playerX < 0) {
 						SCORE = SCORE + 1;
+						if(SCORE % 100 == 0 ) addStar();
 						scoreDone = true;
 					}
 				}	
@@ -658,7 +659,8 @@
 						resizeMe(sprite1.source, isPlayerSegment, n), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
 					if(isPlayerSegment && sprite1.isUser && playerX > 0) {
-						SCORE = SCORE + 1;
+						SCORE = SCORE + 1
+						if(SCORE % 100 == 0 ) addStar();
 						scoreDone = true;
 					}
 				}
