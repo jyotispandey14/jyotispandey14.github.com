@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game 12</title>
+  <title>FB Game </title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -340,6 +340,7 @@
 		
         if (evt.keyCode == 65){
 			isMoving = true;
+			flag = 1;
 			playerX = playerX - step;
 			if(acceleration < 100)
 				acceleration = acceleration + 0.08;
@@ -362,6 +363,7 @@
 
         if (evt.keyCode == 68){
 			isMoving = true;
+			flag = 1;
 			playerX = playerX + step;
 			if(acceleration < 100)
 				acceleration = acceleration + 0.08;
