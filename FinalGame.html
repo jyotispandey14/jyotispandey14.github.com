@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game 20</title>
+  <title>FB Game</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -349,7 +349,6 @@
           playerX = playerX - step;
           if (playerX < -50) {
             playerX = 0;
-            flag = 1;
           }
         }
 		
@@ -366,7 +365,6 @@
           playerX = playerX + step;
           if (playerX > 270) {
             playerX = 270;
-            flag = 1;
           }
         }	
 
@@ -667,7 +665,7 @@
 	}
 	
 	function keyUp(){
-		alert("in keyup");
+		flag = 0;
 	}
 	
 	function startGame(){
