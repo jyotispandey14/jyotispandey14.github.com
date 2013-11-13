@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook..</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -805,9 +805,10 @@
 	}
 	
 	function addStar(){	
-		
+		var img = document.createElement('img');
+		img.src = './images/like.png';
 		var foo = document.getElementById("star");
-		foo.appendChild(like);
+		foo.appendChild(img);
 	}
   
 	function run(){
