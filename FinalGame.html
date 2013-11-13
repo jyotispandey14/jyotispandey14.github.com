@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook</title>
+  <title>Ride in Facebrook 111</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -353,7 +353,7 @@
 		
 	function update() {
 		if(flag == 0){
-			acceleration = acceleration - 0.09;
+			acceleration = acceleration - 0.08;
 		}
 		if(acceleration > 0){
 			speed = acceleration * dt;
@@ -647,28 +647,29 @@
 					ctx.drawImage(
 						resizeMe(sprite1.source, isPlayerSegment, n), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
-					if(isPlayerSegment && sprite1.isUser && playerX < 0) {
-						SCORE = SCORE + 1;
-						if(SCORE % 100 == 0 ) addStar();
-						scoreDone = true;
-					}
 				}	
 				else {
 					x_pos = segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale;
 					ctx.drawImage(
 						resizeMe(sprite1.source, isPlayerSegment, n), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
-					if(isPlayerSegment && sprite1.isUser && playerX > 0) {
-						SCORE = SCORE + 1
-						if(SCORE % 100 == 0 ) addStar();
-						scoreDone = true;
-					}
 				}
 				
 			}
 			
 			if(isPlayerSegment){
-				ctx.drawImage(sprites, playerX, playerY);
+				if(playerSegment.billboards.length >= 2){
+					var b1 = playerSegment.billboards[0];
+					var b2 = playerSegment.billboards[1];
+					
+					if((b1.isUser && playerX > 0) || (b2.isUser && playerX < 0)) {
+						SCORE = SCORE + 1;
+						ctx.drawImage(like, (playerX), (playerY + 2));
+					}
+					
+					if(SCORE % 100 == 0 ) addStar();
+				}
+				ctx.drawImage(sprites, (playerX), playerY);
 				
 			}
 		}
