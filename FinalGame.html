@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook Take 12</title>
+  <title>Ride in Facebrook Take 13</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -738,7 +738,9 @@
 			if (playerX < -50) {
 				playerX = 0;
 			}
+			i = i + 1;
 		}
+		flag = 0;
 	}
 	
 	function moveRight(){
@@ -756,8 +758,9 @@
 			if (playerX > 270) {
 				playerX = 270;
 			}
-			i++;
+			i = i + 1;
 		}
+		flag = 0;
 	}
 	
 	function accelerate(){
@@ -772,9 +775,9 @@
 			playerSegment = findSegment(position+playerZ);
 			
 			//timeout = setTimeout( accelerate, 10 );
-			i++;
+			i = i + 1;
 		}
-		
+		flag = 0;
 		//clearTimeout(timeout);
 	}
 	
