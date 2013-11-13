@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook Take 4</title>
+  <title>Ride in Facebrook..</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -353,14 +353,15 @@
 		
 	function update() {
 		if(flag == 0){
-			acceleration = acceleration - 0.08;
-			if(acceleration > 0){
-				speed = acceleration * dt;
-				position = increase(position, speed, trackLength);	
-				playerSegment = findSegment(position+playerZ);
-			}else if(acceleration < 0)
-				acceleration = 0;
+			acceleration = acceleration - 0.09;
 		}
+		if(acceleration > 0){
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+		}else if(acceleration < 0)
+			acceleration = 0;
+
 		if(jumpFlag == 1 && playerY < 50 && playerY >= 0 ){
 			playerY = playerY - 100 * step;
 			if(playerY <= 0) jumpFlag = 0;
@@ -646,7 +647,7 @@
 					ctx.drawImage(
 						resizeMe(sprite1.source, isPlayerSegment, n), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
-					if(isPlayerSegment && sprite1.isUser && playerX < 0 && !scoreDone) {
+					if(isPlayerSegment && sprite1.isUser && playerX < 0) {
 						SCORE = SCORE + 1;
 						scoreDone = true;
 					}
@@ -656,7 +657,7 @@
 					ctx.drawImage(
 						resizeMe(sprite1.source, isPlayerSegment, n), 
 						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
-					if(isPlayerSegment && sprite1.isUser && playerX > 0 && !scoreDone) {
+					if(isPlayerSegment && sprite1.isUser && playerX > 0) {
 						SCORE = SCORE + 1;
 						scoreDone = true;
 					}
