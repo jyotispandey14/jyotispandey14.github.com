@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook Take 9</title>
+  <title>Ride in Facebrook Take 8</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -519,9 +519,9 @@
 		var divBY = 2;
 		if(i > 65) divBY = Math.pow(2,6);
 		else if(i > 55) divBY = Math.pow(2,5);
-		else if(i > 50) divBY = Math.pow(2,4);
-		else if(i > 45) divBY = Math.pow(2,4);
-		else if(i > 40) divBY = Math.pow(2,4);
+		else if(i > 50) divBY = Math.pow(2,5) / 1.5;
+		else if(i > 45) divBY = Math.pow(2,5) / 1.4;
+		else if(i > 40) divBY = Math.pow(2,5) / 1.8;
 		else if(i > 35) divBY = Math.pow(2,4);
 		else if(i > 28) divBY = Math.pow(2,4) / 1.2;
 		else if(i > 25) divBY = Math.pow(2,4) / 1.5;
@@ -722,7 +722,8 @@
 		
 	}
 	
-	function addStar(){
+	function addStar(){	
+		
 		var foo = document.getElementById("star");
 		foo.appendChild(like);
 	}
