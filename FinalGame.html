@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game 11</title>
+  <title>FB Game 12</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -341,6 +341,11 @@
         if (evt.keyCode == 65){
 			isMoving = true;
 			playerX = playerX - step;
+			if(acceleration < 100)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
 			if (playerX < -50) {
 				playerX = 0;
 			}
@@ -358,6 +363,11 @@
         if (evt.keyCode == 68){
 			isMoving = true;
 			playerX = playerX + step;
+			if(acceleration < 100)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
 			if (playerX > 270) {
 				playerX = 270;
           }
@@ -670,7 +680,7 @@
 		billboard = new Image();
 		pole = new Image();
 		background.src = './images/background.png'; //canvas background
-		sprites.src = './images/f.png'; //canvas background
+		sprites.src = './images/back.png'; //canvas background
 		billboard.src = './images/ferrari.jpg'; //canvas background
 		pole.src = './images/pole.png';
 				
