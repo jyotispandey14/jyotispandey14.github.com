@@ -721,10 +721,10 @@
 		window.addEventListener('mousedown', whatKey, true);
 		
 	}
-	/*
+	
 	function moveLeft(){
 		//isMovingLeft = !isMovingLeft;
-		int i = 0;
+		var i = 0;
 		while(i < 100){
 		//while(isMovingLeft){
 			isMoving = true;
@@ -745,7 +745,7 @@
 	
 	function moveRight(){
 		//isMovingRight = !isMovingRight;
-		int i = 0;
+		var i = 0;
 		while(i < 100){
 			isMoving = true;
 			flag = 1;
@@ -764,7 +764,7 @@
 	}
 	
 	function accelerate(){
-		int i = 0;
+		var i = 0;
 		//isAcc = !isAcc;
 		while(i < 1000){
 			flag = 1;
@@ -774,12 +774,10 @@
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
 			
-			//timeout = setTimeout( accelerate, 10 );
 			i = i + 1;
 		}
 		flag = 0;
-		//clearTimeout(timeout);
-	}*/
+	}
 	
 	function addStar(){	
 		
