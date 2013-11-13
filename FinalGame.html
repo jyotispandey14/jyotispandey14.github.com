@@ -70,23 +70,46 @@
   <script src="common.js"></script> 
   
   <body> 
-	<div id = "score">
-		<font color="white"><p id='coord'> </p></font>
-		<font color="white" size = "5px"><p id='reso'> </p></font>
-	</div>
 	<div id = "star"></div>
-	<div id="div_1"> 	
+	<div id="div_1"> </div>
+	<table id = "1">
 		
+		<tr>
+		<td>
+			<div id = "score">
+				<font color="white"><p id='coord'> </p></font>
+				<font color="white" size = "5px"><p id='reso'> </p></font>
+			</div>
+		</td>
+		<td></td>
+		<td></td>
+		</tr>
 		
-		<canvas id="canvas_1" class="initialRotation">
-		  An error message
-		</canvas>
+		<tr>
+		<td>
+			<div id = "score">
+				<font color="white"><p id='coord'> </p></font>
+				<font color="white" size = "5px"><p id='reso'> </p></font>
+			</div>
+		</td>
+		<td>
+			<canvas id="canvas_1" class="initialRotation">
+				An error message
+			</canvas>
+		</td>
+		<td></td>
+		</tr>
+		<tr>
+			<td><button id='LEFT' type="button" class='button' onmousedown='moveLeft()'>Left</button></td>
+			<td><button id='RIGHT' type="button" class='button' onmousedown='moveRight()' style='float:right'>Right</button></td>
+			<td><button id='RIGHT' type="button" class='button' onmousedown='accelerate()' style='float:right'>Accelerate</button></td>
+		</tr>
+	</table>	
+		
 		
 		<br>
-	</div>
-	<button id='LEFT' type="button" class='button' onmousedown='moveLeft()'>Left</button>
-	<button id='RIGHT' type="button" class='button' onmousedown='moveRight()' style='float:right'>Right</button>
-	<button id='RIGHT' type="button" class='button' onmousedown='accelerate()' style='float:right'>Accelerate</button>
+	
+	
 	
 	<br><br>
 	<button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
@@ -676,11 +699,11 @@
 		loadingScreen.src = './images/racing.png'; 
 		document.body.style.backgroundImage="url('./images/ferrari_back.jpg')";
 		document.getElementById('PLAY').style.visibility='hidden'; // hide  
-		var imbk = new Image();
-		imbk.src = './images/back.png';	
+		//var imbk = new Image();
+		//imbk.src = './images/back.png';	
 		canvas = document.getElementById('canvas_1'); 
 		ctx = canvas.getContext('2d'); 
-		ctx.drawImage(imbk);
+		//ctx.drawImage(imbk);
 		for (var i = 0 ; i < limitPics; i++){
 			friendsImages[i] = new Image();
 			myImages[i] = new Image();
