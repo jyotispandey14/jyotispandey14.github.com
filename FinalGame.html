@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game 19</title>
+  <title>FB Game 20</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -340,11 +340,11 @@
 			if(playerY >= 50) playerY = 50;
 		}
 		render();
-		flag = 0;
+		
     }
 	
 	function whatKey(evt) {
-		var flag = 0;
+		
         if (evt.keyCode == 65){
           playerX = playerX - step;
           if (playerX < -50) {
@@ -666,6 +666,10 @@
 		wait();
 	}
 	
+	function keyUp(){
+		alert("in keyup");
+	}
+	
 	function startGame(){
 		background = new Image();
 		sprites = new Image();
@@ -686,6 +690,7 @@
 		resetRoad();	
 		document.getElementById('PLAY').style.visibility='visible'; 
 		window.addEventListener('keydown', whatKey, true);
+		window.addEventListener('keyup', keyUp, true);
 		window.addEventListener('mousedown', whatKey, true);
 		
 	}
