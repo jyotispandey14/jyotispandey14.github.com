@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game 8</title>
+  <title>FB Game 9</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -132,6 +132,7 @@
 	var timeout = null;
 	var SCORE = 0;
 	var limitPics = 20;
+	var isMoving = false;
 
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -314,7 +315,7 @@
 	}	
 		
 	function update() {
-		if(flag == 0){
+		if(flag == 0 && isMoving == false){
 			acceleration = acceleration - 0.08;
 			if(acceleration > 0){
 				speed = acceleration * dt;
@@ -338,10 +339,11 @@
 	function whatKey(evt) {
 		
         if (evt.keyCode == 65){
-          playerX = playerX - step;
-          if (playerX < -50) {
-            playerX = 0;
-          }
+			isMoving = true;
+			playerX = playerX - step;
+			if (playerX < -50) {
+				playerX = 0;
+			}
         }
 		
 		if (evt.keyCode == 87){
@@ -354,9 +356,10 @@
         }
 
         if (evt.keyCode == 68){
-          playerX = playerX + step;
-          if (playerX > 270) {
-            playerX = 270;
+			isMoving = true;
+			playerX = playerX + step;
+			if (playerX > 270) {
+				playerX = 270;
           }
         }	
 
@@ -658,6 +661,7 @@
 	
 	function keyUp(){
 		flag = 0;
+		isMoving = false;
 	}
 	
 	function startGame(){
