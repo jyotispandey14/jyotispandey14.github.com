@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game 2</title>
+  <title>FB Game 3</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -122,8 +122,9 @@
 	var playerX 		= 0,
 		playerZ 		= null,
 		playerY 		= 50; 
-    var speed 			= 10,
-		dt 				= 0.07;
+    var speed 			= 0,
+		dt 				= 0.07,
+		acceleration	= 0.0;
 	var count 			= 0,
 		jumpFlag 		= 0;
 	var ticks 			= 0;
@@ -344,8 +345,10 @@
         }
 		
 		if (evt.keyCode == 87){
-          position = increase(position, speed * dt, trackLength);	
-		  playerSegment = findSegment(position+playerZ);
+			acceleration = acceleration + 0.05;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
         }
 
         if (evt.keyCode == 68){
