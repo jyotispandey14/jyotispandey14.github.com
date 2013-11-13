@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game 23</title>
+  <title>FB Game</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -480,7 +480,6 @@
 		
         var canvas = document.createElement('canvas');
 		var width, height;
-		//document.getElementById('reso').innerHTML += Math.round(i) + " ";
 		var divBY = 2;
 		if(i > 60) divBY = Math.pow(2,6);
 		else if(i > 50) divBY = Math.pow(2,5);
@@ -526,7 +525,7 @@
 	
 	function render() {
 	
-		if(playerY < 10.0 && SCORE > 0){
+		if(position == 0.0 && SCORE > 0){
 			resertRoad();
 			alert('am here');
 		}
