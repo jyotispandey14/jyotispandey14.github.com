@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook Take 6</title>
+  <title>Ride in Facebrook Take 7</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -70,9 +70,9 @@
   <script src="common.js"></script> 
   
   <body> 
-	<div id = "score">
+	<div id = "score">		
+		<font color="white" size = "5px"><p id='reso'> </p></font>
 		<font color="white"><p id='coord'> </p></font>
-		<font color="white" size = "5px">SCORE: <p id='reso'> </p></font>
 	</div>
 	<div id = "star"></div>
 	<div id="div_1"> 	
@@ -99,6 +99,7 @@
 	var isLeftButtonClicked = 0;
 	var isRightButtonClicked = 0;
 	
+	var totalTrackCovered = 0;
 	var shufflePics 	= 0;
 	var fps 			= 60,
 		step 			= 1/fps,
@@ -142,7 +143,7 @@
 	var timeout = null;
 	var SCORE = 0;
 	var limitPics = 20;
-	var star = new Image();
+	var star1 = new Image();
 	var isMoving = false;
 	
 	var COLORS = {
@@ -516,8 +517,11 @@
         var canvas = document.createElement('canvas');
 		var width, height;
 		var divBY = 2;
-		if(i > 60) divBY = Math.pow(2,6);
-		else if(i > 50) divBY = Math.pow(2,5);
+		if(i > 65) divBY = Math.pow(2,6);
+		else if(i > 55) divBY = Math.pow(2,5);
+		else if(i > 50) divBY = Math.pow(2,5) / 1.2;
+		else if(i > 45) divBY = Math.pow(2,5) / 1.5;
+		else if(i > 40) divBY = Math.pow(2,5) / 1.8;
 		else if(i > 35) divBY = Math.pow(2,4);
 		else if(i > 28) divBY = Math.pow(2,4) / 1.2;
 		else if(i > 25) divBY = Math.pow(2,4) / 1.5;
@@ -562,9 +566,10 @@
     }
 	
 	function render() {
-	
+		totalTrackCovered += position;
 		if(SCORE > 0 && SCORE % 100 == 0 ) addStar();
-		if(position == trackLength){
+		if(Math.floor(totalTrackCovered / trackLength) > 2){
+			totalTrackCovered = 0;
 			resertRoad();
 			alert('am here');
 		}
@@ -645,7 +650,7 @@
 			}
 		}
 		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position
-		document.getElementById('reso').innerHTML = SCORE;
+		document.getElementById('reso').innerHTML = 'SCORE:' SCORE;
     }    
 	
 	function addSprite(n, sprite, offset, isUserFlag) {
@@ -699,11 +704,11 @@
 		pole = new Image();
 		background.src = './images/background.png'; //canvas background
 		sprites.src = './images/back.png'; //canvas background
-		billboard.src = './images/ferrari.jpg'; //canvas background
+		billboard.src = './images/ferrari_back.jpg'; //canvas background
 		pole.src = './images/pole.png';
 		isLeftButtonClicked = false;
 		isRightButtonClicked = false;
-		star.src = "./images/star.png"	
+		star1.src = "./images/star.png"	
 		width = canvas.width;
 		height = canvas.height;
 		playerZ = (cameraHeight * cameraDepth);
@@ -718,7 +723,7 @@
 	
 	function addStar(){
 		var foo = document.getElementById("star");
-		foo.appendChild(star);
+		foo.appendChild(star1);
 	}
   
 	function run(){
