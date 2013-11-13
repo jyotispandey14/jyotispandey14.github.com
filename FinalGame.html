@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook Take 5</title>
+  <title>Ride in Facebrook Take 6</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -70,9 +70,9 @@
   <script src="common.js"></script> 
   
   <body> 
-	<div id = "score">		
-		<font color="white" size = "5px"><p id='reso'> </p></font>
+	<div id = "score">
 		<font color="white"><p id='coord'> </p></font>
+		<font color="white" size = "5px"><p id='reso'> </p></font>
 	</div>
 	<div id = "star"></div>
 	<div id="div_1"> 	
@@ -99,7 +99,6 @@
 	var isLeftButtonClicked = 0;
 	var isRightButtonClicked = 0;
 	
-	var totalTrackCovered = 0;
 	var shufflePics 	= 0;
 	var fps 			= 60,
 		step 			= 1/fps,
@@ -566,14 +565,13 @@
     }
 	
 	function render() {
-		//totalTrackCovered += position;
+	
 		if(SCORE > 0 && SCORE % 100 == 0 ) addStar();
-		/*if(Math.floor(totalTrackCovered / trackLength) > 2){
-
+		if(position == trackLength){
 			resertRoad();
 			alert('am here');
 		}
-	*/
+	
 		ctx.clearRect(0, 0, width, height);
 		var baseSegment = findSegment(position), 
 			horizon = height;
