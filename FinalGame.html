@@ -1,13 +1,13 @@
 <html>
 <head>
-  <title>Ride in Facebrook</title>
+  <title>Ride in Facebrook Take 1</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
 	{
 		width:728px;
 		height:280px;
-
+		position:center;
 		transform: rotate3d(0,1,0,45deg);
 		-moz-transform: rotate3d(0,1,0,45deg);
 		-ms-transform: rotate3d(0,1,0,45deg);
@@ -69,10 +69,11 @@
 		<font color="white"><p id='coord'> </p></font>
 		<font color="white" size = "15px">SCORE: <p id='reso'> </p></font>
 	</div>
+	<div id = "star"></div>
 	<div id="div_1"> 	
 		
 		
-		<canvas id="canvas_1" class = "initialRotation" style="float:center">
+		<canvas id="canvas_1" class = "initialRotation">
 		  An error message
 		</canvas>
 		
@@ -137,7 +138,7 @@
 	var SCORE = 0;
 	var limitPics = 20;
 	var isMoving = false;
-
+	
 	var COLORS = {
 	  SKY: '#72D7EE',
 	  TREE: '#005108',
@@ -556,6 +557,7 @@
 	
 	function render() {
 	
+		if(SCORE % 100 == 0) addStar();
 		if(position == 0.0 && SCORE > 0){
 			resertRoad();
 			alert('am here');
@@ -693,7 +695,6 @@
 		sprites.src = './images/back.png'; //canvas background
 		billboard.src = './images/ferrari.jpg'; //canvas background
 		pole.src = './images/pole.png';
-				
 		isLeftButtonClicked = false;
 		isRightButtonClicked = false;
 				
@@ -707,6 +708,14 @@
 		window.addEventListener('keyup', keyUp, true);
 		window.addEventListener('mousedown', whatKey, true);
 		
+	}
+	
+	function addStar(){
+		var img=document.createElement("img");
+		img.src="./images/star.png"
+		img.id="picture"
+		var foo = document.getElementById("star");
+		foo.appendChild(img);
 	}
   
 	function run(){
