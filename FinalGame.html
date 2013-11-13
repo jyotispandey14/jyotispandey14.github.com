@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook Take 3</title>
+  <title>Ride in Facebrook Take 4</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -87,7 +87,6 @@
 		<tr>
 		<td>
 			<div id = "score">
-				<font color="white"><p id='coord'> </p></font>
 				<font color="white" size = "5px"><p id='reso'> </p></font>
 			</div>
 		</td>
@@ -100,7 +99,7 @@
 		</tr>
 		<tr>
 			<td><button id='LEFT' type="button" class='button' onmousedown='moveLeft()'>Left</button></td>
-			<td><button id='RIGHT' type="button" class='button' onmousedown='accelerate()' style="float:center">Accelerate</button></td>
+			<td align="center"><button id='RIGHT' type="button" class='button' onmousedown='accelerate()'>Accelerate</button></td>
 			<td><button id='RIGHT' type="button" class='button' onmousedown='moveRight()'>Right</button></td>			
 		</tr>
 	</table>	
@@ -670,7 +669,7 @@
 				
 			}
 		}
-		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position
+		//document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position
 		document.getElementById('reso').innerHTML = 'SCORE: ' + SCORE;
     }    
 	
