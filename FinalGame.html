@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook Take 3</title>
+  <title>Ride in Facebrook Take 4</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -142,6 +142,7 @@
 	var timeout = null;
 	var SCORE = 0;
 	var limitPics = 20;
+	var star = new Image();
 	var isMoving = false;
 	
 	var COLORS = {
@@ -702,7 +703,7 @@
 		pole.src = './images/pole.png';
 		isLeftButtonClicked = false;
 		isRightButtonClicked = false;
-				
+		star.src = "./images/back.png"	
 		width = canvas.width;
 		height = canvas.height;
 		playerZ = (cameraHeight * cameraDepth);
@@ -716,12 +717,8 @@
 	}
 	
 	function addStar(){
-		var img = document.createElement("img");
-		img.src="./images/back.png"
-		img.id="picture"
 		var foo = document.getElementById("star");
-		foo.appendChild(img);
-		foo.appendChild(sprites);
+		foo.appendChild(star);
 	}
   
 	function run(){
