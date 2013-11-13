@@ -1,0 +1,96 @@
+
+<html>
+<head>
+  <title>Play Changed</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ </head>
+  <style>
+  
+	
+	.button {
+		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		box-shadow:inset 0px 1px 0px 0px #ffffff;
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9) );
+		background:-moz-linear-gradient( center top, #f9f9f9 5%, #e9e9e9 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9');
+		background-color:#f9f9f9;
+		-webkit-border-top-left-radius:37px;
+		-moz-border-radius-topleft:37px;
+		border-top-left-radius:37px;
+		-webkit-border-top-right-radius:0px;
+		-moz-border-radius-topright:0px;
+		border-top-right-radius:0px;
+		-webkit-border-bottom-right-radius:37px;
+		-moz-border-radius-bottomright:37px;
+		border-bottom-right-radius:37px;
+		-webkit-border-bottom-left-radius:0px;
+		-moz-border-radius-bottomleft:0px;
+		border-bottom-left-radius:0px;
+		text-indent:0;
+		border:1px solid #dcdcdc;
+		display:inline-block;
+		color:#666666;
+		font-family:Arial;
+		font-size:15px;
+		font-weight:bold;
+		font-style:normal;
+		height:65px;
+		line-height:65px;
+		width:131px;
+		text-decoration:none;
+		text-align:center;
+		text-shadow:1px 1px 0px #ffffff;
+	}
+	.button:hover {
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9) );
+		background:-moz-linear-gradient( center top, #e9e9e9 5%, #f9f9f9 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9');
+		background-color:#e9e9e9;
+	}.button:active {
+		position:relative;
+		top:1px;
+	}
+
+  </style>
+  <script src="http://connect.facebook.net/en_US/all.js"></script>
+  <script src="THREE.js"></script>
+
+
+<script>
+
+function initWebGL(canvas) {
+  gl = null;
+  try {
+    gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+  }
+  catch(e) {}
+  if (!gl) {
+    alert("Unable to initialize WebGL. Your browser may not support it.");
+  }
+}
+
+
+function start() {
+  var canvas = document.getElementById("glcanvas");
+	
+  initWebGL(canvas);      // Initialize the GL context
+  
+  // Only continue if WebGL is available and working
+  if (gl) {
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);                      // Set clear color to black, fully opaque
+    gl.enable(gl.DEPTH_TEST);                               // Enable depth testing
+    gl.depthFunc(gl.LEQUAL);                                // Near things obscure far things
+    gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);      // Clear the color as well as the depth buffer.
+  }
+  
+}
+
+
+</script>
+
+<body onload="start()">
+  <canvas id="glcanvas" width="640" height="480">
+    Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
+  </canvas>
+</body></html>

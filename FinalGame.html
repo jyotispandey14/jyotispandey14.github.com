@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook Take 1</title>
+  <title>Ride in Facebrook Take 2</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -674,12 +674,13 @@
 	function init(){
 		var loadingScreen = new Image();
 		loadingScreen.src = './images/racing.png'; 
-		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
+		document.body.style.backgroundImage="url('./images/ferrari_back.jpg')";
 		document.getElementById('PLAY').style.visibility='hidden'; // hide  
-
+		var imbk = new Image();
+		imbk.src = './images/back.png';	
 		canvas = document.getElementById('canvas_1'); 
 		ctx = canvas.getContext('2d'); 
-
+		ctx.drawImage(imbk);
 		for (var i = 0 ; i < limitPics; i++){
 			friendsImages[i] = new Image();
 			myImages[i] = new Image();
