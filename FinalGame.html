@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game 3</title>
+  <title>FB Game 8</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -315,7 +315,7 @@
 		
 	function update() {
 		if(flag == 0){
-			acceleration = acceleration - 0.5;
+			acceleration = acceleration - 0.08;
 			if(acceleration > 0){
 				speed = acceleration * dt;
 				position = increase(position, speed, trackLength);	
@@ -347,7 +347,7 @@
 		if (evt.keyCode == 87){
 			flag = 1;
 			if(acceleration < 100)
-				acceleration = acceleration + 0.05;
+				acceleration = acceleration + 0.08;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
