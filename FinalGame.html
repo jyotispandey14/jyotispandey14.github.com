@@ -1,12 +1,12 @@
 <html>
 <head>
-  <title>FB Game 1</title>
+  <title>FB Game 3</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
 	{
-		width:1000px;
-		height:500px;
+		width:728px;
+		height:280px;
 
 		transform: rotate3d(0,1,0,45deg);
 		-moz-transform: rotate3d(0,1,0,45deg);
@@ -62,31 +62,24 @@
 
   </style>
   <script src="http://connect.facebook.net/en_US/all.js"></script>
-  <script src="common.js"></script>
+  <script src="common.js"></script> 
   
-  
-  <body>
-  
-  
-  <div id="div_1"> 
-  
-	
-	<font color="white"><p id='coord'> </p></font>
-	<font color="white"><p id='reso'> </p></font>
-    <canvas id="canvas_1" class = "initialRotation">
-      An error message
-    </canvas>
+  <body> 
+	<div id="div_1"> 	
+		<font color="white"><p id='coord'> </p></font>
+		<font color="white"><p id='reso'> </p></font>
+		<canvas id="canvas_1" class = "initialRotation">
+		  An error message
+		</canvas>
+		
+		<br>
+	</div>
 	<button id='LEFT' type="button" class='button' onclick='moveLeft()'>Left</button>
 	<button id='RIGHT' type="button" class='button' onclick='moveRight()' style='float:right'>Right</button>
 	
+	<br><br>
 	<button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
-	
-	
-  </div>
-  
-  <div id="mfs"></div>
-  
-   
+	     
   </body>
   
   <script>
@@ -321,11 +314,9 @@
 	}	
 		
 	function update() {
-		//position = increase(position, speed * dt, trackLength);	
-		//playerSegment = findSegment(position+playerZ);		
 		if(flag == 0){
+			acceleration = acceleration - 0.5;
 			if(acceleration > 0){
-				acceleration = acceleration - 0.05;
 				speed = acceleration * dt;
 				position = increase(position, speed, trackLength);	
 				playerSegment = findSegment(position+playerZ);
