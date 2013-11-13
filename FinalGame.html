@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook Take 8</title>
+  <title>Ride in Facebrook Take 10</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -86,6 +86,7 @@
 	</div>
 	<button id='LEFT' type="button" class='button' onclick='moveLeft()'>Left</button>
 	<button id='RIGHT' type="button" class='button' onclick='moveRight()' style='float:right'>Right</button>
+	<button id='RIGHT' type="button" class='button' onclick='accelerate()' style='float:right'>Accelerate</button>
 	
 	<br><br>
 	<button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
@@ -145,6 +146,9 @@
 	var limitPics = 20;
 	var star = new Image();
 	var isMoving = false;
+	var isAcc = false;
+	var isMovingLeft = false;
+	var isMovingRight = false;
 	
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -518,10 +522,6 @@
 		var width, height;
 		var divBY = 2;
 		if(i > 65) divBY = Math.pow(2,6);
-		else if(i > 55) divBY = Math.pow(2,5);
-		else if(i > 50) divBY = Math.pow(2,5) / 1.5;
-		else if(i > 45) divBY = Math.pow(2,5) / 1.4;
-		else if(i > 40) divBY = Math.pow(2,5) / 1.8;
 		else if(i > 35) divBY = Math.pow(2,4);
 		else if(i > 28) divBY = Math.pow(2,4) / 1.2;
 		else if(i > 25) divBY = Math.pow(2,4) / 1.5;
@@ -649,7 +649,7 @@
 			}
 		}
 		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position
-		document.getElementById('reso').innerHTML = SCORE;
+		document.getElementById('reso').innerHTML = 'SCORE: ' + SCORE;
     }    
 	
 	function addSprite(n, sprite, offset, isUserFlag) {
@@ -709,7 +709,7 @@
 		pole.src = './images/pole.png';
 		isLeftButtonClicked = false;
 		isRightButtonClicked = false;
-		star.src = "./images/star.png"	
+		
 		width = canvas.width;
 		height = canvas.height;
 		playerZ = (cameraHeight * cameraDepth);
@@ -720,6 +720,52 @@
 		window.addEventListener('keyup', keyUp, true);
 		window.addEventListener('mousedown', whatKey, true);
 		
+	}
+	
+	function moveLeft(){
+		isMovingLeft = !isMovingLeft;
+		while(isMovingLeft){
+			isMoving = true;
+			flag = 1;
+			playerX = playerX - step;
+			if(acceleration < 50)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			if (playerX < -50) {
+				playerX = 0;
+			}
+		}
+	}
+	
+	function moveRight(){
+		isMovingRight = !isMovingRight;
+		while(isMovingRight){
+			isMoving = true;
+			flag = 1;
+			playerX = playerX + step;
+			if(acceleration < 100)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			if (playerX > 270) {
+				playerX = 270;
+			}
+		}
+	}
+	
+	function accelerate(){
+		isAcc = !isAcc;
+		while(isAcc){
+			flag = 1;
+			if(acceleration < 100)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+		}
 	}
 	
 	function addStar(){	
