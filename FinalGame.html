@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>FB Game</title>
+  <title>FB Game 1</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -327,7 +327,8 @@
 			if(acceleration > 0){
 				acceleration = acceleration - 0.05;
 				speed = acceleration * dt;
-				position = position + speed * dt;
+				position = increase(position, speed, trackLength);	
+				playerSegment = findSegment(position+playerZ);
 			}else if(acceleration < 0)
 				acceleration = 0;
 		}
