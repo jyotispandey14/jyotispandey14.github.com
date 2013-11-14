@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook</title>
+  <title>Ride in Facebrook 1</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -393,7 +393,7 @@
 		
 		if (evt.keyCode == 87){
 			flag = 1;
-			if(acceleration < 100)
+			if(acceleration < 50)
 				acceleration = acceleration + 0.08;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
@@ -404,7 +404,7 @@
 			isMoving = true;
 			flag = 1;
 			playerX = playerX + step;
-			if(acceleration < 100)
+			if(acceleration < 50)
 				acceleration = acceleration + 0.08;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
@@ -668,7 +668,7 @@
 						ctx.drawImage(onePlus, (playerX), (playerY + 2));
 					}
 					
-					if(SCORE % 100 == 0 ) addStar();
+					if(SCORE % 100 == 0 && SCORE > 0) addStar();
 				}
 				ctx.drawImage(sprites, (playerX), playerY);
 				
