@@ -72,6 +72,15 @@
   <body> 
 	<div id = "star"></div>
 	<div id="div_1"> </div>
+	<table>
+	<tr>
+	<form>
+		Your name: <input type="text" name="name"><br>
+		Number of lanes: <input type="text" name="lanes">
+	</form> 
+	<tr>
+	</table>
+	
 	<table id = "1">
 		
 		<tr>
@@ -667,9 +676,9 @@
 					var b1 = playerSegment.billboards[0];
 					var b2 = playerSegment.billboards[1];
 					
-					if((b1.isUser && playerX > 0) || (b2.isUser && playerX < 0)) {
-						SCORE = SCORE + 1;
-						ctx.drawImage(onePlus, (playerX), (playerY + 2));
+					if(((b1.isUser && playerX > 0) || (b2.isUser && playerX < 0))) {
+						if(b1.p1.screen.y == playerY)SCORE = SCORE + 1;
+						ctx.drawImage(onePlus, (playerX), (playerY + 10));
 						goodSound.play();
 					}else if ((b1.isUser && playerX > 0) || (b2.isUser && playerX < 0)){
 						badSound.play();
