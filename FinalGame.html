@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 1</title>
+  <title>Ride in Facebrook 2</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -171,6 +171,7 @@
 	var isAcc = false;
 	var isMovingLeft = false;
 	var isMovingRight = false;
+	var maxAcceleration = 10;
 	
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -381,7 +382,7 @@
 			isMoving = true;
 			flag = 1;
 			playerX = playerX - step;
-			if(acceleration < 50)
+			if(acceleration < maxAcceleration)
 				acceleration = acceleration + 0.08;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
@@ -393,7 +394,7 @@
 		
 		if (evt.keyCode == 87){
 			flag = 1;
-			if(acceleration < 50)
+			if(acceleration < maxAcceleration)
 				acceleration = acceleration + 0.08;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
@@ -404,7 +405,7 @@
 			isMoving = true;
 			flag = 1;
 			playerX = playerX + step;
-			if(acceleration < 50)
+			if(acceleration < maxAcceleration)
 				acceleration = acceleration + 0.08;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
