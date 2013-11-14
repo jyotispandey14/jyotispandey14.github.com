@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 2</title>
+  <title>Ride in Facebrook sound</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -171,7 +171,10 @@
 	var isAcc = false;
 	var isMovingLeft = false;
 	var isMovingRight = false;
-	var maxAcceleration = 10;
+	var maxAcceleration = 5;
+	var goodSound = new Audio("./sound/good.wav");
+	var badSound = new Audio("./sound/bad.wav");
+	var startSound = new Audio("./sound/start.wav");
 	
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -667,6 +670,9 @@
 					if((b1.isUser && playerX > 0) || (b2.isUser && playerX < 0)) {
 						SCORE = SCORE + 1;
 						ctx.drawImage(onePlus, (playerX), (playerY + 2));
+						goodSound.play();
+					}else if ((b1.isUser && playerX > 0) || (b2.isUser && playerX < 0)){
+						badSound.play();
 					}
 					
 					if(SCORE % 100 == 0 && SCORE > 0) addStar();
@@ -745,7 +751,7 @@
 		window.addEventListener('keydown', whatKey, true);
 		window.addEventListener('keyup', keyUp, true);
 		window.addEventListener('mousedown', whatKey, true);
-		
+		startSound.play();
 	}
 	
 	function moveLeft(){
