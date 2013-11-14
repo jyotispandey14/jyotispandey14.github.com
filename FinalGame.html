@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 111</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -166,6 +166,7 @@
 	var SCORE = 0;
 	var limitPics = 20;
 	var star = new Image();
+	var onePlus = new Image();
 	var isMoving = false;
 	var isAcc = false;
 	var isMovingLeft = false;
@@ -664,7 +665,7 @@
 					
 					if((b1.isUser && playerX > 0) || (b2.isUser && playerX < 0)) {
 						SCORE = SCORE + 1;
-						ctx.drawImage(like, (playerX), (playerY + 2));
+						ctx.drawImage(onePlus, (playerX), (playerY + 2));
 					}
 					
 					if(SCORE % 100 == 0 ) addStar();
@@ -700,12 +701,10 @@
 		var loadingScreen = new Image();
 		loadingScreen.src = './images/racing.png'; 
 		document.body.style.backgroundImage="url('./images/ferrari_back.jpg')";
-		document.getElementById('PLAY').style.visibility='hidden'; // hide  
-		//var imbk = new Image();
-		//imbk.src = './images/back.png';	
+		document.getElementById('PLAY').style.visibility='hidden'; 
 		canvas = document.getElementById('canvas_1'); 
+		onePlus.src = './images/star.png';
 		ctx = canvas.getContext('2d'); 
-		//ctx.drawImage(imbk);
 		for (var i = 0 ; i < limitPics; i++){
 			friendsImages[i] = new Image();
 			myImages[i] = new Image();
