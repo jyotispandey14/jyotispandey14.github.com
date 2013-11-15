@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook sound</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -677,7 +677,7 @@
 					var b2 = playerSegment.billboards[1];
 					
 					if(b1.isUser && playerX > 0){
-						if((b1.p1.screen.y - 5 * b1.p1.screen.scale) == playerY){
+						if((playerSegment.p1.screen.y - 5 * playerSegment.p1.screen.scale) == playerY){
 							SCORE = SCORE + 1;
 							goodSound.play();
 						}
@@ -689,7 +689,7 @@
 							goodSound.play();
 						}
 						ctx.drawImage(onePlus, (playerX), (playerY + 10));
-					}else if (!(playerSegment.isUser && playerX > 0) && !(playerSegment.isUser && playerX < 0)){
+					}else if (!(b1.isUser && playerX > 0) && !(b2.isUser && playerX < 0)){
 						badSound.play();
 					}
 					
@@ -838,6 +838,9 @@
   
 	function run(){
 		window.setInterval(update, 10);
+		var filename="./sound/a.mp3";
+		document.writeln ('<EMBED SRC="' + filename + '" AUTOSTART=TRUE loop=TRUE WIDTH=144 HEIGHT=60><P>');
+
 	}
 	
   </script>
