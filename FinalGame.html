@@ -184,6 +184,12 @@
 	var goodSound = new Audio("./sound/good.wav");
 	var badSound = new Audio("./sound/bad.wav");
 	var startSound = new Audio("./sound/start.wav");
+	var myAudio = new Audio('./sound/a.mp3'); 
+	myAudio.addEventListener('ended', function() {
+		this.currentTime = 0;
+		this.play();
+	}, false);
+
 	
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -677,18 +683,18 @@
 					var b2 = playerSegment.billboards[1];
 					
 					if(b1.isUser && playerX > 0){
-						if((playerSegment.p1.screen.y - 5 * playerSegment.p1.screen.scale) == playerY){
+						if((playerSegment.p1.camera.z > 9.5{
 							SCORE = SCORE + 1;
 							goodSound.play();
 						}
-						ctx.drawImage(onePlus, (playerX), (playerY + 10));
+						ctx.drawImage(onePlus, (playerX), (playerY + 30));
 						
 					}else if(b2.isUser && playerX < 0){
-						if((playerSegment.p1.screen.y - 5 * playerSegment.p1.screen.scale) == playerY){
+						if((playerSegment.p1.camera.z > 9.5){
 							SCORE = SCORE + 1;
 							goodSound.play();
 						}
-						ctx.drawImage(onePlus, (playerX), (playerY + 10));
+						ctx.drawImage(onePlus, (playerX), (playerY + 30));
 					}else if (!(b1.isUser && playerX > 0) && !(b2.isUser && playerX < 0)){
 						badSound.play();
 					}
@@ -839,11 +845,6 @@
   
 	function run(){
 		window.setInterval(update, 10);
-		var myAudio = new Audio('./sound/a.mp3'); 
-		myAudio.addEventListener('ended', function() {
-			this.currentTime = 0;
-			this.play();
-		}, false);
 		myAudio.play();
 		//var filename="./sound/a.mp3";
 		//document.writeln ('<EMBED SRC="' + filename + '" AUTOSTART=TRUE loop=TRUE WIDTH=144 HEIGHT=60><P>');
