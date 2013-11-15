@@ -1,13 +1,13 @@
 <html>
 <head>
-  <title>Ride in Facebrook 1</title>
+  <title>Ride in Facebrook 2</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
 	{
 		width:728px;
 		height:280px;
-		background:url('./images/flag.jpg')
+		
 		transform: rotate3d(0,1,0,45deg);
 		-moz-transform: rotate3d(0,1,0,45deg);
 		-ms-transform: rotate3d(0,1,0,45deg);
@@ -724,12 +724,13 @@
 	
 	function init(){
 		var loadingScreen = new Image();
-		loadingScreen.src = './images/racing.png'; 
+		loadingScreen.src = './images/startScreenBG.jpg'; 
 		document.body.style.backgroundImage="url('./images/ferrari_back.jpg')";
 		document.getElementById('PLAY').style.visibility='hidden'; 
 		canvas = document.getElementById('canvas_1'); 
 		onePlus.src = './images/star.png';
 		ctx = canvas.getContext('2d'); 
+		ctx.drawImage(loadingScreen,0, 0);
 		for (var i = 0 ; i < limitPics; i++){
 			friendsImages[i] = new Image();
 			myImages[i] = new Image();
