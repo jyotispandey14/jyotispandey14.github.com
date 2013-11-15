@@ -185,11 +185,11 @@
 	var badSound = new Audio("./sound/bad.wav");
 	var startSound = new Audio("./sound/start.wav");
 	var myAudio = new Audio('./sound/a.mp3'); 
-	myAudio.addEventListener('ended', function() {
+	/*myAudio.addEventListener('ended', function() {
 		this.currentTime = 0;
 		this.play();
 	}, false);
-
+*/
 	
 	var COLORS = {
 	  SKY: '#72D7EE',
@@ -578,31 +578,6 @@
         canvas.height = height;
         var ctx1 = canvas.getContext("2d");
 		ctx1.drawImage(img, 0, 0, width, height);
-		
-		/*ctx1.beginPath();
-		ctx1.moveTo(0, 0);
-		ctx1.lineTo(0, width);
-		ctx1.lineWidth = 3;
-		ctx1.stroke();
-		
-		ctx1.beginPath();
-		ctx1.moveTo(0, width);
-		ctx1.lineTo(height, width);
-		ctx1.lineWidth = 3;
-		ctx1.stroke();
-		
-		ctx1.beginPath();
-		ctx1.moveTo(height, width);
-		ctx1.lineTo(height, 0);
-		ctx1.lineWidth = 3;
-		ctx1.stroke();
-		
-		ctx1.beginPath();
-		ctx1.moveTo(height, 0);
-		ctx1.lineTo(0, 0);
-		ctx1.lineWidth = 3;
-		ctx1.stroke();     */   
-		
         return canvas;
 		
     }
@@ -685,6 +660,7 @@
 					if(b1.isUser && playerX > 0){
 						if(playerSegment.p1.camera.z > 9.5){
 							SCORE = SCORE + 1;
+							if(SCORE % 100 == 0 && SCORE > 0) addStar();
 							goodSound.play();
 						}
 						ctx.drawImage(onePlus, (playerX), (playerY + 30));
@@ -692,6 +668,7 @@
 					}else if(b2.isUser && playerX < 0){
 						if(playerSegment.p1.camera.z > 9.5){
 							SCORE = SCORE + 1;
+							if(SCORE % 100 == 0 && SCORE > 0) addStar();
 							goodSound.play();
 						}
 						ctx.drawImage(onePlus, (playerX), (playerY + 30));
@@ -699,7 +676,7 @@
 						badSound.play();
 					}
 					
-					if(SCORE % 100 == 0 && SCORE > 0) addStar();
+					
 				}
 				ctx.drawImage(sprites, (playerX), playerY);
 				
