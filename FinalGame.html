@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook</title>
+  <title>Ride in Facebrook 7</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -124,7 +124,6 @@
   </body>
   
   <script>
-	//<font color="white"><p id='coord'> </p></font>
 	window.onload = init;
 	var canvas, ctx ; 
 	var isLeftButtonClicked = 0;
@@ -148,7 +147,7 @@
 	var numberOfSegments = 1000
 	var segments 		= [],
 		billboards		= [],
-		segmentLength 	= 5,
+		segmentLength 	= 20,
 		trackLength 	= null; 
 	var background 		= null,
 		sprites 		= null,
@@ -674,8 +673,6 @@
 					}else if (!(b1.isUser && playerX > 0) && !(b2.isUser && playerX < 0)){
 						badSound.play();
 					}
-					
-					
 				}
 				ctx.drawImage(sprites, (playerX), playerY);
 				
