@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 7</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -141,10 +141,9 @@
 		cameraDepth 	= 1 / Math.tan((fieldOfView/2) * Math.PI/180),
 		drawDistance 	= 100;
 	var lanes         	= 3,
-		segmentLength 	= 200,
 		roadWidth 		= 50,
 		rumbleLength  	= 3;
-	var numberOfSegments = 1000
+	var numberOfSegments = 100
 	var segments 		= [],
 		billboards		= [],
 		segmentLength 	= 20,
@@ -164,6 +163,7 @@
 	var count 			= 0,
 		jumpFlag 		= 0;
 	var ticks 			= 0;
+	var accIncrease		= 0.1;
 	var facebookImages  = [];
 	var playerSegment	= null;
 	var friendsImages = [];
@@ -371,7 +371,7 @@
 		
 	function update() {
 		if(flag == 0){
-			acceleration = acceleration - 0.08;
+			acceleration = acceleration - accIncrease;
 		}
 		if(acceleration > 0){
 			speed = acceleration * dt;
@@ -399,7 +399,7 @@
 			flag = 1;
 			playerX = playerX - step;
 			if(acceleration < maxAcceleration)
-				acceleration = acceleration + 0.08;
+				acceleration = acceleration + accIncrease;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
@@ -411,7 +411,7 @@
 		if (evt.keyCode == 87){
 			flag = 1;
 			if(acceleration < maxAcceleration)
-				acceleration = acceleration + 0.08;
+				acceleration = acceleration + accIncrease;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
@@ -422,7 +422,7 @@
 			flag = 1;
 			playerX = playerX + step;
 			if(acceleration < maxAcceleration)
-				acceleration = acceleration + 0.08;
+				acceleration = acceleration + accIncrease;
 			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
