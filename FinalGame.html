@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 2</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -78,7 +78,7 @@
 		Your name: <input type="text" name="name"><br>
 		Number of lanes: <input type="text" name="lanes">
 	</form> 
-	<tr>
+	</tr>
 	</table>
 	
 	<table id = "1">
@@ -145,6 +145,7 @@
 		segmentLength 	= 200,
 		roadWidth 		= 50,
 		rumbleLength  	= 3;
+	var numberOfSegments = 1000
 	var segments 		= [],
 		billboards		= [],
 		segmentLength 	= 5,
@@ -184,8 +185,8 @@
 	var goodSound = new Audio("./sound/good.wav");
 	var badSound = new Audio("./sound/bad.wav");
 	var startSound = new Audio("./sound/start.wav");
-	var myAudio = new Audio('./sound/a.mp3'); 
-	/*myAudio.addEventListener('ended', function() {
+	/*var myAudio = new Audio('./sound/a.mp3'); 
+	myAudio.addEventListener('ended', function() {
 		this.currentTime = 0;
 		this.play();
 	}, false);
@@ -309,7 +310,6 @@
 						FB.api("/"+d[i].id+"/photos", function(response){
 							var d_pics = response.data;
 							for(var j = 0; j< d_pics.length;j++ ){
-								//myImages[myImagesCount] = new Image();
 								myImages[myImagesCount].src = d_pics[j].source;
 								myImagesCount += 1;	
 								if(myImagesCount > limitPics)break;
@@ -327,7 +327,6 @@
 									FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
 										for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 100); z++) {
 											for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
-												//friendsImages[fImagesCount] = new Image();
 												friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
 												fImagesCount += 1;
 												if(fImagesCount > limitPics) break;
@@ -469,7 +468,7 @@
 	
 	function resetRoad() {
 		segments = [];
-		for(var n = 0 ; n < 500 ; n++) {
+		for(var n = 0 ; n < numberOfSegments ; n++) {
 			segments.push({
 			   index: n,
 			   p1: { world: { z: n *segmentLength }, camera: {}, screen: {} },
