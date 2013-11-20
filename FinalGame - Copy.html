@@ -1,10 +1,19 @@
 <html>
 <head>
-  <title>Play Changed</title>
+  <title>Ride in Facebrook 2</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  </head>
   <style>
-  
+  .initialRotation
+	{
+		width:728px;
+		height:280px;
+		
+		transform: rotate3d(0,1,0,45deg);
+		-moz-transform: rotate3d(0,1,0,45deg);
+		-ms-transform: rotate3d(0,1,0,45deg);
+		-o-transform: rotate3d(0,1,0,45deg);
+		-webkit-transform: rotate3d(0,1,0,45deg);
+	}
 	
 	.button {
 		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -50,17 +59,80 @@
 		position:relative;
 		top:1px;
 	}
+	
+	#canvas_1 {
+    border: 10px solid #000000;
+    position:center;
+}
 
   </style>
   <script src="http://connect.facebook.net/en_US/all.js"></script>
-  <script src="common.js"></script>
-  <script>
+  <script src="common.js"></script> 
+  
+  <body> 
+	<div id = "star"></div>
+	<div id="div_1"> </div>
+	<table>
+	<tr>
+	<form>
+		Your name: <input type="text" name="name"><br>
+		Number of lanes: <input type="text" name="lanes">
+	</form> 
+	</tr>
+	</table>
 	
+	<table id = "1">
+		
+		<tr>
+		<td>
+			<div id = "score">				
+				<font color="white" size = "5px"><p id='reso'> </p></font>
+			</div>
+		</td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr>
+		<td>
+			<div id = "score">
+				<font color="white" size = "5px"><p id='reso'> </p></font>
+			</div>
+		</td>
+		<td>
+			<canvas id="canvas_1" class="initialRotation">
+				An error message
+			</canvas>
+		</td>
+		<td></td>
+		</tr>
+		<tr>
+			<td><button id='LEFT' type="button" class='button' onmousedown='moveLeft()'>Left</button></td>
+			<td align="center"><button id='RIGHT' type="button" class='button' onmousedown='accelerate()'>Accelerate</button></td>
+			<td><button id='RIGHT' type="button" class='button' onmousedown='moveRight()'>Right</button></td>			
+		</tr>
+	</table>	
+		
+		
+		<br>
+	
+	
+	
+	<br><br>
+	<button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
+	     
+  </body>
+  
+  <script>
+	//<font color="white"><p id='coord'> </p></font>
 	window.onload = init;
 	var canvas, ctx ; 
+	var isLeftButtonClicked = 0;
+	var isRightButtonClicked = 0;
 	
-	var fps 			= 5,
-		step 			= 0.08/fps,
+	var shufflePics 	= 0;
+	var fps 			= 60,
+		step 			= 1/fps,
 		width 			= 0,
 		height 			= 0,
 		resolution 		= null,
@@ -79,13 +151,16 @@
 		trackLength 	= null; 
 	var background 		= null,
 		sprites 		= null,
+		like 			= null,
 		billboard		= null,
 		pole 			= null;
 	var playerX 		= 0,
 		playerZ 		= null,
 		playerY 		= 50; 
-    var speed 			= 10,
-		dt 				= 0.08;
+    var speed 			= 0,
+		dt 				= 0.07,
+		acceleration	= 0.0,
+		flag 			= 0;
 	var count 			= 0,
 		jumpFlag 		= 0;
 	var ticks 			= 0;
@@ -97,8 +172,25 @@
 		myImagesCount = 0;
 	var mypic = new Image(), fPic = new Image();
 	var timeout = null;
-	var SCORE = 100;
-
+	var SCORE = 0;
+	var limitPics = 20;
+	var star = new Image();
+	var onePlus = new Image();
+	var isMoving = false;
+	var isAcc = false;
+	var isMovingLeft = false;
+	var isMovingRight = false;
+	var maxAcceleration = 5;
+	var goodSound = new Audio("./sound/good.wav");
+	var badSound = new Audio("./sound/bad.wav");
+	var startSound = new Audio("./sound/start.wav");
+	/*var myAudio = new Audio('./sound/a.mp3'); 
+	myAudio.addEventListener('ended', function() {
+		this.currentTime = 0;
+		this.play();
+	}, false);
+*/
+	
 	var COLORS = {
 	  SKY: '#72D7EE',
 	  TREE: '#005108',
@@ -119,6 +211,74 @@
 		
 	//*****************************FACEBOOK INTEGRATION********************
 	
+	
+	/*function loadAlbums(){         
+		// facebook code 
+		FB.init({appId  : '539841076090252', status : true, cookie : true, xfbml  : true });
+			(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "http://connect.facebook.net/en_US/all.js";
+			fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+			// -----------
+
+			// runs on authorization
+			FB.login(function(response){
+				if (response.authResponse){
+						document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
+						FB.api('/me/albums', function(response){
+							var albumid;
+							var d = response.data;
+							for (var i=0; i<d.length; i++){
+								//get the photographs 
+								albumid = d[i].id;	
+								FB.api("/"+albumid+"/photos", function(response){
+									var d_pics = response.data;
+									for(var j = 0; j< Math.min(10,d_pics.length);j++ ){
+									var img = {};
+									img.src = d_pics[j].source;
+									myImages.push(img);
+									myImagesCount++;
+									//document.getElementById("status").innerHTML+= "<br/>"+img.src;
+									}
+								});	
+							}
+						});
+			FB.api('/me/friends/', function(response) {
+			var container = document.getElementById('mfs');
+			var mfsForm = document.createElement('form');
+			mfsForm.id = 'mfsForm';
+			//for first 50 friends
+			for(var i = 0; i < Math.min(response.data.length, 50); i++) {
+			//get albums list
+				FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {
+				//get for each album
+				for(var k = 0; k < Math.min(friendsAlbums.data.length, 10); k++) {
+					//get photos list
+					FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
+						if(typeof friendsPhotos.photos != 'undefined'){
+						//for each photo array
+							for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 5); z++) {
+							//get Photo
+								for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
+									var img = {};//new Image();
+									img.src = friendsPhotos.photos.data[z].images[zD].source;
+									friendsImages.push(img);
+									fImagesCount++;
+								}
+							}
+						}
+					});
+					}
+					});
+				}
+				});
+
+			}
+			});
+			}*/
 	function loadAlbums()
 	{         
 		 FB.init({
@@ -149,9 +309,10 @@
 						FB.api("/"+d[i].id+"/photos", function(response){
 							var d_pics = response.data;
 							for(var j = 0; j< d_pics.length;j++ ){
-								myImages[myImagesCount] = new Image();
+								//myImages[myImagesCount] = new Image();
 								myImages[myImagesCount].src = d_pics[j].source;
 								myImagesCount += 1;	
+								if(myImagesCount > limitPics)break;
 							}
 						});								
 					} 
@@ -163,14 +324,16 @@
 						
 						FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
 								for(var k = 0; k < Math.min(friendsAlbums.data.length, 10); k++) {
-									FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {										
+									FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
 										for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 100); z++) {
 											for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
-												friendsImages[fImagesCount] = new Image();
+												//friendsImages[fImagesCount] = new Image();
 												friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
 												fImagesCount += 1;
+												if(fImagesCount > limitPics) break;
 											}
 										}
+
 									});
 								}
 						});
@@ -209,9 +372,16 @@
 	}	
 		
 	function update() {
-		position = increase(position, speed * dt, trackLength);	
-		playerSegment = findSegment(position+playerZ);		
-		//shufflePics();
+		if(flag == 0){
+			acceleration = acceleration - 0.08;
+		}
+		if(acceleration > 0){
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+		}else if(acceleration < 0)
+			acceleration = 0;
+
 		if(jumpFlag == 1 && playerY < 50 && playerY >= 0 ){
 			playerY = playerY - 100 * step;
 			if(playerY <= 0) jumpFlag = 0;
@@ -221,23 +391,45 @@
 			if(playerY >= 50) playerY = 50;
 		}
 		render();
+		
     }
 	
 	function whatKey(evt) {
-		var flag = 0;
+		
         if (evt.keyCode == 65){
-          playerX = playerX - step;
-          if (playerX < -50) {
-            playerX = 0;
-            flag = 1;
-          }
+			isMoving = true;
+			flag = 1;
+			playerX = playerX - step;
+			if(acceleration < maxAcceleration)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			if (playerX < -50) {
+				playerX = 0;
+			}
+        }
+		
+		if (evt.keyCode == 87){
+			flag = 1;
+			if(acceleration < maxAcceleration)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
         }
 
         if (evt.keyCode == 68){
-          playerX = playerX + step;
-          if (playerX > 270) {
-            playerX = 270;
-            flag = 1;
+			isMoving = true;
+			flag = 1;
+			playerX = playerX + step;
+			if(acceleration < maxAcceleration)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			if (playerX > 270) {
+				playerX = 270;
           }
         }	
 
@@ -285,13 +477,21 @@
 			   billboards: [],
 			   color: Math.round(n/rumbleLength)%2 ? COLORS.DARK : COLORS.LIGHT
 			});
-			if(n % 50==0){
+			if(n % 40==0){
 				
-				addSprite(n, background, 0.0);
-				addSprite(n, billboard, 0.0);
-				//addSprite(n, myImages[Math.round(Math.random() * (myImagesCount-1))], 0.0);
-				//addSprite(n, friendsImages[Math.round(Math.random() * (fImagesCount-1))], 0.0);
+				shufflePics = (shufflePics + 1) % 4;
+				if(myImagesCount == 0 || fImagesCount == 0)continue;
+				if(shufflePics % 3 == 0){
+					addSprite(n, myImages[Math.floor(Math.random() * (myImagesCount-1))], 0.0, true);
+					addSprite(n, friendsImages[Math.floor(Math.random() * (fImagesCount-1))], 0.0, false);
+				}else if(shufflePics % 2 == 0){
+					addSprite(n, friendsImages[Math.floor(Math.random() * (fImagesCount-1))], 0.0, false);
+					addSprite(n, myImages[Math.floor(Math.random() * (myImagesCount-1))], 0.0, true);
+				}else{
+					addSprite(n, myImages[Math.floor(Math.random() * (myImagesCount-1))], 0.0, true);
+					addSprite(n, myImages[Math.floor(Math.random() * (myImagesCount-1))], 0.0, true);
 				}
+			}
 			
 		}
 		segments[findSegment(playerZ).index + 2].color = COLORS.START;
@@ -358,27 +558,38 @@
 		ctx.drawImage(billboard, posX, posY);
 	}
 	
-	function resizeMe(img, i) {
-
+	function resizeMe(img, isPlayer, i) {
+		
         var canvas = document.createElement('canvas');
 		var width, height;
-        if(!i){
-			width = Math.round(img.width / drawDistance);
-			height = Math.round(img.height / drawDistance);
-		}else{
-			width = Math.round(img.width * i / drawDistance);
-			height = Math.round(img.height * i/ drawDistance);
-		}
+		var divBY = 2;
+		if(i > 65) divBY = Math.pow(2,6);
+		else if(i > 35) divBY = Math.pow(2,4);
+		else if(i > 28) divBY = Math.pow(2,4) / 1.2;
+		else if(i > 25) divBY = Math.pow(2,4) / 1.5;
+		else if(i > 22) divBY = Math.pow(2,4) / 1.8;
+		else if(i > 20) divBY = Math.pow(2,3);
+		else if(i > 10) divBY = Math.pow(2,2);
+		else divBY = Math.pow(2,2);
+		
+		width = Math.round(img.width/divBY );
+		height = Math.round(img.height/divBY );
         canvas.width = width;
         canvas.height = height;
         var ctx1 = canvas.getContext("2d");
-        ctx1.drawImage(img, 0, 0, width, height);
-		
-        return canvas;//.toDataURL("image/jpeg", 0.8);
+		ctx1.drawImage(img, 0, 0, width, height);
+        return canvas;
 		
     }
 	
 	function render() {
+	
+		
+		if(position == trackLength){
+			resertRoad();
+			alert('am here');
+		}
+	
 		ctx.clearRect(0, 0, width, height);
 		var baseSegment = findSegment(position), 
 			horizon = height;
@@ -387,6 +598,7 @@
 		backgroundRender(ctx, background, width, height, BACKGROUND.TREES);		
 		
 		for(var n = 0 ; n < drawDistance ; n++) {
+		
 			segment = segments[(baseSegment.index + n) % segments.length];
 			segment.looped = segment.index < baseSegment.index;
 			segment.clip = horizon;
@@ -405,11 +617,15 @@
 						segment.color);
 			horizon = segment.p2.screen.y;
 		}
-		
+		var scoreDone = false;
 		for(n = (drawDistance-1) ; n > 0 ; n--) {
 			segment = segments[(baseSegment.index + n) % segments.length];
-			
+			var prior_segment = segments[(baseSegment.index + n - 1) % segments.length];
+			var isPlayerSegment_prior = prior_segment == playerSegment;
+			var isPlayerSegment = segment == playerSegment;
 			for(i = 0 ; i < segment.billboards.length ; i++) {
+				x_pos = 0;
+				y_pos = 0;
 				sprite1 = segment.billboards[i];
 				sprite1.x =    5;
 				sprite1.y =    5;
@@ -418,161 +634,60 @@
 				spriteScale = segment.p1.screen.scale ;
 				spriteX = segment.p1.screen.x + (spriteScale * sprite1.offset * roadWidth * width/2);
 				spriteY = segment.p1.screen.y;
-				var isPlayerSegment = segment == playerSegment;
 				
 				spriteScale = spriteScale * 2000;
-				ctx.drawImage(pole, segment.p1.screen.x + segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
-				ctx.drawImage(pole, segment.p1.screen.x - segment.p1.screen.w , segment.p1.screen.y - spriteScale, spriteScale, spriteScale);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
-				if(i % 2 == 0)ctx.drawImage(resizeMe(sprite1.source, isPlayerSegment),
-											segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2, 
-											segment.p1.screen.y - 5 * spriteScale, 
-											spriteScale * 5 , 
-											spriteScale * 5 
-											);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
-				else ctx.drawImage(resizeMe(sprite1.source , isPlayerSegment), 
-											segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale, 
-											segment.p1.screen.y - 5 * spriteScale, 
-											spriteScale * 5, 
-											spriteScale * 5
-											);//, sprite1.y, sprite1.w, sprite1.h - (sprite1.h*clipH/destH), destX);//, destY, destW, destH - clipH);
-				
-				if(isPlayerSegment && i%2 == 0 && playerX <= 0.5){
-					SCORE = SCORE - 1;
-					//alert(SCORE);
+				y_pos = segment.p1.screen.y - 5 * spriteScale;
+				if(i % 2 == 0){
+					x_pos = segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2;	
+					ctx.drawImage(
+						resizeMe(sprite1.source, isPlayerSegment, n), 
+						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
+				}	
+				else {
+					x_pos = segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale;
+					ctx.drawImage(
+						resizeMe(sprite1.source, isPlayerSegment, n), 
+						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
 				}
+				
 			}
 			
-			if(segment == playerSegment){
-				ctx.drawImage(sprites, playerX, playerY);
+			if(isPlayerSegment){
+				if(playerSegment.billboards.length >= 2){
+					var b1 = playerSegment.billboards[0];
+					var b2 = playerSegment.billboards[1];
+					
+					if(b1.isUser && playerX > 0){
+						if(playerSegment.p1.camera.z > 9.5){
+							SCORE = SCORE + 1;
+							if(SCORE % 100 == 0 && SCORE > 0) addStar();
+							goodSound.play();
+						}
+						ctx.drawImage(onePlus, (playerX), (playerY + 30));
+						
+					}else if(b2.isUser && playerX < 0){
+						if(playerSegment.p1.camera.z > 9.5){
+							SCORE = SCORE + 1;
+							if(SCORE % 100 == 0 && SCORE > 0) addStar();
+							goodSound.play();
+						}
+						ctx.drawImage(onePlus, (playerX), (playerY + 30));
+					}else if (!(b1.isUser && playerX > 0) && !(b2.isUser && playerX < 0)){
+						badSound.play();
+					}
+					
+					
+				}
+				ctx.drawImage(sprites, (playerX), playerY);
+				
 			}
 		}
-		document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position ;
-    } 
+		//document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position
+		document.getElementById('reso').innerHTML = 'SCORE: ' + SCORE;
+    }    
 	
-	function downScaleImage(img, scale) {
-		var imgCV = document.createElement('canvas');
-		imgCV.width = img.width;
-		imgCV.height = img.height;
-		var imgCtx = imgCV.getContext('2d');
-		imgCtx.drawImage(img, 0, 0);
-		return downScaleCanvas(imgCV, scale);
-	}
-
-	function downScaleCanvas(cv, scale) {
-		if (!(scale < 1) || !(scale > 0)) throw ('scale must be a positive number <1 ');
-		var sqScale = scale * scale; // square scale = area of source pixel within target
-		var sw = cv.width; // source image width
-		var sh = cv.height; // source image height
-		var tw = Math.ceil(sw * scale); // target image width
-		var th = Math.ceil(sh * scale); // target image height
-		var sx = 0, sy = 0, sIndex = 0; // source x,y, index within source array
-		var tx = 0, ty = 0, yIndex = 0, tIndex = 0; // target x,y, x,y index within target array
-		var tX = 0, tY = 0; // rounded tx, ty
-		var w = 0, nw = 0, wx = 0, nwx = 0, wy = 0, nwy = 0; // weight / next weight x / y
-		// weight is weight of current source point within target.
-		// next weight is weight of current source point within next target's point.
-		var crossX = false; // does scaled px cross its current px right border ?
-		var crossY = false; // does scaled px cross its current px bottom border ?
-		var sBuffer = cv.getContext('2d').
-		getImageData(0, 0, sw, sh).data; // source buffer 8 bit rgba
-		var tBuffer = new Float32Array(3 * sw * sh); // target buffer Float32 rgb
-		var sR = 0, sG = 0,  sB = 0; // source's current point r,g,b
-
-		for (sy = 0; sy < sh; sy++) {
-			ty = sy * scale; // y src position within target
-			tY = 0 | ty;     // rounded : target pixel's y
-			yIndex = 3 * tY * tw;  // line index within target array
-			crossY = (tY != (0 | ty + scale)); 
-			if (crossY) { // if pixel is crossing botton target pixel
-				wy = (tY + 1 - ty); // weight of point within target pixel
-				nwy = (ty + scale - tY - 1); // ... within y+1 target pixel
-			}
-			for (sx = 0; sx < sw; sx++, sIndex += 4) {
-				tx = sx * scale; // x src position within target
-				tX = 0 |  tx;    // rounded : target pixel's x
-				tIndex = yIndex + tX * 3; // target pixel index within target array
-				crossX = (tX != (0 | tx + scale));
-				if (crossX) { // if pixel is crossing target pixel's right
-					wx = (tX + 1 - tx); // weight of point within target pixel
-					nwx = (tx + scale - tX - 1); // ... within x+1 target pixel
-				}
-				sR = sBuffer[sIndex    ];   // retrieving r,g,b for curr src px.
-				sG = sBuffer[sIndex + 1];
-				sB = sBuffer[sIndex + 2];
-				if (!crossX && !crossY) { // pixel does not cross
-					// just add components weighted by squared scale.
-					tBuffer[tIndex    ] += sR * sqScale;
-					tBuffer[tIndex + 1] += sG * sqScale;
-					tBuffer[tIndex + 2] += sB * sqScale;
-				} else if (crossX && !crossY) { // cross on X only
-					w = wx * scale;
-					// add weighted component for current px
-					tBuffer[tIndex    ] += sR * w;
-					tBuffer[tIndex + 1] += sG * w;
-					tBuffer[tIndex + 2] += sB * w;
-					// add weighted component for next (tX+1) px                
-					nw = nwx * scale
-					tBuffer[tIndex + 3] += sR * nw;
-					tBuffer[tIndex + 4] += sG * nw;
-					tBuffer[tIndex + 5] += sB * nw;
-				} else if (crossY && !crossX) { // cross on Y only
-					w = wy * scale;
-					// add weighted component for current px
-					tBuffer[tIndex    ] += sR * w;
-					tBuffer[tIndex + 1] += sG * w;
-					tBuffer[tIndex + 2] += sB * w;
-					// add weighted component for next (tY+1) px                
-					nw = nwy * scale
-					tBuffer[tIndex + 3 * tw    ] += sR * nw;
-					tBuffer[tIndex + 3 * tw + 1] += sG * nw;
-					tBuffer[tIndex + 3 * tw + 2] += sB * nw;
-				} else { // crosses both x and y : four target points involved
-					// add weighted component for current px
-					w = wx * wy;
-					tBuffer[tIndex    ] += sR * w;
-					tBuffer[tIndex + 1] += sG * w;
-					tBuffer[tIndex + 2] += sB * w;
-					// for tX + 1; tY px
-					nw = nwx * wy;
-					tBuffer[tIndex + 3] += sR * nw;
-					tBuffer[tIndex + 4] += sG * nw;
-					tBuffer[tIndex + 5] += sB * nw;
-					// for tX ; tY + 1 px
-					nw = wx * nwy;
-					tBuffer[tIndex + 3 * tw    ] += sR * nw;
-					tBuffer[tIndex + 3 * tw + 1] += sG * nw;
-					tBuffer[tIndex + 3 * tw + 2] += sB * nw;
-					// for tX + 1 ; tY +1 px
-					nw = nwx * nwy;
-					tBuffer[tIndex + 3 * tw + 3] += sR * nw;
-					tBuffer[tIndex + 3 * tw + 4] += sG * nw;
-					tBuffer[tIndex + 3 * tw + 5] += sB * nw;
-				}
-			} // end for sx 
-		} // end for sy
-
-		// create result canvas
-		var resCV = document.createElement('canvas');
-		resCV.width = tw;
-		resCV.height = th;
-		var resCtx = resCV.getContext('2d');
-		var imgRes = resCtx.getImageData(0, 0, tw, th);
-		var tByteBuffer = imgRes.data;
-		// convert float32 array into a UInt8Clamped Array
-		var pxIndex = 0; //  
-		for (sIndex = 0, tIndex = 0; pxIndex < tw * th; sIndex += 3, tIndex += 4, pxIndex++) {
-			tByteBuffer[tIndex] = Math.ceil(tBuffer[sIndex]);
-			tByteBuffer[tIndex + 1] = Math.ceil(tBuffer[sIndex + 1]);
-			tByteBuffer[tIndex + 2] = Math.ceil(tBuffer[sIndex + 2]);
-			tByteBuffer[tIndex + 3] = 255;
-		}
-		// writing result to canvas.
-		resCtx.putImageData(imgRes, 0, 0);
-		return resCV;
-	}
-	
-	function addSprite(n, sprite, offset) {
-		segments[n].billboards.push({ source: sprite, offset: offset });
+	function addSprite(n, sprite, offset, isUserFlag) {
+		segments[n].billboards.push({ source: sprite, offset: offset, isUser: isUserFlag });
     }
 	
 	function interpolate(a,b,percent){ 
@@ -581,20 +696,38 @@
 	
 	function wait() {
 		
-		if ( myImagesCount > 10 && fImagesCount > 10 ) {
+		if ( myImagesCount >= 10 && fImagesCount >= 10 ) {
 			if(timeout != null)
 				clearTimeout(timeout);
 			startGame();
 		} else {
-			timeout = setTimeout( wait, 5000 );
+			timeout = setTimeout( wait, 10000 );
 		}
 	}
 	
 	function init(){
-		//loadAlbums();	
-		//wait();
-		startGame();
+		var loadingScreen = new Image();
+		loadingScreen.src = './images/startScreenBG.jpg'; 
+		document.body.style.backgroundImage="url('./images/ferrari_back.jpg')";
+		document.getElementById('PLAY').style.visibility='hidden'; 
+		canvas = document.getElementById('canvas_1'); 
+		onePlus.src = './images/star.png';
+		ctx = canvas.getContext('2d'); 
+		ctx.drawImage(loadingScreen,0, 0);
+		for (var i = 0 ; i < limitPics; i++){
+			friendsImages[i] = new Image();
+			myImages[i] = new Image();
 		
+		}
+		
+		
+		loadAlbums();	
+		wait();
+	}
+	
+	function keyUp(){
+		flag = 0;
+		isMoving = false;
 	}
 	
 	function startGame(){
@@ -602,45 +735,98 @@
 		sprites = new Image();
 		billboard = new Image();
 		pole = new Image();
+		like = new Image();
 		background.src = './images/background.png'; //canvas background
-		sprites.src = './images/back.png'; //canvas background
+		sprites.src = './images/f.png'; //canvas background
+		like.src = './images/like.png';
 		billboard.src = './images/ferrari.jpg'; //canvas background
 		pole.src = './images/pole.png';
-		document.body.style.backgroundImage="url('./images/ferrari.jpg')";
-		
-		canvas = document.getElementById('canvas_1'); 
-		ctx = canvas.getContext('2d'); 
+		isLeftButtonClicked = false;
+		isRightButtonClicked = false;
 		
 		width = canvas.width;
 		height = canvas.height;
 		playerZ = (cameraHeight * cameraDepth);
 		resolution = height/480;
 		resetRoad();	
-		ctx.webkitImageSmoothingEnabled = true;
+		document.getElementById('PLAY').style.visibility='visible'; 
 		window.addEventListener('keydown', whatKey, true);
+		window.addEventListener('keyup', keyUp, true);
+		window.addEventListener('mousedown', whatKey, true);
+		startSound.play();
+	}
+	
+	function moveLeft(){
+		//isMovingLeft = !isMovingLeft;
+		var i = 0;
+		while(i < 10){
+		//while(isMovingLeft){
+			isMoving = true;
+			flag = 1;
+			playerX = playerX - step;
+			if(acceleration < 50)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			if (playerX < -50) {
+				playerX = 0;
+			}
+			i = i + 1;
+		}
+		flag = 0;
+	}
+	
+	function moveRight(){
+		//isMovingRight = !isMovingRight;
+		var i = 0;
+		while(i < 10){
+			isMoving = true;
+			flag = 1;
+			playerX = playerX + step;
+			if(acceleration < 100)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			if (playerX > 270) {
+				playerX = 270;
+			}
+			i = i + 1;
+		}
+		flag = 0;
+	}
+	
+	function accelerate(){
+		var i = 0;
+		//isAcc = !isAcc;
+		while(i < 100){
+			flag = 1;
+			if(acceleration < 100)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			
+			i = i + 1;
+		}
+		flag = 0;
+	}
+	
+	function addStar(){	
+		var img = document.createElement('img');
+		img.src = './images/like.png';
+		var foo = document.getElementById("star");
+		foo.appendChild(img);
 	}
   
 	function run(){
-		window.setInterval(update, fps );
+		window.setInterval(update, 10);
+		myAudio.play();
+		//var filename="./sound/a.mp3";
+		//document.writeln ('<EMBED SRC="' + filename + '" AUTOSTART=TRUE loop=TRUE WIDTH=144 HEIGHT=60><P>');
+
 	}
-  </script>
-  
-  <body>
-  
-  
-  <div id="div_1"> 
-  <button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
 	
-	<font color="white"><p id='coord'> </p></font>
-    <canvas id="canvas_1" class="initialRotation">
-      An error message
-    </canvas>
-	<button id='left' class='button' onclick='moveLeft();'>Left</button>
-	<button id='left' class='button' onclick='moveRight();' style='float'>Right</button>
-  </div>
-  
-  <div id="mfs"></div>
-  
-   
-  </body>
-</html> 
+  </script>
+</head> 
