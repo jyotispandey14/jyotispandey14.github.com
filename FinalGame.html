@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook test segments</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -87,6 +87,7 @@
 		<td>
 			<div id = "score">				
 				<font color="white" size = "5px"><p id='reso'> </p></font>
+				<font color="white" size = "5px"><p id='coord'> </p></font>
 			</div>
 		</td>
 		<td></td>
@@ -561,6 +562,7 @@
         var canvas = document.createElement('canvas');
 		var width, height;
 		var divBY = 2;
+		document.getElementById('coord').innerHTML = i
 		if(i > 65) divBY = Math.pow(2,6);
 		else if(i > 35) divBY = Math.pow(2,4);
 		else if(i > 28) divBY = Math.pow(2,4) / 1.2;
