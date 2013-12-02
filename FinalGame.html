@@ -186,6 +186,7 @@
 	var badSound = new Audio("./sound/bad.wav");
 	var startSound = new Audio("./sound/start.wav");
 	var myAudio = new Audio('./sound/a.mp3'); 
+	var level = 1;
 	/*myAudio.addEventListener('ended', function() {
 		this.currentTime = 0;
 		this.play();
@@ -305,22 +306,52 @@
 				{
 					var albumid;
 					var d = response.data;
-					for (var i=0; i<d.length; i++)
+					for (var i=0; i < level * 10; i++)
 					{
-						FB.api("/"+d[i].id+"/photos", function(response){
+						var randomAlbum = int(d.length * Math.random());
+						FB.api("/"+d[randomAlbum].id+"/photos", function(response){
 							var d_pics = response.data;
-							for(var j = 0; j< d_pics.length;j++ ){
-								myImages[myImagesCount].src = d_pics[j].source;
+							
+							for ( var j = 0 ; j < level * 10 ; i++ ){
+								var randomPic = int(d_pics.length * Math.random()); 
+								myImages[myImagesCount].src = d_pics[randomPic].source;
 								myImagesCount += 1;	
 								if(myImagesCount > limitPics)break;
 							}
+							
+							/*for(var j = 0; j< d_pics.length;j++ ){
+								myImages[myImagesCount].src = d_pics[j].source;
+								myImagesCount += 1;	
+								if(myImagesCount > limitPics)break;
+							}*/
 						});								
 					} 
 				});
 				
 				FB.api('/me/friends/', function(response) {
 					
-					for(var i = 0; i < Math.min(response.data.length, 100); i++) {
+					for ( var k = 0; k < level * 10; k++){
+						var randomFriend = int(response.data.length * Math.random());
+						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums) {
+							for(var x = 0; x < level * 10; k++) {
+								var randomAlbum = int(Math.random() * friendsAlbums.data.length);
+								FB.api('/'+friendsAlbums.data[randomAlbum].id + '?fields=photos' , function(friendsPhotos) {
+									for(var z = 0; z < level * 10; z++) {
+										var randomPhotoAlbum = int(Math.random() * friendsPhotos.photos.data.length);
+										for(var zD = 0; zD < level * 10; zD++) {
+											var pic = int(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
+											friendsImages[fImagesCount].src = friendsPhotos.photos.data[randomPhotoAlbum].images[pic].source;
+											fImagesCount += 1;
+											if(fImagesCount > limitPics) break;
+										}
+									}
+								}
+							}
+						}
+						
+					}
+					
+					/*for(var i = 0; i < Math.min(response.data.length, 100); i++) {
 						
 						FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
 								for(var k = 0; k < Math.min(friendsAlbums.data.length, 10); k++) {
@@ -337,7 +368,7 @@
 								}
 						});
 						
-					}
+					}*/
 			   });
 			}
 			},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
