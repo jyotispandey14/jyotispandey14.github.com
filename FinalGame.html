@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 4</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -308,12 +308,12 @@
 					var d = response.data;
 					for (var i=0; i < level * 10; i++)
 					{
-						var randomAlbum = int(d.length * Math.random());
+						var randomAlbum = Math.floor(d.length * Math.random());
 						FB.api("/"+d[randomAlbum].id+"/photos", function(response){
 							var d_pics = response.data;
 							
-							for ( var j = 0 ; j < level * 10 ; i++ ){
-								var randomPic = int(d_pics.length * Math.random()); 
+							for ( var j = 0 ; j < level * 10 ; j++ ){
+								var randomPic = Math.floor(d_pics.length * Math.random()); 
 								myImages[myImagesCount].src = d_pics[randomPic].source;
 								myImagesCount += 1;	
 								if(myImagesCount > limitPics)break;
@@ -331,15 +331,15 @@
 				FB.api('/me/friends/', function(response) {
 					
 					for ( var k = 0; k < level * 10; k++){
-						var randomFriend = int(response.data.length * Math.random());
+						var randomFriend = Math.floor(response.data.length * Math.random());
 						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums) {
 							for(var x = 0; x < level * 10; k++) {
-								var randomAlbum = int(Math.random() * friendsAlbums.data.length);
+								var randomAlbum = Math.floor(Math.random() * friendsAlbums.data.length);
 								FB.api('/'+friendsAlbums.data[randomAlbum].id + '?fields=photos' , function(friendsPhotos) {
 									for(var z = 0; z < level * 10; z++) {
-										var randomPhotoAlbum = int(Math.random() * friendsPhotos.photos.data.length);
+										var randomPhotoAlbum = Math.floor(Math.random() * friendsPhotos.photos.data.length);
 										for(var zD = 0; zD < level * 10; zD++) {
-											var pic = int(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
+											var pic = Math.floor(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
 											friendsImages[fImagesCount].src = friendsPhotos.photos.data[randomPhotoAlbum].images[pic].source;
 											fImagesCount += 1;
 											if(fImagesCount > limitPics) break;
