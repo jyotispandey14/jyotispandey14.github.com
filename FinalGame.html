@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook debug3</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -309,10 +309,12 @@
 					int j = 0;
 					while (myImagesCount <= limitPics && d.length > j) {
 						j = j + 1;
+						alert(myImagesCount);
 						var randomAlbum = Math.floor(d.length * Math.random());
 						FB.api("/"+d[randomAlbum].id+"/photos", function(response){
 							var d_pics = response.data;
 							var i = 0;
+							alert(myImagesCount);
 							while (myImagesCount <= limitPics && i < d_pics.length){
 								i = i + 1;
 								var randomPic = Math.floor(d_pics.length * Math.random()); 
