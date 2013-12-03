@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook debug2</title>
+  <title>Ride in Facebrook debug3</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -318,6 +318,7 @@
 								var randomPic = Math.floor(d_pics.length * Math.random()); 
 								myImages[myImagesCount].src = d_pics[randomPic].source;
 								myImagesCount += 1;	
+								alert(myImagesCount);
 								if(myImagesCount > limitPics)break;
 							}
 							
