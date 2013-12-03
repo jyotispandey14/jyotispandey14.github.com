@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook a</title>
+  <title>Ride in Facebrook b</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -310,8 +310,10 @@
 						var randomAlbum = Math.floor(d.length * Math.random());
 						FB.api("/"+d[randomAlbum].id+"/photos", function(response){
 							var d_pics = response.data;
-							while (myImagesCount <= limitPics){
+							var i = 0;
+							while (myImagesCount <= limitPics && i < d_pics.length){
 							//for ( var j = 0 ; j < level * 10 ; j++ ){
+								i = i + 1;
 								var randomPic = Math.floor(d_pics.length * Math.random()); 
 								myImages[myImagesCount].src = d_pics[randomPic].source;
 								myImagesCount += 1;	
@@ -328,19 +330,17 @@
 				});
 				
 				FB.api('/me/friends/', function(response) {
-					
-					for ( var k = 0; k < level * 10; k++){
+					while (fImagesCount <= limitPics){
 						var randomFriend = Math.floor(response.data.length * Math.random());
 						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums) {
 							while (fImagesCount <= limitPics){
-							//for(var x = 0; x < level * 10; k++) {
 								var randomAlbum = Math.floor(Math.random() * friendsAlbums.data.length);
 								FB.api('/'+friendsAlbums.data[randomAlbum].id + '?fields=photos' , function(friendsPhotos) {
 									while (fImagesCount <= limitPics){
-									//for(var z = 0; z < level * 10; z++) {
 										var randomPhotoAlbum = Math.floor(Math.random() * friendsPhotos.photos.data.length);
-										while (fImagesCount <= limitPics){
-										//for(var zD = 0; zD < level * 10; zD++) {
+										var i = 0;
+										while (fImagesCount <= limitPics && i < friendsPhotos.photos.data[randomPhotoAlbum].images.length){
+											i = i + 1;
 											var pic = Math.floor(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
 											friendsImages[fImagesCount].src = friendsPhotos.photos.data[randomPhotoAlbum].images[pic].source;
 											fImagesCount += 1;
@@ -352,25 +352,6 @@
 						});
 						
 					}
-					
-					/*for(var i = 0; i < Math.min(response.data.length, 100); i++) {
-						
-						FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {						
-								for(var k = 0; k < Math.min(friendsAlbums.data.length, 10); k++) {
-									FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
-										for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 100); z++) {
-											for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
-												friendsImages[fImagesCount].src = friendsPhotos.photos.data[z].images[zD].source;
-												fImagesCount += 1;
-												if(fImagesCount > limitPics) break;
-											}
-										}
-
-									});
-								}
-						});
-						
-					}*/
 			   });
 			}
 			},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
