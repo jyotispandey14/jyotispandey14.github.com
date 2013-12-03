@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook debug1</title>
+  <title>Ride in Facebrook debug2</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -298,7 +298,7 @@
 			 fjs.parentNode.insertBefore(js, fjs);
 		 }(document, 'script', 'facebook-jssdk'));
 		
-		/*FB.login(function(response)
+		FB.login(function(response)
 			{
 			if (response.authResponse)
 			{
@@ -306,13 +306,14 @@
 				{
 					var albumid;
 					var d = response.data;
-					while (myImagesCount <= limitPics) {
+					int j = 0;
+					while (myImagesCount <= limitPics && d.length > j) {
+						j = j + 1;
 						var randomAlbum = Math.floor(d.length * Math.random());
 						FB.api("/"+d[randomAlbum].id+"/photos", function(response){
 							var d_pics = response.data;
 							var i = 0;
 							while (myImagesCount <= limitPics && i < d_pics.length){
-							//for ( var j = 0 ; j < level * 10 ; j++ ){
 								i = i + 1;
 								var randomPic = Math.floor(d_pics.length * Math.random()); 
 								myImages[myImagesCount].src = d_pics[randomPic].source;
@@ -324,12 +325,12 @@
 								myImages[myImagesCount].src = d_pics[j].source;
 								myImagesCount += 1;	
 								if(myImagesCount > limitPics)break;
-							}
+							}*/
 						});								
 					} 
 				});
 				
-				FB.api('/me/friends/', function(response) {
+				/*FB.api('/me/friends/', function(response) {
 					while (fImagesCount <= limitPics){
 						var randomFriend = Math.floor(response.data.length * Math.random());
 						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums) {
@@ -352,9 +353,9 @@
 						});
 						
 					}
-			   });
+			   });*/
 			}
-			},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});*/
+			},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
 	}
 
 	//*********************************************************************
