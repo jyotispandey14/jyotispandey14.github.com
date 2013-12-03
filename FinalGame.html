@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook c</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -332,7 +332,7 @@
 					
 					for ( var k = 0; k < level * 10; k++){
 						var randomFriend = Math.floor(response.data.length * Math.random());
-						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums)) {
+						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums) {
 							for(var x = 0; x < level * 10; k++) {
 								var randomAlbum = Math.floor(Math.random() * friendsAlbums.data.length);
 								FB.api('/'+friendsAlbums.data[randomAlbum].id + '?fields=photos' , function(friendsPhotos) {
@@ -345,9 +345,9 @@
 											if(fImagesCount > limitPics) break;
 										}
 									}
-								}
+								});
 							}
-						}
+						});
 						
 					}
 					
