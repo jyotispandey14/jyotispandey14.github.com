@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook</title>
+  <title>Ride in Facebrook a</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -306,13 +306,12 @@
 				{
 					var albumid;
 					var d = response.data;
-					for (var i=0; i < level * 10; i++)
-					{
+					while (myImagesCount <= limitPics) {
 						var randomAlbum = Math.floor(d.length * Math.random());
 						FB.api("/"+d[randomAlbum].id+"/photos", function(response){
 							var d_pics = response.data;
-							
-							for ( var j = 0 ; j < level * 10 ; j++ ){
+							while (myImagesCount <= limitPics){
+							//for ( var j = 0 ; j < level * 10 ; j++ ){
 								var randomPic = Math.floor(d_pics.length * Math.random()); 
 								myImages[myImagesCount].src = d_pics[randomPic].source;
 								myImagesCount += 1;	
@@ -333,12 +332,15 @@
 					for ( var k = 0; k < level * 10; k++){
 						var randomFriend = Math.floor(response.data.length * Math.random());
 						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums) {
-							for(var x = 0; x < level * 10; k++) {
+							while (fImagesCount <= limitPics){
+							//for(var x = 0; x < level * 10; k++) {
 								var randomAlbum = Math.floor(Math.random() * friendsAlbums.data.length);
 								FB.api('/'+friendsAlbums.data[randomAlbum].id + '?fields=photos' , function(friendsPhotos) {
-									for(var z = 0; z < level * 10; z++) {
+									while (fImagesCount <= limitPics){
+									//for(var z = 0; z < level * 10; z++) {
 										var randomPhotoAlbum = Math.floor(Math.random() * friendsPhotos.photos.data.length);
-										for(var zD = 0; zD < level * 10; zD++) {
+										while (fImagesCount <= limitPics){
+										//for(var zD = 0; zD < level * 10; zD++) {
 											var pic = Math.floor(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
 											friendsImages[fImagesCount].src = friendsPhotos.photos.data[randomPhotoAlbum].images[pic].source;
 											fImagesCount += 1;
