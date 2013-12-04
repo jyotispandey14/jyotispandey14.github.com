@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook_</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -292,8 +292,8 @@
 									var k = 0;
 									while (fImagesCount <= limitPics && k < friendsPhotos.photos.data.length){
 										k = k + 1;
-										var randomPhotoAlbum = Math.floor(Math.random() * friendsPhotos.photos.data.length);
 										var i = 0;
+										var randomPhotoAlbum = Math.floor(Math.random() * friendsPhotos.photos.data.length);
 										while (fImagesCount <= limitPics && i < friendsPhotos.photos.data[randomPhotoAlbum].images.length){
 											i = i + 1;
 											var pic = Math.floor(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
@@ -675,7 +675,7 @@
 		
 		alert("calling load albums!!");
 		loadAlbums();	
-		//wait();
+		wait();
 	}
 	
 	function keyUp(){
