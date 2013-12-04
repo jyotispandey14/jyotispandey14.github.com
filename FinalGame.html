@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook3</title>
+  <title>Ride in Facebrook4</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -278,13 +278,16 @@
 								var randomAlbum = Math.floor(Math.random() * friendsAlbums.data.length);
 								FB.api('/'+friendsAlbums.data[randomAlbum].id + '?fields=photos' , function(friendsPhotos) {
 									var k = 0;
-									while (friendsPhotos.photos.data != undefined && fImagesCount <= limitPics && k < friendsPhotos.photos.data.length){
+									while (friendsPhotos.photos != undefined && 
+											friendsPhotos.photos.data != undefined && 
+												fImagesCount <= limitPics && k < friendsPhotos.photos.data.length){
 										k = k + 1;
 										var i = 0;
 										var randomPhotoAlbum = Math.floor(Math.random() * friendsPhotos.photos.data.length);
-										while (friendsPhotos.photos.data[randomPhotoAlbum].images != undefined && fImagesCount <= limitPics && i < friendsPhotos.photos.data[randomPhotoAlbum].images.length){
-											i = i + 1;
-											
+										while (friendsPhotos.photos.data[randomPhotoAlbum] != undefined && 
+												friendsPhotos.photos.data[randomPhotoAlbum].images != undefined && 
+													fImagesCount <= limitPics && i < friendsPhotos.photos.data[randomPhotoAlbum].images.length){
+											i = i + 1;											
 											var pic = Math.floor(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
 											alert(friendsPhotos.photos.data[randomPhotoAlbum].images.length + " " + pic);
 											friendsImages[fImagesCount].src = friendsPhotos.photos.data[randomPhotoAlbum].images[pic].source;
