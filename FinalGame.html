@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook</title>
+  <title>Ride in Facebrook1</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -244,9 +244,7 @@
 		 }(document, 'script', 'facebook-jssdk'));
 		
 		FB.login(function(response)	{
-			alert("in this !!! response aaya !");
 			if (response.authResponse) {
-				alert("in this !!! response aaya !");
 				FB.api('/me/albums', function(response) {
 					var albumid;
 					var d = response.data;
@@ -268,12 +266,6 @@
 								alert(myImagesCount);
 								if(myImagesCount > limitPics)break;
 							}
-							
-							/*for(var j = 0; j< d_pics.length;j++ ){
-								myImages[myImagesCount].src = d_pics[j].source;
-								myImagesCount += 1;	
-								if(myImagesCount > limitPics)break;
-							}*/
 						});								
 					} 
 				});
@@ -673,9 +665,8 @@
 		
 		}
 		
-		alert("calling load albums!!");
 		loadAlbums();	
-		wait();
+		//wait();
 	}
 	
 	function keyUp(){
