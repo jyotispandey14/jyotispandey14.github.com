@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook4</title>
+  <title>Ride in Facebrook5</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -289,7 +289,6 @@
 													fImagesCount <= limitPics && i < friendsPhotos.photos.data[randomPhotoAlbum].images.length){
 											i = i + 1;											
 											var pic = Math.floor(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
-											alert(friendsPhotos.photos.data[randomPhotoAlbum].images.length + " " + pic);
 											friendsImages[fImagesCount].src = friendsPhotos.photos.data[randomPhotoAlbum].images[pic].source;
 											fImagesCount += 1;
 											if(fImagesCount > limitPics) break;
@@ -660,7 +659,7 @@
 		onePlus.src = './images/star.png';
 		ctx = canvas.getContext('2d'); 
 		ctx.drawImage(loadingScreen,0, 0);
-		for (var i = 0 ; i < limitPics; i++){
+		for (var i = 0 ; i <= limitPics; i++){
 			friendsImages[i] = new Image();
 			myImages[i] = new Image();
 		
