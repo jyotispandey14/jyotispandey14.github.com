@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook_1</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -252,7 +252,7 @@
 					var d = response.data;
 					var j = 0;
 					alert(d);
-					while (myImagesCount <= limitPics && d.length > j) {
+					while (d != undefined && myImagesCount <= limitPics && d.length > j) {
 						j = j + 1;
 						alert(myImagesCount);
 						var randomAlbum = Math.floor(d.length * Math.random());
@@ -285,7 +285,7 @@
 						var randomFriend = Math.floor(response.data.length * Math.random());
 						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums) {
 							var j = 0;
-							while (fImagesCount <= limitPics && j < friendsAlbums.data.length){
+							while (friendsAlbums.data != undefined && fImagesCount <= limitPics && j < friendsAlbums.data.length){
 								j = j + 1;
 								var randomAlbum = Math.floor(Math.random() * friendsAlbums.data.length);
 								FB.api('/'+friendsAlbums.data[randomAlbum].id + '?fields=photos' , function(friendsPhotos) {
