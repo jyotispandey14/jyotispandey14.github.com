@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook1</title>
+  <title>Ride in Facebrook2</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -249,21 +249,17 @@
 					var albumid;
 					var d = response.data;
 					var j = 0;
-					alert(d);
 					while (d != undefined && myImagesCount <= limitPics && d.length > j) {
 						j = j + 1;
-						alert(myImagesCount);
 						var randomAlbum = Math.floor(d.length * Math.random());
 						FB.api("/"+d[randomAlbum].id+"/photos", function(response){
 							var d_pics = response.data;
 							var i = 0;
-							alert(myImagesCount);
 							while (myImagesCount <= limitPics && i < d_pics.length){
 								i = i + 1;
 								var randomPic = Math.floor(d_pics.length * Math.random()); 
 								myImages[myImagesCount].src = d_pics[randomPic].source;
 								myImagesCount += 1;	
-								alert(myImagesCount);
 								if(myImagesCount > limitPics)break;
 							}
 						});								
@@ -272,7 +268,7 @@
 				
 				FB.api('/me/friends/', function(response) {
 					var count = 0;
-					while (fImagesCount <= limitPics && count < response.data.length){
+					while (response.data != undefined && fImagesCount <= limitPics && count < response.data.length){
 						count = count + 1;
 						var randomFriend = Math.floor(response.data.length * Math.random());
 						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums) {
@@ -282,11 +278,11 @@
 								var randomAlbum = Math.floor(Math.random() * friendsAlbums.data.length);
 								FB.api('/'+friendsAlbums.data[randomAlbum].id + '?fields=photos' , function(friendsPhotos) {
 									var k = 0;
-									while (fImagesCount <= limitPics && k < friendsPhotos.photos.data.length){
+									while (friendsPhotos.photos.data != undefined && fImagesCount <= limitPics && k < friendsPhotos.photos.data.length){
 										k = k + 1;
 										var i = 0;
 										var randomPhotoAlbum = Math.floor(Math.random() * friendsPhotos.photos.data.length);
-										while (fImagesCount <= limitPics && i < friendsPhotos.photos.data[randomPhotoAlbum].images.length){
+										while (friendsPhotos.photos.data[randomPhotoAlbum].images != undefined && fImagesCount <= limitPics && i < friendsPhotos.photos.data[randomPhotoAlbum].images.length){
 											i = i + 1;
 											var pic = Math.floor(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
 											friendsImages[fImagesCount].src = friendsPhotos.photos.data[randomPhotoAlbum].images[pic].source;
