@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook</title>
+  <title>Ride in Facebrook_</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -278,14 +278,20 @@
 					} 
 				});
 				
-				/*FB.api('/me/friends/', function(response) {
-					while (fImagesCount <= limitPics){
+				FB.api('/me/friends/', function(response) {
+					var count = 0;
+					while (fImagesCount <= limitPics && count < response.data.length){
+						count = count + 1;
 						var randomFriend = Math.floor(response.data.length * Math.random());
 						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums) {
-							while (fImagesCount <= limitPics){
+							var j = 0;
+							while (fImagesCount <= limitPics && j < friendsAlbums.data.length){
+								j = j + 1;
 								var randomAlbum = Math.floor(Math.random() * friendsAlbums.data.length);
 								FB.api('/'+friendsAlbums.data[randomAlbum].id + '?fields=photos' , function(friendsPhotos) {
-									while (fImagesCount <= limitPics){
+									var k = 0;
+									while (fImagesCount <= limitPics && k < friendsPhotos.photos.data.length){
+										k = k + 1;
 										var randomPhotoAlbum = Math.floor(Math.random() * friendsPhotos.photos.data.length);
 										var i = 0;
 										while (fImagesCount <= limitPics && i < friendsPhotos.photos.data[randomPhotoAlbum].images.length){
@@ -301,7 +307,7 @@
 						});
 						
 					}
-			   });*/
+			   });
 			}else{
 				alert("in this !!! response nai aaya !");
 			}
