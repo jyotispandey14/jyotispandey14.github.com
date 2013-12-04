@@ -69,62 +69,6 @@
   <script src="http://connect.facebook.net/en_US/all.js"></script>
   <script src="common.js"></script> 
   
-</head>
-<body> 
-	<div id = "star"></div>
-	<div id="div_1"> </div>
-	<table>
-	<tr>
-	<form>
-		Your name: <input type="text" name="name"><br>
-		Number of lanes: <input type="text" name="lanes">
-	</form> 
-	</tr>
-	</table>
-	
-	<table id = "1">
-		
-		<tr>
-		<td>
-			<div id = "score">				
-				<font color="white" size = "5px"><p id='reso'> </p></font>
-				<font color="white" size = "5px"><p id='coord'> </p></font>
-			</div>
-		</td>
-		<td></td>
-		<td></td>
-		</tr>
-		
-		<tr>
-		<td>
-			<div id = "score">
-				<font color="white" size = "5px"><p id='reso'> </p></font>
-			</div>
-		</td>
-		<td>
-			<canvas id="canvas_1" class="initialRotation">
-				An error message
-			</canvas>
-		</td>
-		<td></td>
-		</tr>
-		<tr>
-			<td><button id='LEFT' type="button" class='button' onmousedown='moveLeft()'>Left</button></td>
-			<td align="center"><button id='RIGHT' type="button" class='button' onmousedown='accelerate()'>Accelerate</button></td>
-			<td><button id='RIGHT' type="button" class='button' onmousedown='moveRight()'>Right</button></td>			
-		</tr>
-	</table>	
-		
-		
-		<br>
-	
-	
-	
-	<br><br>
-	<button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
-	     
-  </body>
-  
   <script>
 	window.onload = init;
 	var canvas, ctx ; 
@@ -299,14 +243,11 @@
 			 fjs.parentNode.insertBefore(js, fjs);
 		 }(document, 'script', 'facebook-jssdk'));
 		
-		FB.login(function(response)
-			{
-			alert("not working !!");
-			if (response.authResponse)
-			{
+		FB.login(function(response)	{
+			alert("in this !!! response aaya !");
+			if (response.authResponse) {
 				alert("in this !!! response aaya !");
-				FB.api('/me/albums', function(response) 
-				{
+				FB.api('/me/albums', function(response) {
 					var albumid;
 					var d = response.data;
 					int j = 0;
@@ -364,26 +305,9 @@
 			}else{
 				alert("in this !!! response nai aaya !");
 			}
-			},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
+		},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
 	}
 
-	//*********************************************************************
-		
-	function shufflePics(){
-		if(count == 0 && (fImagesCount > 50 && myImagesCount > 50 )){
-			for(var i = 0; i < Math.min(fImagesCount, myImagesCount) ; i++){
-				var oImg = document.createElement("img");
-				count += 1;
-				if(i%2 == 0)oImg.setAttribute('src', friendsImages[i].src);
-				else oImg.setAttribute('src', myImages[i].src);
-				oImg.setAttribute('alt', 'wer');
-				oImg.setAttribute('height', '200px');
-				oImg.setAttribute('width', '200px');
-				document.body.appendChild(oImg);
-			}
-		}
-	
-	}
 		
 	function increase (start, increment, max) { 
 		var result = start + increment;
@@ -728,8 +652,9 @@
 	}
 	
 	function init(){
+		alert("init called .. !!!");
 		var loadingScreen = new Image();
-		loadingScreen.src = './images/startScreenBG.jpg'; 
+		loadingScreen.src z= './images/startScreenBG.jpg'; 
 		document.body.style.backgroundImage="url('./images/ferrari_back.jpg')";
 		document.getElementById('PLAY').style.visibility='hidden'; 
 		canvas = document.getElementById('canvas_1'); 
@@ -851,7 +776,61 @@
 	}
 	
   </script>
-
-
   
+</head>
+<body> 
+	<div id = "star"></div>
+	<div id="div_1"> </div>
+	<table>
+	<tr>
+	<form>
+		Your name: <input type="text" name="name"><br>
+		Number of lanes: <input type="text" name="lanes">
+	</form> 
+	</tr>
+	</table>
+	
+	<table id = "1">
+		
+		<tr>
+		<td>
+			<div id = "score">				
+				<font color="white" size = "5px"><p id='reso'> </p></font>
+				<font color="white" size = "5px"><p id='coord'> </p></font>
+			</div>
+		</td>
+		<td></td>
+		<td></td>
+		</tr>
+		
+		<tr>
+		<td>
+			<div id = "score">
+				<font color="white" size = "5px"><p id='reso'> </p></font>
+			</div>
+		</td>
+		<td>
+			<canvas id="canvas_1" class="initialRotation">
+				An error message
+			</canvas>
+		</td>
+		<td></td>
+		</tr>
+		<tr>
+			<td><button id='LEFT' type="button" class='button' onmousedown='moveLeft()'>Left</button></td>
+			<td align="center"><button id='RIGHT' type="button" class='button' onmousedown='accelerate()'>Accelerate</button></td>
+			<td><button id='RIGHT' type="button" class='button' onmousedown='moveRight()'>Right</button></td>			
+		</tr>
+	</table>	
+		
+		
+		<br>
+	
+	
+	
+	<br><br>
+	<button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
+	     
+  </body>
+   
 </html>
