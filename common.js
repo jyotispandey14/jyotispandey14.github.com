@@ -139,7 +139,7 @@ var Game = { // a modified version of the game loop from my previous boulderdash
 
   loadImages: function(names, callback) { // load multiple images and callback when ALL images have loaded
     var result = [];
-	alert("loadimages);
+	alert("loadimages");
     var count = names.length;
 
     var onload = function() {
