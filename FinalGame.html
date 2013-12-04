@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook2</title>
+  <title>Ride in Facebrook3</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -284,7 +284,9 @@
 										var randomPhotoAlbum = Math.floor(Math.random() * friendsPhotos.photos.data.length);
 										while (friendsPhotos.photos.data[randomPhotoAlbum].images != undefined && fImagesCount <= limitPics && i < friendsPhotos.photos.data[randomPhotoAlbum].images.length){
 											i = i + 1;
+											
 											var pic = Math.floor(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
+											alert(friendsPhotos.photos.data[randomPhotoAlbum].images.length + " " + pic);
 											friendsImages[fImagesCount].src = friendsPhotos.photos.data[randomPhotoAlbum].images[pic].source;
 											fImagesCount += 1;
 											if(fImagesCount > limitPics) break;
