@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 6</title>
+  <title>Ride in Facebrook 7</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -250,7 +250,7 @@
 		
 	function update() {
 		if(flag == 0){
-			acceleration = acceleration - accIncrease / 10;
+			acceleration = acceleration - accIncrease / 15;
 		}
 		if(acceleration > 0){
 			speed = acceleration * dt;
@@ -541,6 +541,7 @@
 						if(playerSegment.p1.camera.z > 9.5){
 							SCORE = SCORE + 1;
 							if(SCORE % 100 == 0 && SCORE > 0) addStar();
+							document.getElementById('error').innerHTML = 'Awesome !! ';
 							goodSound.play();
 						}
 						ctx.drawImage(onePlus, (playerX), (playerY + 30));
@@ -549,10 +550,12 @@
 						if(playerSegment.p1.camera.z > 9.5){
 							SCORE = SCORE + 1;
 							if(SCORE % 100 == 0 && SCORE > 0) addStar();
+							document.getElementById('error').innerHTML = 'Awesome !! ';
 							goodSound.play();
 						}
 						ctx.drawImage(onePlus, (playerX), (playerY + 30));
 					}else if (!(b1.isUser && playerX > 0) && !(b2.isUser && playerX < 0)){
+						document.getElementById('error').innerHTML = 'Oops not your pic !! ';
 						badSound.play();
 					}
 				}
@@ -730,7 +733,7 @@
 				<font color="white" size = "5px"><p id='coord'> </p></font>
 			</div>
 		</td>
-		<td></td>
+		<td> <font color="white" size = "5px"><p id='error'> </p></font> </td>
 		<td></td>
 		</tr>
 		
