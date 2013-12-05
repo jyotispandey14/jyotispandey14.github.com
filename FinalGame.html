@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 2</title>
+  <title>Ride in Facebrook 3</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -109,7 +109,7 @@
 	var count 			= 0,
 		jumpFlag 		= 0;
 	var ticks 			= 0;
-	var accIncrease		= 0.3;
+	var accIncrease		= 0.8;
 	var facebookImages  = [];
 	var playerSegment	= null;
 	var friendsImages = [];
@@ -126,7 +126,7 @@
 	var isAcc = false;
 	var isMovingLeft = false;
 	var isMovingRight = false;
-	var maxAcceleration = 5;
+	var maxAcceleration = 10;
 	var goodSound = new Audio("./sound/good.wav");
 	var badSound = new Audio("./sound/bad.wav");
 	var startSound = new Audio("./sound/start.wav");
@@ -158,74 +158,6 @@
 		
 	//*****************************FACEBOOK INTEGRATION********************
 	
-	
-	/*function loadAlbums(){         
-		// facebook code 
-		FB.init({appId  : '539841076090252', status : true, cookie : true, xfbml  : true });
-			(function(d, s, id){
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) {return;}
-			js = d.createElement(s); js.id = id;
-			js.src = "http://connect.facebook.net/en_US/all.js";
-			fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));
-			// -----------
-
-			// runs on authorization
-			FB.login(function(response){
-				if (response.authResponse){
-						document.getElementById("status").innerHTML = "Getting album information from your Facebook profile";
-						FB.api('/me/albums', function(response){
-							var albumid;
-							var d = response.data;
-							for (var i=0; i<d.length; i++){
-								//get the photographs 
-								albumid = d[i].id;	
-								FB.api("/"+albumid+"/photos", function(response){
-									var d_pics = response.data;
-									for(var j = 0; j< Math.min(10,d_pics.length);j++ ){
-									var img = {};
-									img.src = d_pics[j].source;
-									myImages.push(img);
-									myImagesCount++;
-									//document.getElementById("status").innerHTML+= "<br/>"+img.src;
-									}
-								});	
-							}
-						});
-			FB.api('/me/friends/', function(response) {
-			var container = document.getElementById('mfs');
-			var mfsForm = document.createElement('form');
-			mfsForm.id = 'mfsForm';
-			//for first 50 friends
-			for(var i = 0; i < Math.min(response.data.length, 50); i++) {
-			//get albums list
-				FB.api('/'+response.data[i].id+'/albums' , function(friendsAlbums) {
-				//get for each album
-				for(var k = 0; k < Math.min(friendsAlbums.data.length, 10); k++) {
-					//get photos list
-					FB.api('/'+friendsAlbums.data[k].id + '?fields=photos' , function(friendsPhotos) {
-						if(typeof friendsPhotos.photos != 'undefined'){
-						//for each photo array
-							for(var z = 0; z < Math.min(friendsPhotos.photos.data.length, 5); z++) {
-							//get Photo
-								for(var zD = 0; zD < Math.min(friendsPhotos.photos.data[z].images.length, 2); zD++) {
-									var img = {};//new Image();
-									img.src = friendsPhotos.photos.data[z].images[zD].source;
-									friendsImages.push(img);
-									fImagesCount++;
-								}
-							}
-						}
-					});
-					}
-					});
-				}
-				});
-
-			}
-			});
-			}*/
 	function loadAlbums()
 	{         
 		 FB.init({
@@ -375,7 +307,7 @@
 			playerSegment = findSegment(position+playerZ);
 			if (playerX > 270) {
 				playerX = 270;
-          }
+			}
         }	
 
 		if (evt.keyCode == 32){
@@ -385,7 +317,7 @@
 			}
         }	
        render();
-      }
+    }
 	
 	function backgroundRender(ctx, background, width, height, layer) {
 	
