@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 7</title>
+  <title>Ride in Facebrook 8</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -442,7 +442,7 @@
 		var divBY = 2;
 		if ( i == 40) 
 			lapCounter = lapCounter + 1;
-		document.getElementById('coord').innerHTML = i + ' C : ' + lapCounter
+		document.getElementById('coord').innerHTML = i + ' C : ' + lapCounter;
 		if(i > 65 / 2) divBY = Math.pow(2,6);
 		else if(i > 35 / 2 ) divBY = Math.pow(2,4);
 		else if(i > 28 / 2) divBY = Math.pow(2,4) / 1.2;
@@ -593,7 +593,7 @@
 		document.body.style.backgroundImage="url('./images/ferrari_back.jpg')";
 		document.getElementById('PLAY').style.visibility='hidden'; 
 		canvas = document.getElementById('canvas_1'); 
-		onePlus.src = './images/star.png';
+		onePlus.src = './images/star.png';a
 		ctx = canvas.getContext('2d'); 
 		ctx.drawImage(loadingScreen,0, 0);
 		for (var i = 0 ; i <= limitPics; i++){
