@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 3</title>
+  <title>Ride in Facebrook 4</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -250,7 +250,7 @@
 		
 	function update() {
 		if(flag == 0){
-			acceleration = acceleration - accIncrease;
+			acceleration = acceleration - accIncrease / 4;
 		}
 		if(acceleration > 0){
 			speed = acceleration * dt;
