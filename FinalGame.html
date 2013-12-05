@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 4</title>
+  <title>Ride in Facebrook 5</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -74,7 +74,7 @@
 	var canvas, ctx ; 
 	var isLeftButtonClicked = 0;
 	var isRightButtonClicked = 0;
-	
+	var lapCounter = 0;
 	var shufflePics 	= 0;
 	var fps 			= 60,
 		step 			= 1/fps,
@@ -440,7 +440,9 @@
         var canvas = document.createElement('canvas');
 		var width, height;
 		var divBY = 2;
-		document.getElementById('coord').innerHTML = i
+		if ( i == 40) 
+			lapCounter = lapCounter + 1;
+		document.getElementById('coord').innerHTML = i + " " + lapCounter
 		if(i > 65 / 2) divBY = Math.pow(2,6);
 		else if(i > 35 / 2 ) divBY = Math.pow(2,4);
 		else if(i > 28 / 2) divBY = Math.pow(2,4) / 1.2;
