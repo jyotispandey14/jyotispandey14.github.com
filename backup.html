@@ -1,0 +1,770 @@
+<html>
+<head>
+  <title>Ride in Facebrook</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <style>
+  .initialRotation
+	{
+		width:728px;
+		height:280px;
+		
+		transform: rotate3d(0,1,0,45deg);
+		-moz-transform: rotate3d(0,1,0,45deg);
+		-ms-transform: rotate3d(0,1,0,45deg);
+		-o-transform: rotate3d(0,1,0,45deg);
+		-webkit-transform: rotate3d(0,1,0,45deg);
+	}
+	
+	.button {
+		-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+		box-shadow:inset 0px 1px 0px 0px #ffffff;
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9) );
+		background:-moz-linear-gradient( center top, #f9f9f9 5%, #e9e9e9 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9');
+		background-color:#f9f9f9;
+		-webkit-border-top-left-radius:37px;
+		-moz-border-radius-topleft:37px;
+		border-top-left-radius:37px;
+		-webkit-border-top-right-radius:0px;
+		-moz-border-radius-topright:0px;
+		border-top-right-radius:0px;
+		-webkit-border-bottom-right-radius:37px;
+		-moz-border-radius-bottomright:37px;
+		border-bottom-right-radius:37px;
+		-webkit-border-bottom-left-radius:0px;
+		-moz-border-radius-bottomleft:0px;
+		border-bottom-left-radius:0px;
+		text-indent:0;
+		border:1px solid #dcdcdc;
+		display:inline-block;
+		color:#666666;
+		font-family:Arial;
+		font-size:15px;
+		font-weight:bold;
+		font-style:normal;
+		height:65px;
+		line-height:65px;
+		width:131px;
+		text-decoration:none;
+		text-align:center;
+		text-shadow:1px 1px 0px #ffffff;
+	}
+	.button:hover {
+		background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9) );
+		background:-moz-linear-gradient( center top, #e9e9e9 5%, #f9f9f9 100% );
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9');
+		background-color:#e9e9e9;
+	}.button:active {
+		position:relative;
+		top:1px;
+	}
+	
+	#canvas_1 {
+    border: 10px solid #000000;
+    position:center;
+}
+
+  </style>
+  <script src="http://connect.facebook.net/en_US/all.js"></script>
+  <script src="common.js"></script> 
+  
+  <script>
+	window.onload = init;
+	var canvas, ctx ; 
+	var isLeftButtonClicked = 0;
+	var isRightButtonClicked = 0;
+	var lapCounter = 0;
+	var shufflePics 	= 0;
+	var fps 			= 60,
+		step 			= 1/fps,
+		width 			= 0,
+		height 			= 0,
+		resolution 		= null,
+		fieldOfView 	= 90,
+		position 		= 0,
+		cameraHeight 	= 10,
+		cameraDepth 	= 1 / Math.tan((fieldOfView/2) * Math.PI/180),
+		drawDistance 	= 100;
+	var lanes         	= 3,
+		roadWidth 		= 50,
+		rumbleLength  	= 3;
+	var numberOfSegments = 1000
+	var segments 		= [],
+		billboards		= [],
+		segmentLength 	= 10,
+		trackLength 	= null; 
+	var background 		= null,
+		sprites 		= null,
+		like 			= null,
+		billboard		= null,
+		pole 			= null;
+	var playerX 		= 0,
+		playerZ 		= null,
+		playerY 		= 50; 
+    var speed 			= 0,
+		dt 				= 0.07,
+		acceleration	= 0.0,
+		flag 			= 0;
+	var count 			= 0,
+		jumpFlag 		= 0;
+	var ticks 			= 0;
+	var accIncrease		= 0.8;
+	var facebookImages  = [];
+	var playerSegment	= null;
+	var friendsImages = [];
+	var myImages = [];
+	var fImagesCount = 0,
+		myImagesCount = 0;
+	var mypic = new Image(), fPic = new Image();
+	var timeout = null;
+	var SCORE = 0;
+	var limitPics = 20;
+	var star = new Image();
+	var onePlus = new Image();
+	var isMoving = false;
+	var isAcc = false;
+	var isMovingLeft = false;
+	var isMovingRight = false;
+	var maxAcceleration = 10;
+	var goodSound = new Audio("./sound/good.wav");
+	var badSound = new Audio("./sound/bad.wav");
+	var startSound = new Audio("./sound/start.wav");
+	var myAudio = new Audio('./sound/a.mp3'); 
+	var level = 1;
+	/*myAudio.addEventListener('ended', function() {
+		this.currentTime = 0;
+		this.play();
+	}, false);
+*/
+	
+	var COLORS = {
+	  SKY: '#72D7EE',
+	  TREE: '#005108',
+	  FOG: '#005108',
+	  LIGHT: { road: '#6B6B6B', grass: '#10AA10', rumble: '#555555', lane: '#CCCCCC' },
+	  DARK: { road: '#696969', grass: '#009A00', rumble: '#BBBBBB' },
+	  START: { road: 'white', grass: 'white', rumble: 'white' },
+	  FINISH: { road: 'black', grass: 'black', rumble: 'black' }
+	};
+	
+	var BACKGROUND = {
+	  HILLS: { x: 0, y: 0, w: 1280, h: 480 },
+	  SKY: { x: 5, y: 495, w: 1280, h: 480 },
+	  TREES: { x: 5, y: 985, w: 1280, h: 480 }
+	};
+		
+		
+		
+	//*****************************FACEBOOK INTEGRATION********************
+	
+	function loadAlbums()
+	{         
+		 FB.init({
+			appId  : '449074668545690',
+			status : true, 
+			cookie : true, 
+			xfbml  : true 
+		});
+		
+		(function(d, s, id){
+			 var js, fjs = d.getElementsByTagName(s)[0];
+			 if (d.getElementById(id)) {return;}
+			 js = d.createElement(s); js.id = id;
+			 js.src = "//connect.facebook.net/en_US/all.js";
+			 fjs.parentNode.insertBefore(js, fjs);
+		 }(document, 'script', 'facebook-jssdk'));
+		
+		FB.login(function(response)	{
+			if (response.authResponse) {
+				FB.api('/me/albums', function(response) {
+					var albumid;
+					var d = response.data;
+					var j = 0;
+					while (d != undefined && myImagesCount <= limitPics && d.length > j) {
+						j = j + 1;
+						var randomAlbum = Math.floor(d.length * Math.random());
+						FB.api("/"+d[randomAlbum].id+"/photos", function(response){
+							var d_pics = response.data;
+							var i = 0;
+							while (myImagesCount <= limitPics && i < d_pics.length){
+								i = i + 1;
+								var randomPic = Math.floor(d_pics.length * Math.random()); 
+								myImages[myImagesCount].src = d_pics[randomPic].source;
+								myImagesCount += 1;	
+								if(myImagesCount > limitPics)break;
+							}
+						});								
+					} 
+				});
+				
+				FB.api('/me/friends/', function(response) {
+					var count = 0;
+					while (response.data != undefined && fImagesCount <= limitPics && count < response.data.length){
+						count = count + 1;
+						var randomFriend = Math.floor(response.data.length * Math.random());
+						FB.api('/'+response.data[randomFriend].id+'/albums' , function(friendsAlbums) {
+							var j = 0;
+							while (friendsAlbums.data != undefined && fImagesCount <= limitPics && j < friendsAlbums.data.length){
+								j = j + 1;
+								var randomAlbum = Math.floor(Math.random() * friendsAlbums.data.length);
+								FB.api('/'+friendsAlbums.data[randomAlbum].id + '?fields=photos' , function(friendsPhotos) {
+									var k = 0;
+									while (friendsPhotos.photos != undefined && 
+											friendsPhotos.photos.data != undefined && 
+												fImagesCount <= limitPics && k < friendsPhotos.photos.data.length){
+										k = k + 1;
+										var i = 0;
+										var randomPhotoAlbum = Math.floor(Math.random() * friendsPhotos.photos.data.length);
+										while (friendsPhotos.photos.data[randomPhotoAlbum] != undefined && 
+												friendsPhotos.photos.data[randomPhotoAlbum].images != undefined && 
+													fImagesCount <= limitPics && i < friendsPhotos.photos.data[randomPhotoAlbum].images.length){
+											i = i + 1;											
+											var pic = Math.floor(Math.random() * friendsPhotos.photos.data[randomPhotoAlbum].images.length);
+											friendsImages[fImagesCount].src = friendsPhotos.photos.data[randomPhotoAlbum].images[pic].source;
+											fImagesCount += 1;
+											if(fImagesCount > limitPics) break;
+										}
+									}
+								});
+							}
+						});
+						
+					}
+			   });
+			}else{
+				alert("in this !!! response nai aaya !");
+			}
+		},{scope:'read_stream,publish_stream,offline_access,user_photos,friends_photos,user_photo_video_tags,friends_photo_video_tags'});
+	}
+
+		
+	function increase (start, increment, max) { 
+		var result = start + increment;
+		while (result >= max)
+		  result -= max;
+		while (result < 0)
+		  result += max;
+		return result;
+	}	
+		
+	function update() {
+		if(flag == 0){
+			acceleration = acceleration - accIncrease / 15;
+		}
+		if(acceleration > 0){
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+		}else if(acceleration < 0)
+			acceleration = 0;
+
+		if(jumpFlag == 1 && playerY < 50 && playerY >= 0 ){
+			playerY = playerY - 100 * step;
+			if(playerY <= 0) jumpFlag = 0;
+		}			
+		if(jumpFlag == 0 && playerY < 50){
+			playerY = playerY + 100 * step;
+			if(playerY >= 50) playerY = 50;
+		}
+		render();
+		
+    }
+	
+	function whatKey(evt) {
+		
+        if (evt.keyCode == 65){
+			isMoving = true;
+			flag = 1;
+			playerX = playerX - step;
+			if(acceleration < maxAcceleration)
+				acceleration = acceleration + accIncrease;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			if (playerX < -50) {
+				playerX = 0;
+			}
+        }
+		
+		if (evt.keyCode == 87){
+			flag = 1;
+			if(acceleration < maxAcceleration)
+				acceleration = acceleration + accIncrease;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+        }
+
+        if (evt.keyCode == 68){
+			isMoving = true;
+			flag = 1;
+			playerX = playerX + step;
+			if(acceleration < maxAcceleration)
+				acceleration = acceleration + accIncrease;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			if (playerX > 270) {
+				playerX = 270;
+			}
+        }	
+
+		if (evt.keyCode == 32){
+			if(jumpFlag == 0){
+				playerY = playerY - 100 * step;
+				jumpFlag = 1;
+			}
+        }	
+       render();
+    }
+	
+	function backgroundRender(ctx, background, width, height, layer) {
+	
+		var imageW = layer.w/2;
+		var imageH = layer.h;
+
+		var sourceX = layer.x + Math.floor(layer.w);
+		var sourceY = layer.y
+		var sourceW = Math.min(imageW, layer.x+layer.w-sourceX);
+		var sourceH = imageH;
+		
+		var destX = 0;
+		var destY = 0;
+		var destW = Math.floor(width * (sourceW/imageW));
+		var destH = height;
+		ctx.drawImage(background, destX, destY);
+		
+		if (sourceW < imageW)
+		  ctx.drawImage(background, layer.x, sourceY, imageW-sourceW, sourceH, destW-1, destY, width-destW, destH);
+	}
+	
+	function findSegment(z) {
+		var t  = segments[Math.floor(z/segmentLength) % segments.length];
+		return t;
+    }
+	
+	function resetRoad() {
+		segments = [];
+		for(var n = 0 ; n < numberOfSegments ; n++) {
+			segments.push({
+			   index: n,
+			   p1: { world: { z: n *segmentLength }, camera: {}, screen: {} },
+			   p2: { world: { z: (n+1)*segmentLength }, camera: {}, screen: {} },
+			   billboards: [],
+			   color: Math.round(n/rumbleLength)%2 ? COLORS.DARK : COLORS.LIGHT
+			});
+			if(n % 40==0){
+				
+				shufflePics = (shufflePics + 1) % 4;
+				if(myImagesCount == 0 || fImagesCount == 0)continue;
+				if(shufflePics % 3 == 0){
+					addSprite(n, myImages[Math.floor(Math.random() * (myImagesCount-1))], 0.0, true);
+					addSprite(n, friendsImages[Math.floor(Math.random() * (fImagesCount-1))], 0.0, false);
+				}else if(shufflePics % 2 == 0){
+					addSprite(n, friendsImages[Math.floor(Math.random() * (fImagesCount-1))], 0.0, false);
+					addSprite(n, myImages[Math.floor(Math.random() * (myImagesCount-1))], 0.0, true);
+				}else{
+					addSprite(n, myImages[Math.floor(Math.random() * (myImagesCount-1))], 0.0, true);
+					addSprite(n, myImages[Math.floor(Math.random() * (myImagesCount-1))], 0.0, true);
+				}
+			}
+			
+		}
+		segments[findSegment(playerZ).index + 2].color = COLORS.START;
+		segments[findSegment(playerZ).index + 3].color = COLORS.FINISH;
+		for(var n = 0 ; n < rumbleLength ; n++)
+			segments[segments.length-1-n].color = COLORS.START;
+		trackLength = segments.length * segmentLength;
+    }
+	
+	function polygonT(ctx, x1, y1, x2, y2, x3, y3, x4, y4, color) {
+		ctx.fillStyle = color;
+		ctx.beginPath();
+		ctx.moveTo(x1, y1);
+		ctx.lineTo(x2, y2);
+		ctx.lineTo(x3, y3);
+		ctx.lineTo(x4, y4);
+		ctx.closePath();
+		ctx.fill();
+	}
+	
+	function worldToScreenSpace(p, cameraX, cameraY, cameraZ, cameraDepth, width, height, roadWidth) {
+		p.camera.x = (p.world.x || 0) - cameraX;
+		p.camera.y = (p.world.y || 0) - cameraY;
+		p.camera.z = (p.world.z || 0) - cameraZ;
+		p.screen.scale = cameraDepth/p.camera.z;
+		p.screen.x = Math.round((width/2) + (p.screen.scale * p.camera.x * width/2));
+		p.screen.y = Math.round((height/2) - (p.screen.scale * p.camera.y * height/2));
+		p.screen.w = Math.round( (p.screen.scale * roadWidth * width/2));
+	}
+	
+	function rumbleWidth(projectedRoadWidth, lanes) { 
+		return projectedRoadWidth/Math.max(6,  2*lanes);
+	}
+	
+	function segmentFunc(ctx, width, lanes, x1, y1, w1, x2, y2, w2, color) {
+		
+		var r1 = rumbleWidth(w1, lanes),
+			r2 = rumbleWidth(w2, lanes),
+			l1 = laneMarkerWidth(w1, lanes),
+			l2 = laneMarkerWidth(w2, lanes),
+				lanew1, lanew2, lanex1, lanex2, lane;
+		
+		ctx.fillStyle = color.grass;
+		ctx.fillRect(0, y2, width, y1 - y2);
+		polygonT(ctx, x1-w1-r1, y1, x1-w1, y1, x2-w2, y2, x2-w2-r2, y2, color.rumble);
+		polygonT(ctx, x1+w1+r1, y1, x1+w1, y1, x2+w2, y2, x2+w2+r2, y2, color.rumble);
+		polygonT(ctx, x1-w1,	y1, x1+w1, y1, x2+w2, y2, x2-w2, 	y2, color.road);
+		
+		if (color.lane) {
+			lanew1 = w1*2/lanes;
+			lanew2 = w2*2/lanes;
+			lanex1 = x1 - w1 + lanew1;
+			lanex2 = x2 - w2 + lanew2;
+			for(lane = 1 ; lane < lanes ; lanex1 += lanew1, lanex2 += lanew2, lane++)
+				polygonT(ctx, lanex1 - l1/2, y1, lanex1 + l1/2, y1, lanex2 + l2/2, y2, lanex2 - l2/2, y2, color.lane);
+		}    
+	}
+	
+	function laneMarkerWidth(projectedRoadWidth, lanes) 	{ 
+		return projectedRoadWidth/Math.max(32, 8*lanes); 
+	}
+	
+	function renderBillBoard(ctx, billboard, posX, posY){
+		ctx.drawImage(billboard, posX, posY);
+	}
+	
+	function resizeMe(img, isPlayer, i) {
+		
+        var canvas = document.createElement('canvas');
+		var width, height;
+		var divBY = 2;
+		if ( i == 40) 
+			lapCounter = lapCounter + 1;
+		document.getElementById('coord').innerHTML = i + ' C : ' + lapCounter;
+		if(i > 65 / 2) divBY = Math.pow(2,6);
+		else if(i > 35 / 2 ) divBY = Math.pow(2,4);
+		else if(i > 28 / 2) divBY = Math.pow(2,4) / 1.2;
+		else if(i > 25 / 2) divBY = Math.pow(2,4) / 1.5;
+		else if(i > 22 / 2) divBY = Math.pow(2,4) / 1.8;
+		else if(i > 20 / 2) divBY = Math.pow(2,3);
+		else if(i > 10 / 2) divBY = Math.pow(2,2);
+		else divBY = Math.pow(2,2);
+		
+		width = Math.round(img.width/divBY );
+		height = Math.round(img.height/divBY );
+        canvas.width = width;
+        canvas.height = height;
+        var ctx1 = canvas.getContext("2d");
+		ctx1.drawImage(img, 0, 0, width, height);
+        return canvas;
+		
+    }
+	
+	function render() {
+	
+		
+		if(position == trackLength){
+			resertRoad();
+			alert('am here');
+		}
+	
+		ctx.clearRect(0, 0, width, height);
+		var baseSegment = findSegment(position), 
+			horizon = height;
+		backgroundRender(ctx, background, width, height, BACKGROUND.SKY);
+		backgroundRender(ctx, background, width, height, BACKGROUND.HILLS);
+		backgroundRender(ctx, background, width, height, BACKGROUND.TREES);		
+		
+		for(var n = 0 ; n < drawDistance ; n++) {
+		
+			segment = segments[(baseSegment.index + n) % segments.length];
+			segment.looped = segment.index < baseSegment.index;
+			segment.clip = horizon;
+			
+			worldToScreenSpace(segment.p1, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
+			worldToScreenSpace(segment.p2, (playerX * roadWidth), cameraHeight, position - (segment.looped ? trackLength : 0), cameraDepth, width, height, roadWidth);
+			if ((segment.p1.camera.z <= cameraDepth) || segment.p2.screen.y >= horizon)
+					continue;
+			segmentFunc(ctx, width, lanes,
+						segment.p1.screen.x,
+						segment.p1.screen.y,
+						segment.p1.screen.w,
+						segment.p2.screen.x,
+						segment.p2.screen.y,
+						segment.p2.screen.w,
+						segment.color);
+			horizon = segment.p2.screen.y;
+		}
+		var scoreDone = false;
+		for(n = (drawDistance-1) ; n > 0 ; n--) {
+			segment = segments[(baseSegment.index + n) % segments.length];
+			var prior_segment = segments[(baseSegment.index + n - 1) % segments.length];
+			var isPlayerSegment_prior = prior_segment == playerSegment;
+			var isPlayerSegment = segment == playerSegment;
+			for(i = 0 ; i < segment.billboards.length ; i++) {
+				x_pos = 0;
+				y_pos = 0;
+				sprite1 = segment.billboards[i];
+				sprite1.x =    5;
+				sprite1.y =    5;
+				sprite1.w =  215;
+				sprite1.h =  540;
+				spriteScale = segment.p1.screen.scale ;
+				spriteX = segment.p1.screen.x + (spriteScale * sprite1.offset * roadWidth * width/2);
+				spriteY = segment.p1.screen.y;
+				
+				spriteScale = spriteScale * 2000;
+				y_pos = segment.p1.screen.y - 5 * spriteScale;
+				if(i % 2 == 0){
+					x_pos = segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2;	
+					ctx.drawImage(
+						resizeMe(sprite1.source, isPlayerSegment, n), 
+						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
+				}	
+				else {
+					x_pos = segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale;
+					ctx.drawImage(
+						resizeMe(sprite1.source, isPlayerSegment, n), 
+						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
+				}
+				
+			}
+			
+			if(isPlayerSegment){
+				if(playerSegment.billboards.length >= 2){
+					var b1 = playerSegment.billboards[0];
+					var b2 = playerSegment.billboards[1];
+					
+					if(b1.isUser && playerX > 0){
+						if(playerSegment.p1.camera.z > 9.5){
+							SCORE = SCORE + 1;
+							if(SCORE % 100 == 0 && SCORE > 0) addStar();
+							document.getElementById('error').innerHTML = 'Awesome !! ';
+							goodSound.play();
+						}
+						ctx.drawImage(onePlus, (playerX), (playerY + 30));
+						
+					}else if(b2.isUser && playerX < 0){
+						if(playerSegment.p1.camera.z > 9.5){
+							SCORE = SCORE + 1;
+							if(SCORE % 100 == 0 && SCORE > 0) addStar();
+							document.getElementById('error').innerHTML = 'Awesome !! ';
+							goodSound.play();
+						}
+						ctx.drawImage(onePlus, (playerX), (playerY + 30));
+					}else if (!(b1.isUser && playerX > 0) && !(b2.isUser && playerX < 0)){
+						document.getElementById('error').innerHTML = 'Oops not your pic !! ';
+						badSound.play();
+					}
+				}
+				ctx.drawImage(sprites, (playerX), playerY);
+				
+			}
+		}
+		//document.getElementById('coord').innerHTML = 'X: ' + playerX + ' Y: ' + position
+		document.getElementById('reso').innerHTML = 'SCORE: ' + SCORE;
+    }    
+	
+	function addSprite(n, sprite, offset, isUserFlag) {
+		segments[n].billboards.push({ source: sprite, offset: offset, isUser: isUserFlag });
+    }
+	
+	function interpolate(a,b,percent){ 
+		return a + (b - a) * percent ;
+	}
+	
+	function wait() {
+		
+		if ( myImagesCount >= 10 && fImagesCount >= 10 ) {
+			if(timeout != null)
+				clearTimeout(timeout);
+			startGame();
+		} else {
+			timeout = setTimeout( wait, 10000 );
+		}
+	}
+	
+	function init(){
+		alert("init called .. !!!");
+		var loadingScreen = new Image();
+		loadingScreen.src = './images/startScreenBG.jpg'; 
+		document.body.style.backgroundImage="url('./images/ferrari_back.jpg')";
+		document.getElementById('PLAY').style.visibility='hidden'; 
+		canvas = document.getElementById('canvas_1'); 
+		onePlus.src = './images/star.png';
+		ctx = canvas.getContext('2d'); 
+		ctx.drawImage(loadingScreen,0, 0);
+		for (var i = 0 ; i <= limitPics; i++){
+			friendsImages[i] = new Image();
+			myImages[i] = new Image();
+		
+		}
+		
+		loadAlbums();	
+		wait();
+	}
+	
+	function keyUp(){
+		flag = 0;
+		isMoving = false;
+	}
+	
+	function startGame(){
+		background = new Image();
+		sprites = new Image();
+		billboard = new Image();
+		pole = new Image();
+		like = new Image();
+		background.src = './images/background.png'; //canvas background
+		sprites.src = './images/f.png'; //canvas background
+		like.src = './images/like.png';
+		billboard.src = './images/ferrari.jpg'; //canvas background
+		pole.src = './images/pole.png';
+		isLeftButtonClicked = false;
+		isRightButtonClicked = false;
+		
+		width = canvas.width;
+		height = canvas.height;
+		playerZ = (cameraHeight * cameraDepth);
+		resolution = height/480;
+		resetRoad();	
+		document.getElementById('PLAY').style.visibility='visible'; 
+		window.addEventListener('keydown', whatKey, true);
+		window.addEventListener('keyup', keyUp, true);
+		window.addEventListener('mousedown', whatKey, true);
+		startSound.play();
+	}
+	
+	function moveLeft(){
+		//isMovingLeft = !isMovingLeft;
+		var i = 0;
+		while(i < 10){
+		//while(isMovingLeft){
+			isMoving = true;
+			flag = 1;
+			playerX = playerX - step;
+			if(acceleration < 50)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			if (playerX < -50) {
+				playerX = 0;
+			}
+			i = i + 1;
+		}
+		flag = 0;
+	}
+	
+	function moveRight(){
+		//isMovingRight = !isMovingRight;
+		var i = 0;
+		while(i < 10){
+			isMoving = true;
+			flag = 1;
+			playerX = playerX + step;
+			if(acceleration < 100)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			if (playerX > 270) {
+				playerX = 270;
+			}
+			i = i + 1;
+		}
+		flag = 0;
+	}
+	
+	function accelerate(){
+		var i = 0;
+		//isAcc = !isAcc;
+		while(i < 100){
+			flag = 1;
+			if(acceleration < 100)
+				acceleration = acceleration + 0.08;
+			speed = acceleration * dt;
+			position = increase(position, speed, trackLength);	
+			playerSegment = findSegment(position+playerZ);
+			
+			i = i + 1;
+		}
+		flag = 0;
+	}
+	
+	function addStar(){	
+		var img = document.createElement('img');
+		img.src = './images/like.png';
+		var foo = document.getElementById("star");
+		foo.appendChild(img);
+	}
+  
+	function run(){
+		window.setInterval(update, 10);
+		myAudio.play();
+		//var filename="./sound/a.mp3";
+		//document.writeln ('<EMBED SRC="' + filename + '" AUTOSTART=TRUE loop=TRUE WIDTH=144 HEIGHT=60><P>');
+
+	}
+	
+  </script>
+  
+</head>
+<body> 
+	<div id = "star"></div>
+	<div id="div_1"> </div>
+	<table>
+	<tr>
+	<form>
+		Your name: <input type="text" name="name"><br>
+		Number of lanes: <input type="text" name="lanes">
+	</form> 
+	</tr>
+	</table>
+	
+	<table id = "1">
+		
+		<tr>
+		<td>
+			<div id = "score">				
+				<font color="white" size = "5px"><p id='reso'> </p></font>
+				<font color="white" size = "5px"><p id='coord'> </p></font>
+			</div>
+		</td>
+		<td> <font color="white" size = "5px"><p id='error'> </p></font> </td>
+		<td></td>
+		</tr>
+		
+		<tr>
+		<td>
+			<div id = "score">
+				<font color="white" size = "5px"><p id='reso'> </p></font>
+			</div>
+		</td>
+		<td>
+			<canvas id="canvas_1" class="initialRotation">
+				An error message
+			</canvas>
+		</td>
+		<td></td>
+		</tr>
+		<tr>
+			<td><button id='LEFT' type="button" class='button' onmousedown='moveLeft()'>Left</button></td>
+			<td align="center"><button id='RIGHT' type="button" class='button' onmousedown='accelerate()'>Accelerate</button></td>
+			<td><button id='RIGHT' type="button" class='button' onmousedown='moveRight()'>Right</button></td>			
+		</tr>
+	</table>	
+		
+		
+		<br>
+	
+	
+	
+	<br><br>
+	<button id='PLAY' type="button" class='button' onclick='run()'>Start</button>
+	     
+  </body>
+   
+</html>
