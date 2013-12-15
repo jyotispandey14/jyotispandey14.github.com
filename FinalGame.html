@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook 4</title>
+  <title>Ride in Facebrook</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -279,7 +279,7 @@
 			playerX = playerX - step;
 			if(acceleration < maxAcceleration)
 				acceleration = acceleration + accIncrease;
-			speed = acceleration * dt;
+			speed = acceleration *  * 10;
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
 			if (playerX < -50) {
@@ -291,7 +291,7 @@
 			flag = 1;
 			if(acceleration < maxAcceleration)
 				acceleration = acceleration + accIncrease;
-			speed = acceleration * dt;
+			speed = acceleration * dt * 10;
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
         }
@@ -712,14 +712,6 @@
 <body> 
 	<div id = "star"></div>
 	<div id="div_1"> </div>
-	<table>
-	<tr>
-	<form>
-		Your name: <input type="text" name="name"><br>
-		Number of lanes: <input type="text" name="lanes">
-	</form> 
-	</tr>
-	</table>
 	
 	<table id = "1">
 		
