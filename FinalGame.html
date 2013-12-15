@@ -279,7 +279,7 @@
 			playerX = playerX - step;
 			if(acceleration < maxAcceleration)
 				acceleration = acceleration + accIncrease;
-			speed = acceleration *  * 10;
+			speed = acceleration * dt * 10;
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
 			if (playerX < -50) {
