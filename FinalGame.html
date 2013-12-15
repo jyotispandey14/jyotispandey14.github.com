@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Ride in Facebrook</title>
+  <title>Ride in Facebrook 1</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <style>
   .initialRotation
@@ -291,7 +291,7 @@
 			flag = 1;
 			if(acceleration < maxAcceleration)
 				acceleration = acceleration + accIncrease;
-			speed = acceleration * dt * 10;
+			speed = acceleration * dt;
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
         }
@@ -302,7 +302,7 @@
 			playerX = playerX + step;
 			if(acceleration < maxAcceleration)
 				acceleration = acceleration + accIncrease;
-			speed = acceleration * dt;
+			speed = acceleration * dt * 10;
 			position = increase(position, speed, trackLength);	
 			playerSegment = findSegment(position+playerZ);
 			if (playerX > 270) {
@@ -519,15 +519,11 @@
 				y_pos = segment.p1.screen.y - 5 * spriteScale;
 				if(i % 2 == 0){
 					x_pos = segment.p1.screen.x + segment.p1.screen.w + spriteScale / 2;	
-					ctx.drawImage(
-						resizeMe(sprite1.source, isPlayerSegment, n), 
-						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
+					ctx.drawImage(resizeMe(sprite1.source, isPlayerSegment, n), x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
 				}	
 				else {
 					x_pos = segment.p1.screen.x - segment.p1.screen.w - 4.5 * spriteScale;
-					ctx.drawImage(
-						resizeMe(sprite1.source, isPlayerSegment, n), 
-						x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
+					ctx.drawImage(resizeMe(sprite1.source, isPlayerSegment, n), x_pos, y_pos, spriteScale * 5 , spriteScale * 5 );
 				}
 				
 			}
@@ -541,6 +537,7 @@
 						if(playerSegment.p1.camera.z > 9.5){
 							SCORE = SCORE + 1;
 							if(SCORE % 100 == 0 && SCORE > 0) addStar();
+							sprite1.source = "./images/bck.jpg";
 							goodSound.play();
 						}
 						ctx.drawImage(onePlus, (playerX), (playerY + 30));
@@ -549,6 +546,7 @@
 						if(playerSegment.p1.camera.z > 9.5){
 							SCORE = SCORE + 1;
 							if(SCORE % 100 == 0 && SCORE > 0) addStar();
+							sprite1.source = "./images/bck.jpg"
 							goodSound.play();
 						}
 						ctx.drawImage(onePlus, (playerX), (playerY + 30));
